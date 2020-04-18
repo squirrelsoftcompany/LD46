@@ -37,7 +37,7 @@ namespace hex {
             (cellTransform = cell.transform).SetParent(transform, false);
             cellTransform.localPosition = position;
             cell.coordinates = HexCoordinates.FromOffsetCoordinates(x, z);
-            cell.color = defaultColor;
+            // cell.color = defaultColor;
 
             TMP_Text label = Instantiate(cellLabelPrefab, gridCanvas.transform, false);
             label.rectTransform.anchoredPosition = new Vector2(position.x, position.z);
@@ -69,7 +69,7 @@ namespace hex {
             Debug.Log("touched at " + coordinates);
             var index = coordinates.X + coordinates.Z * width + coordinates.Z / 2;
             var cell = cells[index];
-            cell.color = touchedColor;
+            // cell.color = touchedColor;
             hexMesh.triangulate(cells);
         }
     }

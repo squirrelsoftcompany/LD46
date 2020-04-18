@@ -2,8 +2,8 @@ using UnityEngine;
 
 namespace hex {
     public static class HexMetrics {
-        public const float outerRadius = 10f;
-        public const float innerRadius = outerRadius * 0.866025404f;
+        public const float outerRadius = 2f;
+        public const float innerRadius = 0.7f;
 
         public static readonly Vector3[] cornersPointyTop = {
             new Vector3(0f, 0f, outerRadius),

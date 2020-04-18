@@ -56,7 +56,6 @@ namespace hex {
             for (var i = 0; i < 6; i++) {
                 addTriangle(center, center + HexMetrics.cornersPointyTop[i],
                     center + HexMetrics.cornersPointyTop[i + 1]);
-                addTriangleColor(cell.color);
             }
         }
     }
