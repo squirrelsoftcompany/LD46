@@ -39,10 +39,9 @@ namespace hex {
 
         private void createFixedCell(int x, int z, int i) {
             Vector3 position;
-            position.x = (x + z * 0.5f - z / 2) * 3.4f;
+            position.x = (x + z * 0.5f - z / 2) * HexMetrics.innerRadius * 2f;
             position.y = 0f;
-            // odd
-            position.z = z * 1.5f * 2f;
+            position.z = z * 1.5f * HexMetrics.outerRadius;
             var cell = cells[i] = Instantiate(cellPrefab, cellsGameObject.transform, false);
             cell.transform.localPosition = position;
             cell.coordinates = HexCoordinates.FromOffsetCoordinates(x, z);
@@ -60,6 +59,7 @@ namespace hex {
             var coordinates = HexCoordinates.FromPosition(position);
             Debug.Log("hover : " + coordinates);
             var index = coordinates.X + coordinates.Z * width + coordinates.Z / 2;
+            if (index < 0 || index >= cells.Length) return;
             var cell = cells[index];
             if (!cell.IsHovered) {
                 // cell.hover.SetActive(true);
