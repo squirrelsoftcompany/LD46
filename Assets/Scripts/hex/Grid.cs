@@ -1,6 +1,4 @@
-using System;
 using UnityEngine;
-using UnityEngine.Serialization;
 
 namespace hex {
     public class Grid : MonoBehaviour {
@@ -57,7 +55,7 @@ namespace hex {
         private void hoverCell(Vector3 position) {
             position = transform.InverseTransformPoint(position);
             var coordinates = HexCoordinates.FromPosition(position);
-            Debug.Log("hover : " + coordinates);
+            // Debug.Log("hover : " + coordinates);
             var index = coordinates.X + coordinates.Z * width + coordinates.Z / 2;
             if (index < 0 || index >= cells.Length) return;
             var cell = cells[index];

@@ -39,7 +39,7 @@ namespace hex {
             var iY = Mathf.RoundToInt(y);
             var iZ = Mathf.RoundToInt(-x - y);
             if (iX + iY + iZ == 0) return new HexCoordinates(iX, iZ);
-            
+
             var dX = Mathf.Abs(x - iX);
             var dY = Mathf.Abs(y - iY);
             var dZ = Mathf.Abs(-x - y - iZ);
@@ -50,6 +50,14 @@ namespace hex {
             }
 
             return new HexCoordinates(iX, iZ);
+        }
+
+        public Vector3 toPosition() {
+            Vector3 position;
+            var z = Z - Y;
+            // TODO 
+            
+            return Vector3.back;
         }
     }
 }
