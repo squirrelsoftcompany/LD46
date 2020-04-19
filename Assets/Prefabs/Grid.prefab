@@ -79,3 +79,4 @@ MonoBehaviour:
   height: 6
   cellPrefab: {fileID: 6954032501404125362, guid: e6d12c031c0360f43943fb260f82896d,
     type: 3}
+  clickedCell: {fileID: 11400000, guid: a3e6c066d34334045a85afcfd37130e3, type: 2}

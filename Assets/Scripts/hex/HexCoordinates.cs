@@ -54,20 +54,33 @@ namespace hex {
 
         public Vector3 toPosition() {
             Vector3 position;
-            var z = Z - Y;
-            // TODO 
-            
-            return Vector3.back;
+            var newZ = Z;
+            int newX = -Y / 2;
+            // TODO
+            throw new NotImplementedException("to position is not implemented");
         }
 
-        public int CompareTo(HexCoordinates other)
-        {
+        public static Vector3 fixedCellPosition(int x, int z) {
+            Vector3 position;
+            position.x = (x + z * 0.5f - z / 2) * HexMetrics.innerRadius * 2f;
+            position.y = 0f;
+            position.z = z * 1.5f * HexMetrics.outerRadius;
+            return position;
+        }
+
+        public int CompareTo(HexCoordinates other) {
             var compX = X.CompareTo(other.X);
-            if (compX != 0)
-            {
+            if (compX != 0) {
                 return compX;
             }
+
             return Z.CompareTo(other.Z);
+        }
+
+        public int DistanceTo(HexCoordinates other) {
+            return ((x < other.x ? other.x - x : x - other.x) +
+                    (Y < other.Y ? other.Y - Y : Y - other.Y) +
+                    (z < other.z ? other.z - z : z - other.z)) / 2;
         }
     }
 }
