@@ -4,17 +4,19 @@ using UnityEditor;
 using UnityEngine;
 
 namespace hex {
+    // ReSharper disable RedundantDefaultMemberInitializer
+
     public class Grid : MonoBehaviour {
         private Dictionary<HexCoordinates, HexCell> _grid;
 
-        [SerializeField] private GameObject cellsGameObject;
+        [SerializeField] private GameObject cellsGameObject = default;
         [SerializeField] private int width = 6;
 
         [SerializeField] private int height = 6;
 
-        [SerializeField] private HexCell cellPrefab;
+        [SerializeField] private HexCell cellPrefab = default;
 
-        [SerializeField] private GameEvent clickedCell;
+        [SerializeField] private GameEvent clickedCell = default;
         private Camera mainCamera;
 
         private void Awake() {

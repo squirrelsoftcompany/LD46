@@ -2,6 +2,8 @@
 using UnityEngine;
 
 namespace hex {
+    // ReSharper disable RedundantDefaultMemberInitializer
+
     public class HexCell : MonoBehaviour {
         public HexCoordinates coordinates;
 
@@ -10,9 +12,9 @@ namespace hex {
         public GameObject ground;
         public GameObject topping;
 
-        [SerializeField] private Color hover, normal;
+        [SerializeField] private Color hover = default, normal = default;
 
-        [SerializeField] private MeshRenderer meshRenderer;
+        [SerializeField] private MeshRenderer meshRenderer = default;
         // private Material meshHover;
         // private Material meshNormal;
 

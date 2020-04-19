@@ -53,9 +53,9 @@ namespace hex {
         }
 
         public Vector3 toPosition() {
-            Vector3 position;
-            var newZ = Z;
-            int newX = -Y / 2;
+            // Vector3 position;
+            // var newZ = Z;
+            // int newX = -Y / 2;
             // TODO
             throw new NotImplementedException("to position is not implemented");
         }

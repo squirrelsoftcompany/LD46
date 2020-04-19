@@ -1,14 +1,16 @@
-﻿using System;
+using System;
 using GameEventSystem;
 using hex;
 using JetBrains.Annotations;
 using UnityEngine;
 
+// ReSharper disable RedundantDefaultMemberInitializer
+
 namespace controllers {
     [RequireComponent(typeof(CharacterMovement))]
     public class EnemyController : MonoBehaviour {
-        [SerializeField] private GameObject target;
-        [SerializeField] private GameEvent finishedTurn;
+        [SerializeField] private GameObject target = default;
+        [SerializeField] private GameEvent finishedTurn = default;
         private float attackRange = 1;
         [SerializeField] private float maxDistanceTravel = 1;
 

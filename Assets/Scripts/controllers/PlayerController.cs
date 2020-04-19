@@ -1,14 +1,15 @@
-﻿using GameEventSystem;
+using GameEventSystem;
 using hex;
 using JetBrains.Annotations;
 using UnityEngine;
+// ReSharper disable RedundantDefaultMemberInitializer
 
 namespace controllers {
     [RequireComponent(typeof(CharacterMovement))]
     public class PlayerController : MonoBehaviour {
         private CharacterMovement characterMovement;
         [SerializeField] private float maxDistance = 1;
-        [SerializeField] private GameEvent turnFinished;
+        [SerializeField] private GameEvent turnFinished = default;
         private bool myTurn = true;
 
         private void Awake() {
