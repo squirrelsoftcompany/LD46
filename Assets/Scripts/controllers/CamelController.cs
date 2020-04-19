@@ -65,7 +65,7 @@ namespace controllers {
                 } else {
                     // Path length exceeds maxDist
                     var finalPoint = path.corners[i] + lastSegmentVector.normalized * (maxDistance - soFar);
-                    var centeredCellFinalPoint = HexCoordinates.FromPosition(finalPoint).newToPosition();
+                    var centeredCellFinalPoint = HexCoordinates.FromPosition(finalPoint).ToPosition();
                     NavMesh.CalculatePath(transform.position, centeredCellFinalPoint, NavMesh.AllAreas, path);
                     navMeshAgent.SetPath(path);
                     break;
