@@ -17,7 +17,7 @@ namespace hex {
 
         [SerializeField] private List<Building> _buildings = default;
 
-        [SerializeField] private NavMeshSurface navMeshSurface;
+        [SerializeField] private NavMeshSurface navMeshSurface = default;
  
         [SerializeField] private GameEvent clickedCell = default;
         private Camera mainCamera;

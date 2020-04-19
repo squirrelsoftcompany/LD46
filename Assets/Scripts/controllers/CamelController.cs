@@ -16,7 +16,7 @@ namespace controllers {
         [SerializeField] private int maxDistance = 2;
         [SerializeField] private float animationSpeed = 4;
         [SerializeField] private int everyNTurns = 2;
-        [SerializeField] private GameObject tooltip;
+        [SerializeField] private GameObject tooltip = default;
         private int currentNbTurns = 0;
 
         private float realMaxDistance;
