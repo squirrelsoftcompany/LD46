@@ -14,7 +14,7 @@ GameObject:
   - component: {fileID: 429402429114806044}
   - component: {fileID: 1983236727605446588}
   - component: {fileID: 1619928153737275630}
-  m_Layer: 0
+  m_Layer: 10
   m_Name: Camel
   m_TagString: Camel
   m_Icon: {fileID: 0}
@@ -54,7 +54,8 @@ MonoBehaviour:
   maxDistance: 2
   animationSpeed: 4
   everyNTurns: 2
-  tooltip: {fileID: 0}
+  tooltip: {fileID: 4932483161208455042}
+  camelClicked: {fileID: 11400000, guid: 062a8b166d9bd8a4a8a00c525d2e8289, type: 2}
 --- !u!195 &8244423372767770922
 NavMeshAgent:
   m_ObjectHideFlags: 0
@@ -68,8 +69,8 @@ NavMeshAgent:
   m_Speed: 3.5
   m_Acceleration: 8
   avoidancePriority: 50
-  m_AngularSpeed: 120
-  m_StoppingDistance: 0
+  m_AngularSpeed: 180
+  m_StoppingDistance: 0.01
   m_AutoTraverseOffMeshLink: 1
   m_AutoBraking: 1
   m_AutoRepath: 1
@@ -244,6 +245,12 @@ PrefabInstance:
       objectReference: {fileID: 0}
     m_RemovedComponents: []
   m_SourcePrefab: {fileID: 100100000, guid: 6fd31cb844e72c741ae5ca8d3898e143, type: 3}
+--- !u!1 &4932483161208455042 stripped
+GameObject:
+  m_CorrespondingSourceObject: {fileID: 7113506079216702628, guid: 6fd31cb844e72c741ae5ca8d3898e143,
+    type: 3}
+  m_PrefabInstance: {fileID: 2795595562444385062}
+  m_PrefabAsset: {fileID: 0}
 --- !u!224 &4932483161208455041 stripped
 RectTransform:
   m_CorrespondingSourceObject: {fileID: 7113506079216702631, guid: 6fd31cb844e72c741ae5ca8d3898e143,

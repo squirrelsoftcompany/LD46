@@ -43,7 +43,7 @@ GameObject:
   - component: {fileID: 5124533090027936445}
   - component: {fileID: 5124533090027936447}
   - component: {fileID: 5124533090027936446}
-  m_Layer: 0
+  m_Layer: 9
   m_Name: Player
   m_TagString: Player
   m_Icon: {fileID: 0}
@@ -130,6 +130,48 @@ MonoBehaviour:
     response:
       m_PersistentCalls:
         m_Calls: []
+    responseForSentString:
+      m_PersistentCalls:
+        m_Calls: []
+    responseForSentInt:
+      m_PersistentCalls:
+        m_Calls: []
+    responseForSentFloat:
+      m_PersistentCalls:
+        m_Calls: []
+    responseForSentBool:
+      m_PersistentCalls:
+        m_Calls: []
+    responseForSentMonoBehaviour:
+      m_PersistentCalls:
+        m_Calls:
+        - m_Target: {fileID: 5124533090027936447}
+          m_MethodName: onClickedCell
+          m_Mode: 0
+          m_Arguments:
+            m_ObjectArgument: {fileID: 0}
+            m_ObjectArgumentAssemblyTypeName: UnityEngine.Object, UnityEngine
+            m_IntArgument: 0
+            m_FloatArgument: 0
+            m_StringArgument: 
+            m_BoolArgument: 0
+          m_CallState: 2
+  - name: On clicked Camel transfer
+    gameEvent: {fileID: 11400000, guid: 062a8b166d9bd8a4a8a00c525d2e8289, type: 2}
+    response:
+      m_PersistentCalls:
+        m_Calls:
+        - m_Target: {fileID: 5124533090027936447}
+          m_MethodName: onClickedCamelTransfer
+          m_Mode: 1
+          m_Arguments:
+            m_ObjectArgument: {fileID: 0}
+            m_ObjectArgumentAssemblyTypeName: UnityEngine.Object, UnityEngine
+            m_IntArgument: 0
+            m_FloatArgument: 0
+            m_StringArgument: 
+            m_BoolArgument: 0
+          m_CallState: 2
     responseForSentString:
       m_PersistentCalls:
         m_Calls: []
