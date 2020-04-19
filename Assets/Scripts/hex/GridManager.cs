@@ -10,11 +10,11 @@ namespace hex {
         private hex.Grid _grid;
 
         [SerializeField] private GameObject cellsGameObject = default;
+        [SerializeField] private HexCell cellPrefab = default;
         [SerializeField] private int width = 6;
-
         [SerializeField] private int height = 6;
 
-        [SerializeField] private HexCell cellPrefab = default;
+        [SerializeField] private List<GridGeneration.Building> _buildings = default;
 
         [SerializeField] private GameEvent clickedCell = default;
         private Camera mainCamera;
@@ -24,8 +24,8 @@ namespace hex {
 
             _grid = new hex.Grid(width, height, cellPrefab.gameObject, cellsGameObject.transform);
 
-            //var generator = new GridGenerator(cellsGameObject.transform, this, );
-            //generator.Generate();
+            var generator = new GridGenerator(_grid, _buildings);
+            generator.Generate();
         }
 
         private void OnDrawGizmos() {
