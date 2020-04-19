@@ -1,12 +1,14 @@
 using GameEventSystem;
 using UnityEngine;
 
+// ReSharper disable RedundantDefaultMemberInitializer
+
 namespace gauge {
     public class LifeGauge : MonoBehaviour {
-        [SerializeField] private int life;
+        [SerializeField] private int life = 50;
 
-        [SerializeField] private int maxLife;
-        [SerializeField] private GameEvent onDie;
+        [SerializeField] private int maxLife = 50;
+        [SerializeField] private GameEvent onDie = default;
 
         private void Awake() {
             if (Debug.isDebugBuild && onDie == null) {

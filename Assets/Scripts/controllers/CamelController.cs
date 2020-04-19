@@ -12,9 +12,9 @@ namespace controllers {
         [SerializeField] private GameObject target = default;
 
         private NavMeshAgent navMeshAgent;
-        [SerializeField] private GameEvent finishedTurn;
-        [SerializeField] private int maxDistance;
-        [SerializeField] private float animationSpeed;
+        [SerializeField] private GameEvent finishedTurn = default;
+        [SerializeField] private int maxDistance = 2;
+        [SerializeField] private float animationSpeed = 4;
         [SerializeField] private int everyNTurns = 2;
         private int currentNbTurns = 0;
 

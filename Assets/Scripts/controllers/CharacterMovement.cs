@@ -4,14 +4,12 @@ using GameEventSystem;
 using hex;
 using UnityEngine;
 using UnityEngine.AI;
-using Grid = hex.Grid;
 
 // ReSharper disable RedundantDefaultMemberInitializer
 
 namespace controllers {
     public class CharacterMovement : MonoBehaviour {
         [SerializeField] private HexCoordinates position = default;
-        [SerializeField] private Grid grid = default;
         private NavMeshAgent navMeshAgent;
         private const float EPSILON = 0.01f;
 
@@ -23,7 +21,7 @@ namespace controllers {
         }
 
         IEnumerator fromPosToOther(Vector3 to, HexCoordinates toCoordinates, GameEvent finishedTurn,
-            float speedAnimation, Action callback) {
+            float speedAnimation) {
             while ((to - transform.position).magnitude > EPSILON) {
                 transform.position = Vector3.MoveTowards(transform.position, to, speedAnimation * Time.deltaTime);
                 yield return null;
@@ -33,8 +31,6 @@ namespace controllers {
             if (finishedTurn) {
                 finishedTurn.Raise();
             }
-
-            callback?.Invoke();
         }
 
         public void navigateTo(Vector3 targetPosition, float realMaxDistance, Action onFinished) {
@@ -83,11 +79,10 @@ namespace controllers {
             onFinished?.Invoke();
         }
 
-        public void moveTo(HexCoordinates toPosition, float speedAnimation, GameEvent finishedTurn = null,
-            Action callback = null) {
+        public void moveTo(HexCoordinates toPosition, float speedAnimation, GameEvent finishedTurn = null) {
             var toVector3 = toPosition.ToPosition();
             toVector3.y = transform.position.y; // keep elevation
-            StartCoroutine(fromPosToOther(toVector3, toPosition, finishedTurn, speedAnimation, callback));
+            StartCoroutine(fromPosToOther(toVector3, toPosition, finishedTurn, speedAnimation));
         }
     }
 }
