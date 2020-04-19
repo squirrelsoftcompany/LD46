@@ -19,7 +19,6 @@ public class Journey : MonoBehaviour
 
     //TODO : Verifier si l'inventaire est suffisant pour pouvoir aller au point suivant
 
-
     // Start is called before the first frame update
     void Start()
     {
