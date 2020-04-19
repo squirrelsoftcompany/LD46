@@ -83,5 +83,28 @@ namespace hex {
                     (Y < other.Y ? other.Y - Y : Y - other.Y) +
                     (z < other.z ? other.z - z : z - other.z)) / 2;
         }
+
+        public HexCoordinates moveAlongX(int offset)
+        {
+            var result = new HexCoordinates(X, Z);
+            result.x = result.x + offset;
+            return result;
+        }
+
+        public HexCoordinates moveAlongZ(int offset)
+        {
+            var result = new HexCoordinates(X, Z);
+            result.z = result.z + offset;
+            return result;
+        }
+
+        public HexCoordinates moveAlongY(int offset) => moveAlongX(-offset).moveAlongZ(-offset);
+
+        public HexCoordinates Xplus() => moveAlongX(1);
+        public HexCoordinates Xminus() => moveAlongX(-1);
+        public HexCoordinates Zplus() => moveAlongZ(1);
+        public HexCoordinates Zminus() => moveAlongZ(-1);
+        public HexCoordinates Yplus() => moveAlongY(1);
+        public HexCoordinates Yminus() => moveAlongY(-1);
     }
 }
