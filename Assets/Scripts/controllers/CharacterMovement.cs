@@ -37,10 +37,10 @@ namespace controllers {
             navMeshAgent.CalculatePath(targetPosition, path);
             for (var i = 0; i < path.corners.Length - 1; i++) {
                 var lastSegmentVector = (path.corners[i + 1] - path.corners[i]);
-                var sqrVectorDistance = lastSegmentVector.magnitude;
+                var vectorDistance = lastSegmentVector.magnitude;
 
-                if (distanceSoFar + sqrVectorDistance <= realMaxDistance) {
-                    distanceSoFar += sqrVectorDistance;
+                if (distanceSoFar + vectorDistance <= realMaxDistance) {
+                    distanceSoFar += vectorDistance;
                     if (i == path.corners.Length - 2) {
                         // This is the end, so go to target directly
                         navMeshAgent.SetPath(path);

@@ -1,4 +1,5 @@
-﻿using GameEventSystem;
+﻿using System;
+using GameEventSystem;
 using hex;
 using JetBrains.Annotations;
 using UnityEngine;
@@ -12,10 +13,12 @@ namespace controllers {
         [SerializeField] private float maxDistance = 1;
         [SerializeField] private GameEvent turnFinished = default;
         [SerializeField] private float speedAnimation = 4;
+        [SerializeField] private GameObject tooltip = default;
         private bool myTurn = true;
         private Animator animator;
         private static readonly int STOP = Animator.StringToHash("stop");
         private static readonly int WALK = Animator.StringToHash("walk");
+        private static readonly int NOISE = Animator.StringToHash("noise");
 
         private void Awake() {
             characterMovement = GetComponent<CharacterMovement>();
@@ -55,6 +58,22 @@ namespace controllers {
         public void DoYourTurn() {
             myTurn = true;
             Debug.Log("It's my turn!");
+        }
+
+        private void OnMouseDown() {
+            if (!myTurn) return;
+            // TODO Make noise
+            animator.SetTrigger(NOISE);
+            Debug.Log("Noise");
+            turnFinished.Raise();
+        }
+
+        private void OnMouseEnter() {
+            tooltip.SetActive(true);
+        }
+
+        private void OnMouseExit() {
+            tooltip.SetActive(false);
         }
     }
 }
