@@ -53,19 +53,11 @@ namespace hex {
             return new HexCoordinates(iX, iZ);
         }
 
-        public Vector3 ToPosition() {
-            int offsetZ = z;
-            // x = ox - oz / 2
-            // x - ox = - oz / 2
-            // - ox = - x -oz / 2
-            // ox = x + oz / 2
-            int offsetX = x + Mathf.FloorToInt(offsetZ / 2.0f);
-
-            Vector3 position;
-            position.x = (offsetX + offsetZ * 0.5f - offsetZ / 2) * HexMetrics.innerRadius * 2f;
-            position.y = 0f;
-            position.z = offsetZ * HexMetrics.outerRadius * 1.5f;
-
+        public Vector3 ToPosition()
+        {
+            Vector3 position = Vector3.zero;
+            position.x = (z / 2.0f + X) * (HexMetrics.innerRadius * 2f);
+            position.z = Z * (HexMetrics.outerRadius * 1.5f);
             return position;
         }
 
@@ -84,27 +76,54 @@ namespace hex {
                     (z < other.z ? other.z - z : z - other.z)) / 2;
         }
 
+        /**
+         * Move along current X axis, doesn't modify x coords but modify the two others
+         */
         public HexCoordinates moveAlongX(int offset)
-        {
-            var result = new HexCoordinates(X, Z);
-            result.x = result.x + offset;
-            return result;
-        }
-
-        public HexCoordinates moveAlongZ(int offset)
         {
             var result = new HexCoordinates(X, Z);
             result.z = result.z + offset;
             return result;
         }
 
-        public HexCoordinates moveAlongY(int offset) => moveAlongX(-offset).moveAlongZ(-offset);
+        /**
+         * Move along current Z axis, doesn't modify z coords but modify the two others
+         */
+        public HexCoordinates moveAlongZ(int offset)
+        {
+            var result = new HexCoordinates(X, Z);
+            result.x = result.x + offset;
+            return result;
+        }
 
+        /**
+         * Move along current Y axis, doesn't modify y coords but modify the two others
+         */
+        public HexCoordinates moveAlongY(int offset) => moveAlongX(-offset).moveAlongZ(offset);
+
+        /**
+         * Move along current X axis by 1 cell, doesn't modify x coords but modify the two others
+         */
         public HexCoordinates Xplus() => moveAlongX(1);
+        /**
+         * Move along current X axis by -1 cell, doesn't modify x coords but modify the two others
+         */
         public HexCoordinates Xminus() => moveAlongX(-1);
+        /**
+         * Move along current Z axis by 1 cell, doesn't modify z coords but modify the two others
+         */
         public HexCoordinates Zplus() => moveAlongZ(1);
+        /**
+         * Move along current Z axis by -1 cell, doesn't modify z coords but modify the two others
+         */
         public HexCoordinates Zminus() => moveAlongZ(-1);
+        /**
+         * Move along current Y axis by 1 cell, doesn't modify y coords but modify the two others
+         */
         public HexCoordinates Yplus() => moveAlongY(1);
+        /**
+         * Move along current Y axis by -1 cell, doesn't modify y coords but modify the two others
+         */
         public HexCoordinates Yminus() => moveAlongY(-1);
     }
 }
