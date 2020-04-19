@@ -33,9 +33,14 @@ public class Journey : MonoBehaviour
 
     public void GoToNextPOI()
     {
-        mCurrentPOIIndex++;
-        mWorldCamel.GetComponent<Animator>().SetInteger("position", mCurrentPOIIndex);
-        //Change current POI look here if you want
+        if(CanGoNext())
+        {
+            mCurrentPOIIndex++;
+            InventoryManager.Instance.subFood(mPOIList[mCurrentPOIIndex].FoodCost);
+            InventoryManager.Instance.subWater(mPOIList[mCurrentPOIIndex].WaterCost);
+            mWorldCamel.GetComponent<Animator>().SetInteger("position", mCurrentPOIIndex);
+            //Change current POI look here if you want
+        }
     }
 
     public void GoInPOI()
@@ -70,5 +75,19 @@ public class Journey : MonoBehaviour
 
         mTextFood.text = InventoryManager.Instance.Food.ToString();
         mTextWater.text = InventoryManager.Instance.Water.ToString();
+    }
+
+    private bool CanGoNext()
+    {
+        //If last POI
+        if (mCurrentPOIIndex+1 >= mPOIList.Count)
+            return false;
+        
+        if ( InventoryManager.Instance.Food >= mPOIList[mCurrentPOIIndex+1].FoodCost
+            && InventoryManager.Instance.Food >= mPOIList[mCurrentPOIIndex+1].WaterCost)
+        {
+            return true;
+        }
+        return false;
     }
 }
