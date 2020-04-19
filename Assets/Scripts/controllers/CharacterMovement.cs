@@ -3,6 +3,7 @@ using System.Collections;
 using GameEventSystem;
 using hex;
 using UnityEngine;
+using UnityEngine.AI;
 using Grid = hex.Grid;
 
 // ReSharper disable RedundantDefaultMemberInitializer
@@ -12,6 +13,7 @@ namespace controllers {
         [SerializeField] private float speedAnimation = 4;
         [SerializeField] private HexCoordinates position = default;
         [SerializeField] private Grid grid = default;
+        [SerializeField] private NavMeshAgent navMeshAgent;
         private const float EPSILON = 0.01f;
 
         public HexCoordinates Position => position;
