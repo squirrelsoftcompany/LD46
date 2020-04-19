@@ -7,6 +7,11 @@ PrefabInstance:
   m_Modification:
     m_TransformParent: {fileID: 0}
     m_Modifications:
+    - target: {fileID: 4221405022285586046, guid: def14de58f38e43498987ba99f0268ea,
+        type: 3}
+      propertyPath: m_Layer
+      value: 12
+      objectReference: {fileID: 0}
     - target: {fileID: 4534137129735376411, guid: def14de58f38e43498987ba99f0268ea,
         type: 3}
       propertyPath: m_Mesh
@@ -71,7 +76,12 @@ PrefabInstance:
     - target: {fileID: 7681235715968547811, guid: def14de58f38e43498987ba99f0268ea,
         type: 3}
       propertyPath: m_Name
-      value: Walls
+      value: WallsRoof
+      objectReference: {fileID: 0}
+    - target: {fileID: 7681235715968547811, guid: def14de58f38e43498987ba99f0268ea,
+        type: 3}
+      propertyPath: m_Layer
+      value: 12
       objectReference: {fileID: 0}
     m_RemovedComponents: []
   m_SourcePrefab: {fileID: 100100000, guid: def14de58f38e43498987ba99f0268ea, type: 3}

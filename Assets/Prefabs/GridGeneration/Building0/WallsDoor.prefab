@@ -65,7 +65,7 @@ PrefabInstance:
     - target: {fileID: 2787035555780932724, guid: d44be9d32506ca34e8df23fa9ccf008c,
         type: 3}
       propertyPath: m_Name
-      value: Walls
+      value: WallsDoor
       objectReference: {fileID: 0}
     - target: {fileID: 8275589233270636940, guid: d44be9d32506ca34e8df23fa9ccf008c,
         type: 3}
