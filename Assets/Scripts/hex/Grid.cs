@@ -25,27 +25,23 @@ namespace hex {
             _grid = new Dictionary<HexCoordinates, HexCell>();
             for (int z = 0; z < height; z++) {
                 for (var x = 0; x < width; x++) {
-                    createFixedCell(x, z);
+                    HexCoordinates c = HexCoordinates.FromOffsetCoordinates(x, z);
+                    createFixedCell(c);
                 }
             }
         }
 
-        public readonly Dictionary<HexCoordinates, Vector3> hexToCenterPosition =
-            new Dictionary<HexCoordinates, Vector3>();
-
-        private void createFixedCell(int x, int z) {
-            var position = HexCoordinates.fixedCellPosition(x, z);
+        private void createFixedCell(HexCoordinates c) {
             var cell = Instantiate(cellPrefab, cellsGameObject.transform, false);
-            cell.transform.localPosition = position;
-            cell.coordinates = HexCoordinates.FromOffsetCoordinates(x, z);
+            cell.transform.localPosition = c.ToPosition();
+            cell.coordinates = c;
             _grid[cell.coordinates] = cell;
-            hexToCenterPosition[cell.coordinates] = position;
         }
 
         private void OnDrawGizmos() {
             if (_grid == null) return;
-            foreach (var hexCoordinates in hexToCenterPosition.Keys) {
-                var position = hexToCenterPosition[hexCoordinates];
+            foreach (var hexCoordinates in _grid.Keys) {
+                var position = hexCoordinates.ToPosition();
                 Handles.Label(position, hexCoordinates + ": " + position);
             }
         }

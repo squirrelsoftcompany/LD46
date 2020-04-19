@@ -53,19 +53,19 @@ namespace hex {
             return new HexCoordinates(iX, iZ);
         }
 
-        public Vector3 toPosition() {
-            // Vector3 position;
-            // var newZ = Z;
-            // int newX = -Y / 2;
-            // TODO
-            throw new NotImplementedException("to position is not implemented");
-        }
+        public Vector3 ToPosition() {
+            int offsetZ = z;
+            // x = ox - oz / 2
+            // x - ox = - oz / 2
+            // - ox = - x -oz / 2
+            // ox = x + oz / 2
+            int offsetX = x + Mathf.FloorToInt(offsetZ / 2.0f);
 
-        public static Vector3 fixedCellPosition(int x, int z) {
             Vector3 position;
-            position.x = (x + z * 0.5f - z / 2) * HexMetrics.innerRadius * 2f;
+            position.x = (offsetX + offsetZ * 0.5f - offsetZ / 2) * HexMetrics.innerRadius * 2f;
             position.y = 0f;
-            position.z = z * 1.5f * HexMetrics.outerRadius;
+            position.z = offsetZ * HexMetrics.outerRadius * 1.5f;
+
             return position;
         }
 
