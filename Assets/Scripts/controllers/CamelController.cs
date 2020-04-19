@@ -20,6 +20,9 @@ namespace controllers {
 
         private float realMaxDistance;
         private CharacterMovement characterMovement;
+        private Animator animator;
+        private static readonly int WALK = Animator.StringToHash("walk");
+        private static readonly int STOP = Animator.StringToHash("stop");
 
         private void Awake() {
             if (target == null) {
@@ -34,7 +37,7 @@ namespace controllers {
             }
 
             characterMovement = GetComponent<CharacterMovement>();
-
+            animator = GetComponentInChildren<Animator>();
             realMaxDistance = maxDistance.realDistanceFromHexDistance();
 
             navMeshAgent = GetComponent<NavMeshAgent>();
@@ -54,7 +57,11 @@ namespace controllers {
             currentNbTurns++;
             var goTo = target.transform.position;
             goTo.y = transform.position.y;
-            characterMovement.navigateTo(goTo, realMaxDistance, () => finishedTurn.Raise());
+            animator.SetTrigger(WALK);
+            characterMovement.navigateTo(goTo, realMaxDistance, () => {
+                animator.SetTrigger(STOP);
+                finishedTurn.Raise();
+            });
         }
     }
 }

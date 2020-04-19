@@ -10,7 +10,7 @@ GameObject:
   m_Component:
   - component: {fileID: 7931791962556053517}
   - component: {fileID: 6954032501404125362}
-  m_Layer: 0
+  m_Layer: 8
   m_Name: HexCell
   m_TagString: Untagged
   m_Icon: {fileID: 0}
@@ -48,6 +48,8 @@ MonoBehaviour:
     x: 0
     z: 0
   type: 0
+  ground: {fileID: 0}
+  topping: {fileID: 0}
   hover: {r: 0.04601282, g: 0.8027145, b: 0.8867924, a: 1}
   normal: {r: 1, g: 0.028000057, b: 0.028000057, a: 1}
   meshRenderer: {fileID: 7197259939547369473}
@@ -117,6 +119,11 @@ PrefabInstance:
         type: 3}
       propertyPath: m_Name
       value: earth_prefab
+      objectReference: {fileID: 0}
+    - target: {fileID: 3251852819014233787, guid: 27658e46bc3410444baf6a3691327c5e,
+        type: 3}
+      propertyPath: m_Layer
+      value: 8
       objectReference: {fileID: 0}
     m_RemovedComponents: []
   m_SourcePrefab: {fileID: 100100000, guid: 27658e46bc3410444baf6a3691327c5e, type: 3}

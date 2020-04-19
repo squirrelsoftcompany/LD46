@@ -165,7 +165,7 @@ GameObject:
   m_Component:
   - component: {fileID: 7113506079216702631}
   - component: {fileID: 7113506079216702627}
-  - component: {fileID: 7113506079216702630}
+  - component: {fileID: 559892909161989542}
   m_Layer: 5
   m_Name: ToolTip
   m_TagString: Untagged
@@ -217,7 +217,7 @@ Canvas:
   m_SortingLayerID: 0
   m_SortingOrder: 0
   m_TargetDisplay: 0
---- !u!114 &7113506079216702630
+--- !u!114 &559892909161989542
 MonoBehaviour:
   m_ObjectHideFlags: 0
   m_CorrespondingSourceObject: {fileID: 0}

@@ -2,6 +2,7 @@
 using hex;
 using JetBrains.Annotations;
 using UnityEngine;
+
 // ReSharper disable RedundantDefaultMemberInitializer
 
 namespace controllers {
@@ -12,9 +13,13 @@ namespace controllers {
         [SerializeField] private GameEvent turnFinished = default;
         [SerializeField] private float speedAnimation = 4;
         private bool myTurn = true;
+        private Animator animator;
+        private static readonly int STOP = Animator.StringToHash("stop");
+        private static readonly int WALK = Animator.StringToHash("walk");
 
         private void Awake() {
             characterMovement = GetComponent<CharacterMovement>();
+            animator = GetComponentInChildren<Animator>();
         }
 
 
@@ -37,7 +42,11 @@ namespace controllers {
             // If within range, then go there
             if (characterMovement.Position.DistanceTo(hexCell.coordinates) <= maxDistance) {
                 // and at the end, set myTurn to false
-                characterMovement.moveTo(hexCell.coordinates, speedAnimation, turnFinished);
+                animator.SetTrigger(WALK);
+                characterMovement.moveTo(hexCell.coordinates, speedAnimation, () => {
+                    animator.SetTrigger(STOP);
+                    turnFinished.Raise();
+                });
             }
         }
 

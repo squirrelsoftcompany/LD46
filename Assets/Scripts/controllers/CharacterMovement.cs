@@ -1,6 +1,5 @@
 ﻿using System;
 using System.Collections;
-using GameEventSystem;
 using hex;
 using UnityEngine;
 using UnityEngine.AI;
@@ -20,7 +19,7 @@ namespace controllers {
             navMeshAgent = GetComponent<NavMeshAgent>();
         }
 
-        IEnumerator fromPosToOther(Vector3 to, HexCoordinates toCoordinates, GameEvent finishedTurn,
+        IEnumerator fromPosToOther(Vector3 to, HexCoordinates toCoordinates, Action onFinishedAction,
             float speedAnimation) {
             while ((to - transform.position).magnitude > EPSILON) {
                 transform.position = Vector3.MoveTowards(transform.position, to, speedAnimation * Time.deltaTime);
@@ -28,9 +27,7 @@ namespace controllers {
             }
 
             position = toCoordinates;
-            if (finishedTurn) {
-                finishedTurn.Raise();
-            }
+            onFinishedAction?.Invoke();
         }
 
         public void navigateTo(Vector3 targetPosition, float realMaxDistance, Action onFinished) {
@@ -68,8 +65,7 @@ namespace controllers {
         private IEnumerator sendFinishedWhenNavMeshArrives(Action onFinished) {
             while (navMeshAgent.pathPending
                    || navMeshAgent.remainingDistance > navMeshAgent.stoppingDistance
-                   || navMeshAgent.hasPath && navMeshAgent.velocity.sqrMagnitude > EPSILON
-            ) {
+                   || navMeshAgent.hasPath && navMeshAgent.velocity.sqrMagnitude > EPSILON) {
                 // The destination is not yet reached
                 yield return null;
             }
@@ -79,10 +75,10 @@ namespace controllers {
             onFinished?.Invoke();
         }
 
-        public void moveTo(HexCoordinates toPosition, float speedAnimation, GameEvent finishedTurn = null) {
+        public void moveTo(HexCoordinates toPosition, float speedAnimation, Action onFinishedAction = null) {
             var toVector3 = toPosition.ToPosition();
             toVector3.y = transform.position.y; // keep elevation
-            StartCoroutine(fromPosToOther(toVector3, toPosition, finishedTurn, speedAnimation));
+            StartCoroutine(fromPosToOther(toVector3, toPosition, onFinishedAction, speedAnimation));
         }
     }
 }
