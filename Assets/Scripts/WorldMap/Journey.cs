@@ -13,6 +13,12 @@ public class Journey : MonoBehaviour
     private int mCurrentPOIIndex = 0;
     private bool mMapVisible = true;
 
+    //UI
+    [SerializeField]
+    private Text mTextFood;
+    [SerializeField]
+    private Text mTextWater;
+
     //Inspector variables for test
     [SerializeField]
     private bool mShow = false;
@@ -45,6 +51,10 @@ public class Journey : MonoBehaviour
         {
             child.enabled = pShow;
         }
+        foreach (Text child in GetComponentsInChildren<Text>())
+        {
+            child.enabled = pShow;
+        }
         mMapVisible = pShow;
     }
 
@@ -57,5 +67,8 @@ public class Journey : MonoBehaviour
     {
         if (mMapVisible != mShow)
             ShowMap(mShow);
+
+        mTextFood.text = InventoryManager.Instance.Food.ToString();
+        mTextWater.text = InventoryManager.Instance.Water.ToString();
     }
 }
