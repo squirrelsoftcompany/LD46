@@ -1,4 +1,4 @@
-using GameEventSystem;
+﻿using GameEventSystem;
 using hex;
 using JetBrains.Annotations;
 using UnityEngine;
@@ -45,6 +45,7 @@ namespace controllers {
         [UsedImplicitly]
         public void DoYourTurn() {
             myTurn = true;
+            Debug.Log("It's my turn!");
         }
     }
 }
