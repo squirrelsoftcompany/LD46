@@ -1,5 +1,4 @@
-﻿using System;
-using GameEventSystem;
+﻿using GameEventSystem;
 using hex;
 using JetBrains.Annotations;
 using UnityEngine;
@@ -51,6 +50,16 @@ namespace controllers {
                     turnFinished.Raise();
                 });
             }
+        }
+
+        [UsedImplicitly]
+        public void onClickedCamelTransfer() {
+            if (!myTurn) return;
+            Debug.Log("click on camel! we want a transfer TODO");
+            myTurn = false;
+            // TODO transfer to camel
+
+            turnFinished.Raise();
         }
 
         // My turn to do things (the turn manager said so)

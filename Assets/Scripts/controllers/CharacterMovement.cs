@@ -78,6 +78,7 @@ namespace controllers {
         public void moveTo(HexCoordinates toPosition, float speedAnimation, Action onFinishedAction = null) {
             var toVector3 = toPosition.ToPosition();
             toVector3.y = transform.position.y; // keep elevation
+            // transform.LookAt(toVector3);
             StartCoroutine(fromPosToOther(toVector3, toPosition, onFinishedAction, speedAnimation));
         }
     }

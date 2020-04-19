@@ -16,6 +16,7 @@ namespace controllers {
         [SerializeField] private int maxDistance = 2;
         [SerializeField] private float animationSpeed = 4;
         [SerializeField] private int everyNTurns = 2;
+        [SerializeField] private GameObject tooltip;
         private int currentNbTurns = 0;
 
         private float realMaxDistance;
@@ -23,6 +24,7 @@ namespace controllers {
         private Animator animator;
         private static readonly int WALK = Animator.StringToHash("walk");
         private static readonly int STOP = Animator.StringToHash("stop");
+        [SerializeField] private GameEvent camelClicked = default;
 
         private void Awake() {
             if (target == null) {
@@ -62,6 +64,18 @@ namespace controllers {
                 animator.SetTrigger(STOP);
                 finishedTurn.Raise();
             });
+        }
+
+        private void OnMouseDown() {
+            camelClicked.Raise();
+        }
+
+        private void OnMouseEnter() {
+            tooltip.SetActive(true);
+        }
+
+        private void OnMouseExit() {
+            tooltip.SetActive(false);
         }
     }
 }
