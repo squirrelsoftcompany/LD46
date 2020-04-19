@@ -1,5 +1,4 @@
-using System;
-using GameEventSystem;
+﻿using GameEventSystem;
 using hex;
 using JetBrains.Annotations;
 using UnityEngine;
@@ -17,27 +16,37 @@ namespace controllers {
         private CharacterMovement characterMovement;
 
         private void Awake() {
+            if (target == null) {
+                target = GameObject.FindWithTag("Camel");
+                if (target == null) {
+                    Debug.LogWarning("/!\\ No camel in this scene !!");
+                }
+            }
+
             characterMovement = GetComponent<CharacterMovement>();
         }
 
         // Method called by TurnManager, do not rename
         [UsedImplicitly]
         public void DoYourTurn() {
+            finishedTurn.sentString = "endTurn";
             // find position to go to
             var targetPos = target.transform.position;
             // if within range of attack, then attack
             var hexTarget = HexCoordinates.FromPosition(targetPos);
             if (hexTarget.DistanceTo(characterMovement.Position) <= attackRange) {
                 attack();
-                finishedTurn.sentString = "Enemy attack";
                 finishedTurn.Raise();
                 return;
             }
+
             // Else travel
-            // calculate nav route
+            // calculate nav route TODO to change this
+            if (hexTarget.DistanceTo(characterMovement.Position) <= maxDistanceTravel) {
+                characterMovement.moveTo(hexTarget, finishedTurn);
+            }
 
             // TODO to change to the next available tile in route within speed distance
-            finishedTurn.sentString = "enemy move";
             characterMovement.moveTo(hexTarget, finishedTurn);
         }
 

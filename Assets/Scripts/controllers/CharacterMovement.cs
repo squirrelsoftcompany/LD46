@@ -12,7 +12,7 @@ namespace controllers {
         [SerializeField] private float speedAnimation = 4;
         [SerializeField] private HexCoordinates position = default;
         [SerializeField] private Grid grid = default;
-        private const float EPSILON = 0.001f;
+        private const float EPSILON = 0.01f;
 
         public HexCoordinates Position => position;
 

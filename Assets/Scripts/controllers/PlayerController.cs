@@ -1,4 +1,4 @@
-using GameEventSystem;
+﻿using GameEventSystem;
 using hex;
 using JetBrains.Annotations;
 using UnityEngine;
@@ -19,15 +19,22 @@ namespace controllers {
 
         [UsedImplicitly]
         public void onClickedCell(MonoBehaviour monoBehaviour) {
+            turnFinished.sentString = "turnDone";
             // It is not my turn, so do nothing
             // TODO uncomment this when the turn manager will be up and running! (now for debug, commented)
-            // if (!myTurn) return;
+            if (!myTurn) return;
 
             // We retrieve the cell to go to
             var hexCell = monoBehaviour.GetComponent<HexCell>();
+            if (characterMovement.Position.Equals(hexCell.coordinates)) {
+                // Just stay here
+                myTurn = false;
+                turnFinished.Raise();
+                return;
+            }
+
             // If within range, then go there
             if (characterMovement.Position.DistanceTo(hexCell.coordinates) <= maxDistance) {
-                turnFinished.sentString = "playerMovement";
                 // and at the end, set myTurn to false
                 characterMovement.moveTo(hexCell.coordinates, turnFinished, () => myTurn = false);
             }

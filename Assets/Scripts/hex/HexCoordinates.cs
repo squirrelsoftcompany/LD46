@@ -4,7 +4,8 @@ using UnityEngine;
 namespace hex {
     [Serializable]
     public struct HexCoordinates : IComparable<HexCoordinates> {
-        [SerializeField] private int x, z;
+        [SerializeField] private int x;
+        [SerializeField] private int z;
 
         public int X => x;
 
