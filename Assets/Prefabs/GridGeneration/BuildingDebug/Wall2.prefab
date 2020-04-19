@@ -1,0 +1,46 @@
+%YAML 1.1
+%TAG !u! tag:unity3d.com,2011:
+--- !u!1001 &7926706594904421070
+PrefabInstance:
+  m_ObjectHideFlags: 0
+  serializedVersion: 2
+  m_Modification:
+    m_TransformParent: {fileID: 0}
+    m_Modifications:
+    - target: {fileID: 2240258280587545743, guid: faa48e7f938aaf345ad0339b0bbbec29,
+        type: 3}
+      propertyPath: m_RootOrder
+      value: 0
+      objectReference: {fileID: 0}
+    - target: {fileID: 2240258280587545743, guid: faa48e7f938aaf345ad0339b0bbbec29,
+        type: 3}
+      propertyPath: m_LocalEulerAnglesHint.x
+      value: 0
+      objectReference: {fileID: 0}
+    - target: {fileID: 2240258280587545743, guid: faa48e7f938aaf345ad0339b0bbbec29,
+        type: 3}
+      propertyPath: m_LocalEulerAnglesHint.y
+      value: 0
+      objectReference: {fileID: 0}
+    - target: {fileID: 2240258280587545743, guid: faa48e7f938aaf345ad0339b0bbbec29,
+        type: 3}
+      propertyPath: m_LocalEulerAnglesHint.z
+      value: 0
+      objectReference: {fileID: 0}
+    - target: {fileID: 2991986876247358514, guid: faa48e7f938aaf345ad0339b0bbbec29,
+        type: 3}
+      propertyPath: m_Name
+      value: Wall2
+      objectReference: {fileID: 0}
+    - target: {fileID: 4045929976664714413, guid: faa48e7f938aaf345ad0339b0bbbec29,
+        type: 3}
+      propertyPath: m_Materials.Array.data[0]
+      value: 
+      objectReference: {fileID: 2100000, guid: a20a5c492fd2e6c4ab13cfb151c13e63, type: 2}
+    - target: {fileID: 4241189931874456519, guid: faa48e7f938aaf345ad0339b0bbbec29,
+        type: 3}
+      propertyPath: m_Materials.Array.data[0]
+      value: 
+      objectReference: {fileID: 2100000, guid: a20a5c492fd2e6c4ab13cfb151c13e63, type: 2}
+    m_RemovedComponents: []
+  m_SourcePrefab: {fileID: 100100000, guid: faa48e7f938aaf345ad0339b0bbbec29, type: 3}
