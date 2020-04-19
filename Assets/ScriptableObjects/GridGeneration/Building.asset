@@ -1,0 +1,26 @@
+%YAML 1.1
+%TAG !u! tag:unity3d.com,2011:
+--- !u!114 &11400000
+MonoBehaviour:
+  m_ObjectHideFlags: 0
+  m_CorrespondingSourceObject: {fileID: 0}
+  m_PrefabInstance: {fileID: 0}
+  m_PrefabAsset: {fileID: 0}
+  m_GameObject: {fileID: 0}
+  m_Enabled: 1
+  m_EditorHideFlags: 0
+  m_Script: {fileID: 11500000, guid: 2f1ad0eecc7474140a89860a96a4f34c, type: 3}
+  m_Name: Building
+  m_EditorClassIdentifier: 
+  doors:
+  - {fileID: 8796189624326568092, guid: 87c1e5a2990615241936326a2d829d55, type: 3}
+  walls:
+  - {fileID: 2991986876247358514, guid: faa48e7f938aaf345ad0339b0bbbec29, type: 3}
+  - {fileID: 5153522671746322172, guid: 915e16d1561241a4cb14c879f82ce3f0, type: 3}
+  - {fileID: 8471035456053543016, guid: 7a3179e46bbe337449ae69aa66331d97, type: 3}
+  cornersConvex:
+  - {fileID: 7341204075818685534, guid: 0bcf24571e3581e4eb30211c50df4644, type: 3}
+  cornersConcave:
+  - {fileID: 8510982382408732997, guid: 52d13117788411f4d8d6d5f5b6950df6, type: 3}
+  inside:
+  - {fileID: 4893911116690229280, guid: a015d2ca6deeadd4ea1f13543aa38bb5, type: 3}
