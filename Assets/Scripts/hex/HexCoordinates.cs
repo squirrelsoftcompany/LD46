@@ -3,7 +3,7 @@ using UnityEngine;
 
 namespace hex {
     [Serializable]
-    public struct HexCoordinates {
+    public struct HexCoordinates : IComparable<HexCoordinates> {
         [SerializeField] private int x, z;
 
         public int X => x;
@@ -58,6 +58,16 @@ namespace hex {
             // TODO 
             
             return Vector3.back;
+        }
+
+        public int CompareTo(HexCoordinates other)
+        {
+            var compX = X.CompareTo(other.X);
+            if (compX != 0)
+            {
+                return compX;
+            }
+            return Z.CompareTo(other.Z);
         }
     }
 }

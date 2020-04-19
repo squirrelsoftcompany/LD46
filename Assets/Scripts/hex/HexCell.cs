@@ -4,7 +4,11 @@ using UnityEngine;
 namespace hex {
     public class HexCell : MonoBehaviour {
         public HexCoordinates coordinates;
-        public CellType type; // TODO to change
+
+        public GroundType type;
+
+        public GameObject ground;
+        public GameObject topping;
 
         [SerializeField] private Color hover, normal;
 
@@ -26,6 +30,19 @@ namespace hex {
 
         public void setNotHighlighted() {
             meshRenderer.material.color = normal;
+        }
+
+        public bool available()
+        {
+            return topping == null;
+        }
+
+        public void moveToppingTo(HexCell other)
+        {
+            if (other == null || !other.available()) return;
+
+            other.topping = topping;
+            topping = null;
         }
     }
 }
