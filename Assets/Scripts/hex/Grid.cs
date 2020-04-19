@@ -18,7 +18,7 @@ namespace hex {
             mainCamera = Camera.main;
 
             _grid = new Dictionary<HexCoordinates, HexCell>();
-            for (int z = 0, i = 0; z < height; z++) {
+            for (int z = 0; z < height; z++) {
                 for (var x = 0; x < width; x++) {
                     createFixedCell(x, z);
                 }
