@@ -1,4 +1,5 @@
 ﻿using GameEventSystem;
+using gauge;
 using hex;
 using JetBrains.Annotations;
 using UnityEngine;
@@ -11,12 +12,14 @@ namespace controllers {
     public class EnemyController : MonoBehaviour {
         [SerializeField] private GameObject target = default;
         [SerializeField] private GameEvent finishedTurn = default;
-        private float attackRange = 1;
+        [SerializeField] private float attackRange = 1;
         [SerializeField] private int maxDistanceTravel = 1;
         [SerializeField] private float speedAnimation = 4;
 
         private CharacterMovement characterMovement;
         private NavMeshAgent navMeshAgent;
+        private LifeGauge lifeOfMyEnemy;
+        [SerializeField] private int attackPower = 1;
 
         private void Awake() {
             if (target == null) {
@@ -26,6 +29,7 @@ namespace controllers {
                 }
             }
 
+            lifeOfMyEnemy = target.GetComponent<LifeGauge>();
             navMeshAgent = GetComponent<NavMeshAgent>();
             characterMovement = GetComponent<CharacterMovement>();
         }
@@ -54,7 +58,7 @@ namespace controllers {
         }
 
         private void attack() {
-            // TODO attack the target
+            lifeOfMyEnemy.loseLife(attackPower);
         }
     }
 }
