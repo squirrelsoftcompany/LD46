@@ -11,6 +11,8 @@ GameObject:
   - component: {fileID: 9145725815968225513}
   - component: {fileID: 7736910542878628566}
   - component: {fileID: 8244423372767770922}
+  - component: {fileID: 429402429114806044}
+  - component: {fileID: 1983236727605446588}
   m_Layer: 0
   m_Name: Camel
   m_TagString: Untagged
@@ -72,6 +74,36 @@ NavMeshAgent:
   m_BaseOffset: 0
   m_WalkableMask: 4294967295
   m_ObstacleAvoidanceType: 4
+--- !u!114 &429402429114806044
+MonoBehaviour:
+  m_ObjectHideFlags: 0
+  m_CorrespondingSourceObject: {fileID: 0}
+  m_PrefabInstance: {fileID: 0}
+  m_PrefabAsset: {fileID: 0}
+  m_GameObject: {fileID: 6015164339138851514}
+  m_Enabled: 1
+  m_EditorHideFlags: 0
+  m_Script: {fileID: 11500000, guid: 0224db2a35644602982da8521247a26f, type: 3}
+  m_Name: 
+  m_EditorClassIdentifier: 
+  life: 0
+  maxLife: 50
+  onDie: {fileID: 11400000, guid: 26b9d5508171a7b419d7a975cd678646, type: 2}
+--- !u!114 &1983236727605446588
+MonoBehaviour:
+  m_ObjectHideFlags: 0
+  m_CorrespondingSourceObject: {fileID: 0}
+  m_PrefabInstance: {fileID: 0}
+  m_PrefabAsset: {fileID: 0}
+  m_GameObject: {fileID: 6015164339138851514}
+  m_Enabled: 1
+  m_EditorHideFlags: 0
+  m_Script: {fileID: 11500000, guid: 23fcd006f98138b43904958d20e233b5, type: 3}
+  m_Name: 
+  m_EditorClassIdentifier: 
+  position:
+    x: 0
+    z: 0
 --- !u!1001 &8089293490520373819
 PrefabInstance:
   m_ObjectHideFlags: 0

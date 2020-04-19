@@ -2,6 +2,7 @@
 using hex;
 using JetBrains.Annotations;
 using UnityEngine;
+using UnityEngine.AI;
 
 // ReSharper disable RedundantDefaultMemberInitializer
 
@@ -11,9 +12,11 @@ namespace controllers {
         [SerializeField] private GameObject target = default;
         [SerializeField] private GameEvent finishedTurn = default;
         private float attackRange = 1;
-        [SerializeField] private float maxDistanceTravel = 1;
+        [SerializeField] private int maxDistanceTravel = 1;
+        [SerializeField] private float speedAnimation = 4;
 
         private CharacterMovement characterMovement;
+        private NavMeshAgent navMeshAgent;
 
         private void Awake() {
             if (target == null) {
@@ -23,6 +26,7 @@ namespace controllers {
                 }
             }
 
+            navMeshAgent = GetComponent<NavMeshAgent>();
             characterMovement = GetComponent<CharacterMovement>();
         }
 
@@ -40,14 +44,13 @@ namespace controllers {
                 return;
             }
 
-            // Else travel
-            // calculate nav route TODO to change this
-            if (hexTarget.DistanceTo(characterMovement.Position) <= maxDistanceTravel) {
-                characterMovement.moveTo(hexTarget, finishedTurn);
-            }
+            navMeshAgent.speed = speedAnimation;
+            targetPos.y = transform.position.y;
 
-            // TODO to change to the next available tile in route within speed distance
-            characterMovement.moveTo(hexTarget, finishedTurn);
+            characterMovement.navigateTo(
+                targetPosition: targetPos,
+                realMaxDistance: maxDistanceTravel.realDistanceFromHexDistance(),
+                onFinished: () => finishedTurn.Raise());
         }
 
         private void attack() {

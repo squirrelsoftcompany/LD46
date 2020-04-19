@@ -10,7 +10,11 @@ namespace hex {
             return hexDistance(Vector3.zero, Vector3.right * distance);
         }
 
-        public static float realDistanceFromHexDistance(int hexDistance) {
+        public static HexCoordinates toHex(this Vector3 position) {
+            return HexCoordinates.FromPosition(position);
+        }
+
+        public static float realDistanceFromHexDistance(this int hexDistance) {
             return (new HexCoordinates(0, 0).ToPosition() - new HexCoordinates(hexDistance, 0).ToPosition()).magnitude;
         }
     }

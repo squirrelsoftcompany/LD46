@@ -10,6 +10,7 @@ namespace controllers {
         private CharacterMovement characterMovement;
         [SerializeField] private float maxDistance = 1;
         [SerializeField] private GameEvent turnFinished = default;
+        [SerializeField] private float speedAnimation;
         private bool myTurn = true;
 
         private void Awake() {
@@ -36,7 +37,7 @@ namespace controllers {
             // If within range, then go there
             if (characterMovement.Position.DistanceTo(hexCell.coordinates) <= maxDistance) {
                 // and at the end, set myTurn to false
-                characterMovement.moveTo(hexCell.coordinates, turnFinished, () => myTurn = false);
+                characterMovement.moveTo(hexCell.coordinates, speedAnimation, turnFinished, () => myTurn = false);
             }
         }
 

@@ -1,17 +1,17 @@
-using System.Collections;
 using GameEventSystem;
 using hex;
+using JetBrains.Annotations;
 using UnityEngine;
 using UnityEngine.AI;
 
 // ReSharper disable RedundantDefaultMemberInitializer
 
 namespace controllers {
+    [RequireComponent(typeof(CharacterMovement))]
     public class CamelController : MonoBehaviour {
         [SerializeField] private GameObject target = default;
 
         private NavMeshAgent navMeshAgent;
-        private const double TOLERANCE = 0.01;
         [SerializeField] private GameEvent finishedTurn;
         [SerializeField] private int maxDistance;
         [SerializeField] private float animationSpeed;
@@ -19,6 +19,7 @@ namespace controllers {
         private int currentNbTurns = 0;
 
         private float realMaxDistance;
+        private CharacterMovement characterMovement;
 
         private void Awake() {
             if (target == null) {
@@ -32,12 +33,16 @@ namespace controllers {
                 Debug.LogWarning("FinishedTurn is not set");
             }
 
-            realMaxDistance = ExtensionsHex.realDistanceFromHexDistance(maxDistance);
+            characterMovement = GetComponent<CharacterMovement>();
+
+            realMaxDistance = maxDistance.realDistanceFromHexDistance();
 
             navMeshAgent = GetComponent<NavMeshAgent>();
             navMeshAgent.speed = animationSpeed;
         }
 
+        [UsedImplicitly]
+        // Used by the turn manager
         public void DoYourTurn() {
             Debug.Log("Woohoo camel turn!");
             if (currentNbTurns >= everyNTurns) {
@@ -46,50 +51,10 @@ namespace controllers {
                 return;
             }
 
-            var soFar = 0f;
             currentNbTurns++;
-            // Go follow your dream!
-            var path = new NavMeshPath();
-            navMeshAgent.CalculatePath(target.transform.position, path);
-            for (var i = 0; i < path.corners.Length - 1; i++) {
-                var lastSegmentVector = (path.corners[i + 1] - path.corners[i]);
-                var sqrVectorDistance = lastSegmentVector.magnitude;
-
-                if (soFar + sqrVectorDistance <= realMaxDistance) {
-                    soFar += sqrVectorDistance;
-                    if (i == path.corners.Length - 2) {
-                        // This is the end, so go to target directly
-                        navMeshAgent.SetPath(path);
-                        break;
-                    }
-                } else {
-                    // Path length exceeds maxDist
-                    var finalPoint = path.corners[i] + lastSegmentVector.normalized * (maxDistance - soFar);
-                    var centeredCellFinalPoint = HexCoordinates.FromPosition(finalPoint).ToPosition();
-                    NavMesh.CalculatePath(transform.position, centeredCellFinalPoint, NavMesh.AllAreas, path);
-                    navMeshAgent.SetPath(path);
-                    break;
-                }
-            }
-
-            // Start to move
-            navMeshAgent.isStopped = false;
-            // check for destination arrived
-            StartCoroutine(sendFinishedWhenNavMeshArrives());
-        }
-
-        private IEnumerator sendFinishedWhenNavMeshArrives() {
-            while (navMeshAgent.pathPending
-                   || navMeshAgent.remainingDistance > navMeshAgent.stoppingDistance
-                   || navMeshAgent.hasPath && navMeshAgent.velocity.sqrMagnitude > TOLERANCE
-            ) {
-                // The destination is not yet reached
-                yield return null;
-            }
-
-            navMeshAgent.isStopped = true;
-            // Reached destination
-            finishedTurn.Raise();
+            var goTo = target.transform.position;
+            goTo.y = transform.position.y;
+            characterMovement.navigateTo(goTo, realMaxDistance, () => finishedTurn.Raise());
         }
     }
 }
