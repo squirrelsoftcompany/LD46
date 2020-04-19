@@ -36,7 +36,7 @@ namespace controllers {
 
 
         public void moveTo(HexCoordinates toPosition, GameEvent finishedTurn = null, Action callback = null) {
-            var toVector3 = grid.hexToCenterPosition[toPosition];
+            var toVector3 = toPosition.ToPosition();
             toVector3.y = transform.position.y; // keep elevation
             StartCoroutine(fromPosToOther(toVector3, toPosition, finishedTurn, callback));
         }
