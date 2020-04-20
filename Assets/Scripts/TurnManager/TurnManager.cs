@@ -59,5 +59,9 @@ namespace Turn {
                 Next();
             }
         }
+
+        public void pause(bool pause) {
+            Time.timeScale = pause ? 0f : 1f;
+        }
     }
 }
