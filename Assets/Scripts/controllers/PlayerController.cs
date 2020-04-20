@@ -1,4 +1,4 @@
-using GameEventSystem;
+﻿using GameEventSystem;
 using hex;
 using JetBrains.Annotations;
 using UnityEngine;
@@ -26,13 +26,15 @@ namespace controllers {
 
         private Flee enemies;
         [SerializeField] private int distanceTransfer = 1;
-
+        private Census census;
+        
         private void Awake() {
             characterMovement = GetComponent<CharacterMovement>();
             animator = GetComponentInChildren<Animator>();
             navMeshAgent = GetComponent<NavMeshAgent>();
             enemies = FindObjectOfType<Flee>();
             navMeshAgent.speed = speedAnimation;
+            census = FindObjectOfType<Census>();
         }
 
         private void Start() {
@@ -52,7 +54,10 @@ namespace controllers {
             var hexCell = monoBehaviour.GetComponent<HexCell>();
             hexCell.Highlight = Highlight.CURRENT_ACTION;
             var distanceToMe = characterMovement.Position.DistanceTo(hexCell.coordinates);
-            if (distanceToMe > maxDistance) {
+            if (distanceToMe > maxDistance ||
+                !gridManager.myGrid.CellAvailable(hexCell.coordinates) ||
+                isOccupiedCell(hexCell.coordinates)
+            ) {
                 hexCell.Highlight = Highlight.NORMAL;
                 return; // clicked on invalid cell, it is still my turn
             }
@@ -77,6 +82,10 @@ namespace controllers {
                     Debug.Log("[Player] finished");
                     turnFinished.Raise();
                 });
+        }
+
+        private bool isOccupiedCell(HexCoordinates cellCoordinates) {
+            return census.isOccupiedCell(cellCoordinates);
         }
 
         private void doTransfer(CamelController camel) {
