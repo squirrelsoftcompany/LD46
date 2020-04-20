@@ -12,7 +12,11 @@ namespace hex {
         public GameObject ground;
         public GameObject topping;
 
-        [SerializeField] private Color hover = default, normal = default, current = default, invalid = default;
+        [SerializeField] private Color hover = default,
+            normal = default,
+            current = default,
+            invalid = default,
+            affected = default;
 
         [SerializeField] private MeshRenderer meshRenderer = default;
 
@@ -53,6 +57,10 @@ namespace hex {
                     color = invalid;
                     IsHovered = false;
                     break;
+                case Highlight.AFFECTED:
+                    color = affected;
+                    IsHovered = false;
+                    break;
                 default:
                     throw new ArgumentOutOfRangeException(nameof(highlightLevel), highlightLevel, null);
             }
@@ -77,5 +85,6 @@ public enum Highlight {
     NORMAL,
     CURRENT_ACTION,
     HIGHLIGHTED,
-    INVALID
+    INVALID,
+    AFFECTED
 }

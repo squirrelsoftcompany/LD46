@@ -9,6 +9,7 @@ namespace hex {
 
     public class GridManager : MonoBehaviour {
         private Grid _grid;
+        
 
         [SerializeField] private GameObject cellsGameObject = default;
         [SerializeField] private HexCell cellPrefab = default;
@@ -26,13 +27,15 @@ namespace hex {
         // [SerializeField]private GameObject planeCollisions = default;
         private Camera mainCamera;
 
+        public Grid myGrid => _grid;
+
         private void Awake() {
             mainCamera = Camera.main;
 
             //_grid = new Grid(width, height, cellPrefab.gameObject, cellsGameObject.transform);
             _grid = new Grid();
 
-            var generator = new GridGenerator(_grid, _buildings, _lakes, _grounds, _props, width, height, cellPrefab, cellsGameObject.transform);
+            var generator = new GridGenerator(myGrid, _buildings, _lakes, _grounds, _props, width, height, cellPrefab, cellsGameObject.transform);
             generator.Generate();
             navMeshSurface.BuildNavMesh();
             // planeCollisions.transform.localScale = new Vector3(width * HexMetrics.innerRadius, 1, 
@@ -76,7 +79,7 @@ namespace hex {
             position = transform.InverseTransformPoint(position);
             var coordinates = HexCoordinates.FromPosition(position);
             // Debug.Log("hover : " + coordinates);
-            var cell = _grid[coordinates];
+            var cell = myGrid[coordinates];
             if (cell && cell.Highlight != Highlight.CURRENT_ACTION) {
                 cell.Highlight = Highlight.HIGHLIGHTED;
             }

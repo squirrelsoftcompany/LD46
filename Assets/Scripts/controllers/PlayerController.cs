@@ -15,6 +15,7 @@ namespace controllers {
         [SerializeField] private float speedAnimation = 4;
         [SerializeField] private GameObject tooltip = default;
         [SerializeField] private int noisePower = 3;
+        private GridManager gridManager;
         private bool myTurn = true;
         private Animator animator;
         private NavMeshAgent navMeshAgent;
@@ -25,6 +26,7 @@ namespace controllers {
         private Flee enemies;
 
         private void Awake() {
+            gridManager = FindObjectOfType<GridManager>();
             characterMovement = GetComponent<CharacterMovement>();
             animator = GetComponentInChildren<Animator>();
             navMeshAgent = GetComponent<NavMeshAgent>();
@@ -103,11 +105,19 @@ namespace controllers {
         private void OnMouseEnter() {
             tooltip.SetActive(true);
             enemies.displayNoise(noisePower, characterMovement.Position, true);
+            var affectedCells = characterMovement.Position.getCellsAround(noisePower);
+            foreach (var affectedCell in affectedCells) {
+                gridManager.myGrid[affectedCell].Highlight = Highlight.AFFECTED;
+            }
         }
 
         private void OnMouseExit() {
             tooltip.SetActive(false);
             enemies.displayNoise(noisePower, characterMovement.Position, false);
+            var affectedCells = characterMovement.Position.getCellsAround(noisePower);
+            foreach (var affectedCell in affectedCells) {
+                gridManager.myGrid[affectedCell].Highlight = Highlight.NORMAL;
+            }
         }
     }
 }

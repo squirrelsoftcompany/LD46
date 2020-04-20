@@ -52,5 +52,6 @@ MonoBehaviour:
   hover: {r: 0.04601282, g: 0.8027145, b: 0.8867924, a: 1}
   normal: {r: 1, g: 1, b: 1, a: 1}
   current: {r: 0.617, g: 0, b: 0.5575287, a: 1}
-  meshRenderer: {fileID: 0}
   invalid: {r: 1, g: 0, b: 0, a: 1}
+  affected: {r: 0.9339623, g: 0.81349844, b: 0, a: 1}
+  meshRenderer: {fileID: 0}

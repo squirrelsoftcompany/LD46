@@ -1,3 +1,4 @@
+using System.Collections.Generic;
 using UnityEngine;
 
 namespace hex {
@@ -22,6 +23,14 @@ namespace hex {
             var diffX = myPosition.X - pivotPosition.X;
             var diffZ = myPosition.Z - pivotPosition.Z;
             return new HexCoordinates(pivotPosition.X - diffX, pivotPosition.Z - diffZ);
+        }
+
+        public static List<HexCoordinates> getCellsAround(this HexCoordinates hexCoordinates, int radius) {
+            // TODO get cells around in a radius of radius 
+            Debug.LogError("getCellsAround not implemented!!!");
+            var around = new List<HexCoordinates> {hexCoordinates, hexCoordinates.Xplus(), hexCoordinates.Xminus()};
+            return around;
+            // throw new NotImplementedException("TODO");
         }
     }
 }
