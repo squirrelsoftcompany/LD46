@@ -16,6 +16,9 @@ namespace hex {
         [SerializeField] private int height = 6;
 
         [SerializeField] private List<Building> _buildings = default;
+        [SerializeField] private List<Building> _lakes = default;
+        [SerializeField] private List<Ground> _grounds = default;
+        [SerializeField] private List<Props> _props = default;
 
         [SerializeField] private NavMeshSurface navMeshSurface = default;
  
@@ -25,9 +28,10 @@ namespace hex {
         private void Awake() {
             mainCamera = Camera.main;
 
-            _grid = new Grid(width, height, cellPrefab.gameObject, cellsGameObject.transform);
+            //_grid = new Grid(width, height, cellPrefab.gameObject, cellsGameObject.transform);
+            _grid = new Grid();
 
-            var generator = new GridGenerator(_grid, _buildings);
+            var generator = new GridGenerator(_grid, _buildings, _lakes, _grounds, _props, width, height, cellPrefab, cellsGameObject.transform);
             generator.Generate();
             navMeshSurface.BuildNavMesh();
         }
