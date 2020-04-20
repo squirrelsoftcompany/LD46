@@ -115,6 +115,7 @@ MonoBehaviour:
   tooltip: {fileID: 297967416337922607}
   noisePower: 3
   distanceTransfer: 1
+  maxWeight: 10
 --- !u!114 &5124533090027936446
 MonoBehaviour:
   m_ObjectHideFlags: 0
@@ -181,6 +182,37 @@ MonoBehaviour:
         m_Calls:
         - m_Target: {fileID: 5124533090027936447}
           m_MethodName: onClickedCamelTransfer
+          m_Mode: 0
+          m_Arguments:
+            m_ObjectArgument: {fileID: 0}
+            m_ObjectArgumentAssemblyTypeName: UnityEngine.Object, UnityEngine
+            m_IntArgument: 0
+            m_FloatArgument: 0
+            m_StringArgument: 
+            m_BoolArgument: 0
+          m_CallState: 2
+  - name: On clicked Building
+    gameEvent: {fileID: 11400000, guid: c9c9bc10c05ff08458bce34a13ddeec2, type: 2}
+    response:
+      m_PersistentCalls:
+        m_Calls: []
+    responseForSentString:
+      m_PersistentCalls:
+        m_Calls: []
+    responseForSentInt:
+      m_PersistentCalls:
+        m_Calls: []
+    responseForSentFloat:
+      m_PersistentCalls:
+        m_Calls: []
+    responseForSentBool:
+      m_PersistentCalls:
+        m_Calls: []
+    responseForSentMonoBehaviour:
+      m_PersistentCalls:
+        m_Calls:
+        - m_Target: {fileID: 5124533090027936447}
+          m_MethodName: onClickedBuilding
           m_Mode: 0
           m_Arguments:
             m_ObjectArgument: {fileID: 0}
@@ -462,7 +494,7 @@ PrefabInstance:
     - target: {fileID: 7726263618734234047, guid: 3cf1173174076fd4db488a3bf2c5d094,
         type: 3}
       propertyPath: m_LocalRotation.x
-      value: 0.040897336
+      value: 0.040897362
       objectReference: {fileID: 0}
     - target: {fileID: 7726263618734234047, guid: 3cf1173174076fd4db488a3bf2c5d094,
         type: 3}
@@ -477,7 +509,7 @@ PrefabInstance:
     - target: {fileID: 7726263618734234047, guid: 3cf1173174076fd4db488a3bf2c5d094,
         type: 3}
       propertyPath: m_LocalRotation.w
-      value: 0.35835958
+      value: 0.3583596
       objectReference: {fileID: 0}
     - target: {fileID: 7726263618826266979, guid: 3cf1173174076fd4db488a3bf2c5d094,
         type: 3}

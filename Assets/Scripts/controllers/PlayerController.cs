@@ -1,4 +1,6 @@
-﻿using GameEventSystem;
+﻿using System.Linq;
+using district;
+using GameEventSystem;
 using hex;
 using JetBrains.Annotations;
 using UnityEngine;
@@ -27,6 +29,10 @@ namespace controllers {
         private Flee enemies;
         [SerializeField] private int distanceTransfer = 1;
         private Census census;
+        [SerializeField] private int food, water;
+        [SerializeField] private int maxWeight = 10;
+        [SerializeField] private int distanceFouille = 1;
+        private bool isFull => water + food >= maxWeight;
 
         private void Awake() {
             characterMovement = GetComponent<CharacterMovement>();
@@ -86,25 +92,52 @@ namespace controllers {
             return census.isOccupiedCell(cellCoordinates);
         }
 
-        private void doTransfer(CamelController camel) {
-            // TODO transfer to camel
-            Debug.LogError("Transfer to camel not implemented: TODO");
+        private void doTransfer() {
+            // transfer to camel
+            InventoryManager.Instance.addFood(food);
+            food = 0;
+            InventoryManager.Instance.addWater(water);
+            water = 0;
+            Debug.Log("Transfer to camel");
         }
 
         [UsedImplicitly]
         public void onClickedCamelTransfer(MonoBehaviour camel) {
             if (!myTurn) return;
             Debug.Log("[Player] click on camel! we want a transfer");
-            var camelController = camel.GetComponent<CamelController>();
-            var camelPos = camelController.Position;
+            var camelPos = camel.GetComponent<CamelController>().Position;
             if (characterMovement.Position.DistanceTo(camelPos) > distanceTransfer) {
                 // Camel is too far 
                 return;
             }
 
             myTurn = false;
-            doTransfer(camelController);
+            doTransfer();
             Debug.Log("[Player] finished");
+            turnFinished.Raise();
+        }
+
+        public void onClickedBuilding(MonoBehaviour building) {
+            if (!myTurn) return;
+            var buildingInventory = building.GetComponent<BuildingInventory>();
+
+            if (characterMovement.Position.DistanceTo(buildingInventory.Coordinates) > distanceFouille) {
+                // Building is too far
+                // TODO play error sound
+                return;
+            }
+
+            if (isFull) {
+                // can't take, too far
+                // TODO play error sound
+                return;
+            }
+
+            myTurn = false;
+            water += buildingInventory.takeWaterUntil(maxWeight - food - water);
+            food += buildingInventory.takeFoodUntil(maxWeight - food - water);
+            // TODO trigger take food animation, and call raise at the end of anim
+
             turnFinished.Raise();
         }
 
@@ -133,7 +166,8 @@ namespace controllers {
         private void OnMouseEnter() {
             tooltip.SetActive(true);
             enemies.displayNoise(noisePower, characterMovement.Position, true);
-            var affectedCells = characterMovement.Position.GetDiskAround((uint) noisePower);
+            var affectedCells = characterMovement.Position.GetDiskAround((uint) noisePower)
+                .Where(coordinates => gridManager.myGrid[coordinates] != null);
             foreach (var affectedCell in affectedCells) {
                 gridManager.myGrid[affectedCell].Highlight = Highlight.AFFECTED;
             }
@@ -142,7 +176,8 @@ namespace controllers {
         private void OnMouseExit() {
             tooltip.SetActive(false);
             enemies.displayNoise(noisePower, characterMovement.Position, false);
-            var affectedCells = characterMovement.Position.GetDiskAround((uint) noisePower);
+            var affectedCells = characterMovement.Position.GetDiskAround((uint) noisePower)
+                .Where(coordinates => gridManager.myGrid[coordinates] != null);
             foreach (var affectedCell in affectedCells) {
                 gridManager.myGrid[affectedCell].Highlight = Highlight.NORMAL;
             }
