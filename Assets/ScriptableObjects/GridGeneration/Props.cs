@@ -7,6 +7,6 @@ namespace GridGeneration
     [CreateAssetMenu(fileName = "Props", menuName = "ScriptableObject/GridGeneration/Props")]
     public class Props : ScriptableObject
     {
-        public List<GameObject> objects;
+        public List<GameObject> props;
     }
 }
