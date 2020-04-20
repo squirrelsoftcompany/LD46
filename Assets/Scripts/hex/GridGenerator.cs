@@ -49,7 +49,7 @@ public class GridGenerator
         GenerateGroundAreas();
         GenerateWaterAreas();
         GenerateBuildings();
-        //GenerateProps();
+        GenerateProps();
     }
 
     // Areas
@@ -116,7 +116,17 @@ public class GridGenerator
 
     public void GenerateProps()
     {
-
+        var propsCount = (_width + _height) / 2;
+        propsCount = propsCount / 1;
+        for (int i = 0; i < propsCount; i++)
+        {
+            var c = _grid.InternalGrid.ElementAt(Random.Range(0, _grid.InternalGrid.Count)).Key;
+            while (!_grid.CellAvailable(c))
+            {
+                c = _grid.InternalGrid.ElementAt(Random.Range(0, _grid.InternalGrid.Count)).Key;
+            }
+            GenerateTopping(choose(choose(_props).props), c, Random.Range(0, 360));
+        }
     }
 
     // Single Area
