@@ -228,9 +228,13 @@ public class GridGenerator
         
         hex.HexCell cell = InitCell(coordinates);
         cell.ground = GenerateSomething(water, cell.transform, rotation);
+        cell.type = hex.GroundType.WATER;
+        cell.gameObject.layer = LayerMask.NameToLayer("Water");
+
         cell.topping = new GameObject(); // fill with an empty go
         cell.topping.transform.parent = cell.transform;
-        cell.type = hex.GroundType.WATER;
+        cell.topping.layer = LayerMask.NameToLayer("Water");
+
         cell.initMesh();
     }
 
