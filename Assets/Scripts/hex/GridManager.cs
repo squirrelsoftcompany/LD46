@@ -1,4 +1,5 @@
 using System.Collections.Generic;
+using System.Linq;
 using GameEventSystem;
 using GridGeneration;
 using UnityEngine;
@@ -9,7 +10,7 @@ namespace hex {
 
     public class GridManager : MonoBehaviour {
         private Grid _grid;
-        
+
 
         [SerializeField] private GameObject cellsGameObject = default;
         [SerializeField] private HexCell cellPrefab = default;
@@ -22,8 +23,9 @@ namespace hex {
         [SerializeField] private List<Props> _props = default;
 
         [SerializeField] private NavMeshSurface navMeshSurface = default;
- 
+
         [SerializeField] private GameEvent clickedCell = default;
+
         // [SerializeField]private GameObject planeCollisions = default;
         private Camera mainCamera;
 
@@ -35,7 +37,8 @@ namespace hex {
             //_grid = new Grid(width, height, cellPrefab.gameObject, cellsGameObject.transform);
             _grid = new Grid();
 
-            var generator = new GridGenerator(myGrid, _buildings, _lakes, _grounds, _props, width, height, cellPrefab, cellsGameObject.transform);
+            var generator = new GridGenerator(myGrid, _buildings, _lakes, _grounds, _props, width, height, cellPrefab,
+                cellsGameObject.transform);
             generator.Generate();
             navMeshSurface.BuildNavMesh();
             // planeCollisions.transform.localScale = new Vector3(width * HexMetrics.innerRadius, 1, 
@@ -50,13 +53,16 @@ namespace hex {
         //     }
         // }
 
-        private void OnDrawGizmos()
-        {
+        private void OnDrawGizmos() {
             Gizmos.color = Color.yellow;
-            Gizmos.DrawLine(HexCoordinates.FromOffsetCoordinates(0,0).ToPosition(), HexCoordinates.FromOffsetCoordinates(0, height-1).ToPosition());
-            Gizmos.DrawLine(HexCoordinates.FromOffsetCoordinates(0,0).ToPosition(), HexCoordinates.FromOffsetCoordinates(width-1, 0).ToPosition());
-            Gizmos.DrawLine(HexCoordinates.FromOffsetCoordinates(width-1,height-1).ToPosition(), HexCoordinates.FromOffsetCoordinates(0, height-1).ToPosition());
-            Gizmos.DrawLine(HexCoordinates.FromOffsetCoordinates(width-1,height-1).ToPosition(), HexCoordinates.FromOffsetCoordinates(width-1, 0).ToPosition());
+            Gizmos.DrawLine(HexCoordinates.FromOffsetCoordinates(0, 0).ToPosition(),
+                HexCoordinates.FromOffsetCoordinates(0, height - 1).ToPosition());
+            Gizmos.DrawLine(HexCoordinates.FromOffsetCoordinates(0, 0).ToPosition(),
+                HexCoordinates.FromOffsetCoordinates(width - 1, 0).ToPosition());
+            Gizmos.DrawLine(HexCoordinates.FromOffsetCoordinates(width - 1, height - 1).ToPosition(),
+                HexCoordinates.FromOffsetCoordinates(0, height - 1).ToPosition());
+            Gizmos.DrawLine(HexCoordinates.FromOffsetCoordinates(width - 1, height - 1).ToPosition(),
+                HexCoordinates.FromOffsetCoordinates(width - 1, 0).ToPosition());
         }
 
         private void Update() {
@@ -82,6 +88,12 @@ namespace hex {
             var cell = myGrid[coordinates];
             if (cell && cell.Highlight != Highlight.CURRENT_ACTION) {
                 cell.Highlight = Highlight.HIGHLIGHTED;
+            }
+
+            foreach (var hexCoordinates in _grid.Keys.Where(hexCoordinates =>
+                !coordinates.Equals(hexCoordinates)
+                && _grid[hexCoordinates].Highlight == Highlight.HIGHLIGHTED)) {
+                _grid[hexCoordinates].Highlight = Highlight.NORMAL;
             }
 
             return cell;
