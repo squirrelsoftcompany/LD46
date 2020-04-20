@@ -13,13 +13,13 @@ MonoBehaviour:
   m_Name: BuildingZero
   m_EditorClassIdentifier: 
   doors:
-  - {fileID: 2660041394335368840, guid: 1fe1b2ddb554b9746960fed76256a0af, type: 3}
+  - {fileID: 7556737467141605663, guid: 1fe1b2ddb554b9746960fed76256a0af, type: 3}
   walls:
   - {fileID: 2787035555780932724, guid: d44be9d32506ca34e8df23fa9ccf008c, type: 3}
-  - {fileID: 2640116521322652034, guid: 0f55c2bfa03d58a4ea17641484ed2325, type: 3}
-  - {fileID: 8194284433445440969, guid: fc86e61d9ba67a2438f97a7294113211, type: 3}
+  - {fileID: 4579415995748046760, guid: 0f55c2bfa03d58a4ea17641484ed2325, type: 3}
+  - {fileID: 4594961230546841762, guid: fc86e61d9ba67a2438f97a7294113211, type: 3}
   cornersConvex:
-  - {fileID: 2982926456014633402, guid: 1eb09ce224320004ba26febe127cf688, type: 3}
+  - {fileID: 7448904432560333787, guid: 1eb09ce224320004ba26febe127cf688, type: 3}
   cornersConcave: []
   inside:
   - {fileID: 1938754233784009336, guid: 10a49e9bc40d74041ab57ab36b94a6d4, type: 3}

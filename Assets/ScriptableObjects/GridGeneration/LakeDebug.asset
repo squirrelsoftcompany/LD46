@@ -13,11 +13,11 @@ MonoBehaviour:
   m_Name: LakeDebug
   m_EditorClassIdentifier: 
   doors:
-  - {fileID: 1176796502764887017, guid: 3503612759179be4281e82f2289a726a, type: 3}
+  - {fileID: 1176796502764887017, guid: 7d0d22a78f33d4b4aa41b7c2f6f789d9, type: 3}
   walls:
-  - {fileID: 1176796502764887017, guid: 3503612759179be4281e82f2289a726a, type: 3}
+  - {fileID: 1176796502764887017, guid: 7d0d22a78f33d4b4aa41b7c2f6f789d9, type: 3}
   cornersConvex:
-  - {fileID: 1176796502764887017, guid: 3503612759179be4281e82f2289a726a, type: 3}
+  - {fileID: 1176796502764887017, guid: 7d0d22a78f33d4b4aa41b7c2f6f789d9, type: 3}
   cornersConcave: []
   inside:
-  - {fileID: 1176796502764887017, guid: 3503612759179be4281e82f2289a726a, type: 3}
+  - {fileID: 1176796502764887017, guid: 7d0d22a78f33d4b4aa41b7c2f6f789d9, type: 3}

@@ -35,7 +35,7 @@ RectTransform:
   m_AnchorMin: {x: 0.5, y: 0.5}
   m_AnchorMax: {x: 0.5, y: 0.5}
   m_AnchoredPosition: {x: 0, y: 0}
-  m_SizeDelta: {x: 2, y: 2}
+  m_SizeDelta: {x: 2.8, y: 2}
   m_Pivot: {x: 0.5, y: 0.5}
 --- !u!222 &1783358911201077449
 CanvasRenderer:
@@ -155,23 +155,20 @@ MonoBehaviour:
   - {fileID: 0}
   m_baseMaterial: {fileID: 0}
   m_maskOffset: {x: 0, y: 0, z: 0, w: 0}
---- !u!114 &5399720378078286423
-MonoBehaviour:
+--- !u!64 &8521185866087797663
+MeshCollider:
   m_ObjectHideFlags: 0
   m_CorrespondingSourceObject: {fileID: 0}
   m_PrefabInstance: {fileID: 0}
   m_PrefabAsset: {fileID: 0}
-  m_GameObject: {fileID: 7556737467141605663}
+  m_GameObject: {fileID: 4094517667030150274}
+  m_Material: {fileID: 0}
+  m_IsTrigger: 0
   m_Enabled: 1
-  m_EditorHideFlags: 0
-  m_Script: {fileID: 11500000, guid: 17accb1b51db43c2bff234872fa6f992, type: 3}
-  m_Name: 
-  m_EditorClassIdentifier: 
-  food: 5
-  water: 5
-  hoveredColor: {r: 0, g: 1, b: 0, a: 1}
-  tooltip: {fileID: 6368498116120652834}
-  clickedBuilding: {fileID: 11400000, guid: c9c9bc10c05ff08458bce34a13ddeec2, type: 2}
+  serializedVersion: 4
+  m_Convex: 0
+  m_CookingOptions: 30
+  m_Mesh: {fileID: -2432090755550338912, guid: 2f218384e4208ea4f88dad9ac77b699a, type: 3}
 --- !u!1 &6368498116120652834
 GameObject:
   m_ObjectHideFlags: 0
@@ -359,20 +356,23 @@ Light:
   m_UseBoundingSphereOverride: 0
   m_ShadowRadius: 0
   m_ShadowAngle: 0
---- !u!64 &8521185866087797663
-MeshCollider:
+--- !u!114 &5399720378078286423
+MonoBehaviour:
   m_ObjectHideFlags: 0
   m_CorrespondingSourceObject: {fileID: 0}
   m_PrefabInstance: {fileID: 0}
   m_PrefabAsset: {fileID: 0}
-  m_GameObject: {fileID: 4094517667030150274}
-  m_Material: {fileID: 0}
-  m_IsTrigger: 0
+  m_GameObject: {fileID: 7556737467141605663}
   m_Enabled: 1
-  serializedVersion: 4
-  m_Convex: 0
-  m_CookingOptions: 30
-  m_Mesh: {fileID: -2432090755550338912, guid: 2f218384e4208ea4f88dad9ac77b699a, type: 3}
+  m_EditorHideFlags: 0
+  m_Script: {fileID: 11500000, guid: 17accb1b51db43c2bff234872fa6f992, type: 3}
+  m_Name: 
+  m_EditorClassIdentifier: 
+  food: 5
+  water: 5
+  hoveredColor: {r: 0, g: 1, b: 0, a: 1}
+  tooltip: {fileID: 6368498116120652834}
+  clickedBuilding: {fileID: 11400000, guid: c9c9bc10c05ff08458bce34a13ddeec2, type: 2}
 --- !u!1001 &164336992199734012
 PrefabInstance:
   m_ObjectHideFlags: 0
