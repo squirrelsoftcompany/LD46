@@ -11,6 +11,7 @@ namespace controllers {
         [SerializeField] private HexCoordinates position = default;
         private NavMeshAgent navMeshAgent;
         private const float EPSILON = 0.01f;
+        private static readonly float STOPPING_DISTANCE_PRECISE = 1.realDistanceFromHexDistance() / 5;
 
         public HexCoordinates Position => position;
 
@@ -30,10 +31,12 @@ namespace controllers {
             onFinishedAction?.Invoke();
         }
 
-        public void navigateTo(Vector3 targetPosition, float realMaxDistance, Action onFinished) {
+        public void navigateTo(Vector3 targetPosition, float realMaxDistance, float stoppingDistanceTarget,
+            Action onFinished) {
             var distanceSoFar = 0f;
             // Go follow your dream!
             var path = new NavMeshPath();
+            navMeshAgent.stoppingDistance = stoppingDistanceTarget;
             navMeshAgent.CalculatePath(targetPosition, path);
             for (var i = 0; i < path.corners.Length - 1; i++) {
                 var lastSegmentVector = (path.corners[i + 1] - path.corners[i]);
@@ -41,11 +44,10 @@ namespace controllers {
 
                 if (distanceSoFar + vectorDistance <= realMaxDistance) {
                     distanceSoFar += vectorDistance;
-                    if (i == path.corners.Length - 2) {
-                        // This is the end, so go to target directly
-                        navMeshAgent.SetPath(path);
-                        break;
-                    }
+                    if (i != path.corners.Length - 2) continue;
+                    // This is the end, so go to target directly
+                    navMeshAgent.SetPath(path);
+                    break;
                 } else {
                     // Path length exceeds maxDist
                     var finalPoint = path.corners[i] + lastSegmentVector.normalized * (realMaxDistance - distanceSoFar);
@@ -70,6 +72,7 @@ namespace controllers {
             position = HexCoordinates.FromPosition(transform.position);
             var centerCell = position.ToPosition();
             if ((transform.position - centerCell).sqrMagnitude > EPSILON) {
+                navMeshAgent.stoppingDistance = STOPPING_DISTANCE_PRECISE;
                 navMeshAgent.SetDestination(position.ToPosition()); // center in cell
                 StartCoroutine(sendFinishedWhenNavMeshArrives(onFinished));
             } else {
@@ -89,6 +92,7 @@ namespace controllers {
                 // The destination is not yet reached
                 yield return null;
             }
+
             navMeshAgent.isStopped = true;
             // Reached destination
             onFinished?.Invoke();

@@ -1,4 +1,3 @@
-﻿using System;
 using GameEventSystem;
 using hex;
 using JetBrains.Annotations;
@@ -20,6 +19,7 @@ namespace controllers {
         private bool myTurn = true;
         private Animator animator;
         private NavMeshAgent navMeshAgent;
+        private static readonly float STOPPING_DISTANCE_TARGET = 1.realDistanceFromHexDistance() / 4;
         private static readonly int STOP = Animator.StringToHash("stop");
         private static readonly int WALK = Animator.StringToHash("walk");
         private static readonly int NOISE = Animator.StringToHash("noise");
@@ -70,6 +70,7 @@ namespace controllers {
             animator.SetTrigger(WALK);
             characterMovement.navigateTo(hexCell.coordinates.ToPosition(),
                 ((int) maxDistance).realDistanceFromHexDistance(),
+                STOPPING_DISTANCE_TARGET,
                 () => {
                     animator.SetTrigger(STOP);
                     hexCell.Highlight = Highlight.NORMAL;

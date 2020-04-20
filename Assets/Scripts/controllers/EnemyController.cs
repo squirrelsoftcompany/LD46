@@ -16,7 +16,9 @@ namespace controllers {
         [SerializeField] private int maxDistanceTravel = 1;
         [SerializeField] private int maxDistanceFlee = 1;
         [SerializeField] private float speedAnimation = 4;
+        [SerializeField] private Color colorAffected = new Color32(255, 127, 0, 255);
 
+        private static readonly float STOPPING_DISTANCE_TARGET = 1.realDistanceFromHexDistance();
         private CharacterMovement characterMovement;
         private NavMeshAgent navMeshAgent;
         private LifeGauge lifeOfMyEnemy;
@@ -70,6 +72,7 @@ namespace controllers {
             characterMovement.navigateTo(
                 targetPosition: targetPos,
                 realMaxDistance: maxDistanceTravel.realDistanceFromHexDistance(),
+                stoppingDistanceTarget: STOPPING_DISTANCE_TARGET,
                 onFinished: () => {
                     Debug.Log("[Enemy] finished");
                     finishedTurn.Raise();
@@ -79,7 +82,8 @@ namespace controllers {
         private void doFlee() {
             Debug.Log("[Enemy] flee");
             characterMovement.navigateTo(
-                fleeTarget.ToPosition(), maxDistanceFlee.realDistanceFromHexDistance(), () => {
+                fleeTarget.ToPosition(), maxDistanceFlee.realDistanceFromHexDistance(),
+                STOPPING_DISTANCE_TARGET, () => {
                     Debug.Log("[Enemy] finished");
                     // Only flee for one turn
                     fleeing = false;
@@ -107,7 +111,7 @@ namespace controllers {
             if (characterMovement.Position.DistanceTo(originSound) <= noisePower && enable) {
                 // affected
                 foreach (var meshRenderer in meshRenderers) {
-                    meshRenderer.material.color = Color.red;
+                    meshRenderer.material.color = colorAffected;
                 }
             } else {
                 foreach (var meshRenderer in meshRenderers) {
