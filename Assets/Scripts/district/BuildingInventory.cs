@@ -1,5 +1,7 @@
+using System;
 using GameEventSystem;
 using hex;
+using TMPro;
 using UnityEngine;
 
 namespace district {
@@ -8,8 +10,10 @@ namespace district {
         [SerializeField] private Color hoveredColor = Color.green;
         private MeshRenderer model;
         private Camera mainCamera;
+        [SerializeField] private GameObject tooltip;
         private GameObject childObject;
         [SerializeField] private GameEvent clickedBuilding;
+        private TMP_Text text;
 
         public HexCoordinates Coordinates { get; private set; }
 
@@ -18,12 +22,19 @@ namespace district {
             childObject = model.gameObject;
             mainCamera = Camera.main;
             Coordinates = HexCoordinates.FromPosition(transform.position);
+            text = tooltip.GetComponentInChildren<TMP_Text>();
+            setInventoryText();
         }
 
         public void initFoodWaterPosition(int iFood, int iWater, HexCoordinates iCoordinates) {
             food = iFood;
             water = iWater;
             Coordinates = iCoordinates;
+            setInventoryText();
+        }
+
+        private void setInventoryText() {
+            text.text = "Food:\t\t" + food + "\nWater:\t" + water;
         }
 
         private void Update() {
@@ -32,36 +43,34 @@ namespace district {
             var hitObject = hit.transform.gameObject;
             if (hitObject.Equals(gameObject) || hitObject.Equals(childObject)) {
                 // We hovered this
-                model.material.color = hoveredColor;
+                if (!tooltip.activeSelf) {
+                    tooltip.SetActive(true);
+                    model.material.color = hoveredColor;
+                }
+
                 if (!Input.GetMouseButton(0)) return;
                 clickedBuilding.sentMonoBehaviour = this;
                 clickedBuilding.Raise();
             } else {
+                if (!tooltip.activeSelf) return;
+                tooltip.SetActive(false);
                 model.material.color = Color.white;
             }
         }
 
         public int takeFoodUntil(int maxFood) {
-            int res;
-            if (maxFood > food) {
-                res = food;
-            } else {
-                res = food - maxFood;
-            }
+            var res = Math.Min(maxFood, food);
 
             food -= res;
+            setInventoryText();
             return res;
         }
 
         public int takeWaterUntil(int maxWater) {
-            int res;
-            if (maxWater > water) {
-                res = water;
-            } else {
-                res = water - maxWater;
-            }
+            var res = Math.Min(maxWater, water);
 
             water -= res;
+            setInventoryText();
             return res;
         }
     }

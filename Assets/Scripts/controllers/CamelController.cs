@@ -1,6 +1,7 @@
 using GameEventSystem;
 using hex;
 using JetBrains.Annotations;
+using TMPro;
 using UnityEngine;
 using UnityEngine.AI;
 
@@ -17,6 +18,7 @@ namespace controllers {
         [SerializeField] private float animationSpeed = 4;
         [SerializeField] private int everyNTurns = 2;
         [SerializeField] private GameObject tooltip = default;
+        private TMP_Text text;
         private int currentNbTurns = 0;
 
         private float realMaxDistance;
@@ -45,10 +47,17 @@ namespace controllers {
             animator = GetComponentInChildren<Animator>();
             realMaxDistance = maxDistance.realDistanceFromHexDistance();
 
+            text = tooltip.GetComponentInChildren<TMP_Text>();
             navMeshAgent = GetComponent<NavMeshAgent>();
             navMeshAgent.speed = animationSpeed;
             navMeshAgent.stoppingDistance = 1.realDistanceFromHexDistance();
+            setInventoryText();
         }
+
+        private void setInventoryText() {
+            text.text = "Food:\t\t" + InventoryManager.Instance.Food + "\nWater:\t" + InventoryManager.Instance.Water;
+        }
+
 
         [UsedImplicitly]
         // Used by the turn manager
@@ -75,9 +84,11 @@ namespace controllers {
         private void OnMouseDown() {
             camelClicked.sentMonoBehaviour = this;
             camelClicked.Raise();
+            setInventoryText();
         }
 
         private void OnMouseEnter() {
+            setInventoryText();
             tooltip.SetActive(true);
         }
 

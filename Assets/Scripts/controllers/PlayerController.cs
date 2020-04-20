@@ -105,6 +105,7 @@ namespace controllers {
             food = 0;
             InventoryManager.Instance.addWater(water);
             water = 0;
+            setInventoryText();
             Debug.Log("Transfer to camel");
         }
 
