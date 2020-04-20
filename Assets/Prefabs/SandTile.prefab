@@ -9,7 +9,7 @@ GameObject:
   serializedVersion: 6
   m_Component:
   - component: {fileID: 1891366406951682483}
-  m_Layer: 0
+  m_Layer: 8
   m_Name: SandTile
   m_TagString: Untagged
   m_Icon: {fileID: 0}
@@ -42,7 +42,7 @@ GameObject:
   - component: {fileID: 8237546026474672779}
   - component: {fileID: 8651807395324937816}
   - component: {fileID: 86630752261614248}
-  m_Layer: 0
+  m_Layer: 8
   m_Name: default
   m_TagString: Untagged
   m_Icon: {fileID: 0}

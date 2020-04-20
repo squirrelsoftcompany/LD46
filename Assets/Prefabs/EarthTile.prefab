@@ -9,7 +9,7 @@ GameObject:
   serializedVersion: 6
   m_Component:
   - component: {fileID: 1623044583798311493}
-  m_Layer: 0
+  m_Layer: 8
   m_Name: EarthTile
   m_TagString: Untagged
   m_Icon: {fileID: 0}
@@ -42,7 +42,7 @@ GameObject:
   - component: {fileID: 9144816043706407293}
   - component: {fileID: 8406014018185924014}
   - component: {fileID: 975746197596692830}
-  m_Layer: 0
+  m_Layer: 8
   m_Name: default
   m_TagString: Untagged
   m_Icon: {fileID: 0}

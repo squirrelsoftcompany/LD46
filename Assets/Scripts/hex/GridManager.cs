@@ -1,3 +1,4 @@
+using System;
 using System.Collections.Generic;
 using System.Linq;
 using GameEventSystem;
@@ -40,9 +41,13 @@ namespace hex {
             var generator = new GridGenerator(myGrid, _buildings, _lakes, _grounds, _props, width, height, cellPrefab,
                 cellsGameObject.transform);
             generator.Generate();
-            navMeshSurface.BuildNavMesh();
+            // navMeshSurface.BuildNavMesh();
             // planeCollisions.transform.localScale = new Vector3(width * HexMetrics.innerRadius, 1, 
             //     height*HexMetrics.outerRadius);
+        }
+
+        private void Start() {
+            navMeshSurface.BuildNavMesh();
         }
 
         // private void OnDrawGizmos() {
