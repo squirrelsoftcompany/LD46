@@ -11,7 +11,7 @@ GameObject:
   - component: {fileID: 5101387700077084597}
   - component: {fileID: 5101387700077084596}
   - component: {fileID: 7821492208541999851}
-  m_Layer: 0
+  m_Layer: 10
   m_Name: CamelVisual
   m_TagString: Untagged
   m_Icon: {fileID: 0}
@@ -74,6 +74,8 @@ MonoBehaviour:
   maxDistance: 0
   animationSpeed: 0
   everyNTurns: 2
+  tooltip: {fileID: 0}
+  camelClicked: {fileID: 0}
 --- !u!1001 &5101387699147041529
 PrefabInstance:
   m_ObjectHideFlags: 0
@@ -145,6 +147,16 @@ PrefabInstance:
         type: 3}
       propertyPath: m_Name
       value: CamelLegBR
+      objectReference: {fileID: 0}
+    - target: {fileID: -927199367670048503, guid: d85e59e14fa04cf4dad6d269c3923eb0,
+        type: 3}
+      propertyPath: m_Layer
+      value: 10
+      objectReference: {fileID: 0}
+    - target: {fileID: 2534866581884222612, guid: d85e59e14fa04cf4dad6d269c3923eb0,
+        type: 3}
+      propertyPath: m_Layer
+      value: 10
       objectReference: {fileID: 0}
     m_RemovedComponents: []
   m_SourcePrefab: {fileID: 100100000, guid: d85e59e14fa04cf4dad6d269c3923eb0, type: 3}
@@ -226,6 +238,16 @@ PrefabInstance:
       propertyPath: m_Name
       value: CamelBody
       objectReference: {fileID: 0}
+    - target: {fileID: -927199367670048503, guid: 3ab70d85663a2084fa06856345661d5a,
+        type: 3}
+      propertyPath: m_Layer
+      value: 10
+      objectReference: {fileID: 0}
+    - target: {fileID: 2534866581884222612, guid: 3ab70d85663a2084fa06856345661d5a,
+        type: 3}
+      propertyPath: m_Layer
+      value: 10
+      objectReference: {fileID: 0}
     m_RemovedComponents: []
   m_SourcePrefab: {fileID: 100100000, guid: 3ab70d85663a2084fa06856345661d5a, type: 3}
 --- !u!4 &266119038820625140 stripped
@@ -305,6 +327,16 @@ PrefabInstance:
         type: 3}
       propertyPath: m_Name
       value: CamelNeck
+      objectReference: {fileID: 0}
+    - target: {fileID: -927199367670048503, guid: 738039e447c045a4b9db7eff3071d891,
+        type: 3}
+      propertyPath: m_Layer
+      value: 10
+      objectReference: {fileID: 0}
+    - target: {fileID: 2534866581884222612, guid: 738039e447c045a4b9db7eff3071d891,
+        type: 3}
+      propertyPath: m_Layer
+      value: 10
       objectReference: {fileID: 0}
     m_RemovedComponents: []
   m_SourcePrefab: {fileID: 100100000, guid: 738039e447c045a4b9db7eff3071d891, type: 3}
@@ -386,6 +418,16 @@ PrefabInstance:
       propertyPath: m_Name
       value: CamelHead
       objectReference: {fileID: 0}
+    - target: {fileID: -927199367670048503, guid: a9226cd9463d4724dbe413f25a32abab,
+        type: 3}
+      propertyPath: m_Layer
+      value: 10
+      objectReference: {fileID: 0}
+    - target: {fileID: 2534866581884222612, guid: a9226cd9463d4724dbe413f25a32abab,
+        type: 3}
+      propertyPath: m_Layer
+      value: 10
+      objectReference: {fileID: 0}
     m_RemovedComponents: []
   m_SourcePrefab: {fileID: 100100000, guid: a9226cd9463d4724dbe413f25a32abab, type: 3}
 --- !u!1001 &5101387700576019686
@@ -459,6 +501,16 @@ PrefabInstance:
         type: 3}
       propertyPath: m_Name
       value: CamelLegBL
+      objectReference: {fileID: 0}
+    - target: {fileID: -927199367670048503, guid: 3a33c46e55f55d94fb115b0dd0e09f7d,
+        type: 3}
+      propertyPath: m_Layer
+      value: 10
+      objectReference: {fileID: 0}
+    - target: {fileID: 2534866581884222612, guid: 3a33c46e55f55d94fb115b0dd0e09f7d,
+        type: 3}
+      propertyPath: m_Layer
+      value: 10
       objectReference: {fileID: 0}
     m_RemovedComponents: []
   m_SourcePrefab: {fileID: 100100000, guid: 3a33c46e55f55d94fb115b0dd0e09f7d, type: 3}
@@ -540,6 +592,16 @@ PrefabInstance:
       propertyPath: m_Name
       value: CamelLegFR
       objectReference: {fileID: 0}
+    - target: {fileID: -927199367670048503, guid: 0a30e21f80d2f4b4698bc50df47affb1,
+        type: 3}
+      propertyPath: m_Layer
+      value: 10
+      objectReference: {fileID: 0}
+    - target: {fileID: 2534866581884222612, guid: 0a30e21f80d2f4b4698bc50df47affb1,
+        type: 3}
+      propertyPath: m_Layer
+      value: 10
+      objectReference: {fileID: 0}
     m_RemovedComponents: []
   m_SourcePrefab: {fileID: 100100000, guid: 0a30e21f80d2f4b4698bc50df47affb1, type: 3}
 --- !u!4 &266119040214024867 stripped
@@ -619,6 +681,16 @@ PrefabInstance:
         type: 3}
       propertyPath: m_Name
       value: CamelLegFL
+      objectReference: {fileID: 0}
+    - target: {fileID: -927199367670048503, guid: 43897ebb06462094986469cb900d7f20,
+        type: 3}
+      propertyPath: m_Layer
+      value: 10
+      objectReference: {fileID: 0}
+    - target: {fileID: 2534866581884222612, guid: 43897ebb06462094986469cb900d7f20,
+        type: 3}
+      propertyPath: m_Layer
+      value: 10
       objectReference: {fileID: 0}
     m_RemovedComponents: []
   m_SourcePrefab: {fileID: 100100000, guid: 43897ebb06462094986469cb900d7f20, type: 3}

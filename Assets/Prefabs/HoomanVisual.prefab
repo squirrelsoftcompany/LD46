@@ -10,7 +10,7 @@ GameObject:
   m_Component:
   - component: {fileID: 5013691587777207380}
   - component: {fileID: 5013691587777207387}
-  m_Layer: 0
+  m_Layer: 9
   m_Name: HoomanVisual
   m_TagString: Untagged
   m_Icon: {fileID: 0}
@@ -140,6 +140,16 @@ PrefabInstance:
       propertyPath: m_Name
       value: HoomanLegR
       objectReference: {fileID: 0}
+    - target: {fileID: -927199367670048503, guid: 5f073e9a12c29ee4ab4dd40d106fd5ad,
+        type: 3}
+      propertyPath: m_Layer
+      value: 9
+      objectReference: {fileID: 0}
+    - target: {fileID: 2534866581884222612, guid: 5f073e9a12c29ee4ab4dd40d106fd5ad,
+        type: 3}
+      propertyPath: m_Layer
+      value: 9
+      objectReference: {fileID: 0}
     m_RemovedComponents: []
   m_SourcePrefab: {fileID: 100100000, guid: 5f073e9a12c29ee4ab4dd40d106fd5ad, type: 3}
 --- !u!4 &67133025812403034 stripped
@@ -220,6 +230,16 @@ PrefabInstance:
       propertyPath: m_Name
       value: HoomanArmR
       objectReference: {fileID: 0}
+    - target: {fileID: -927199367670048503, guid: 0dddc2161e95d5345b37e9a33bbd623c,
+        type: 3}
+      propertyPath: m_Layer
+      value: 9
+      objectReference: {fileID: 0}
+    - target: {fileID: 2534866581884222612, guid: 0dddc2161e95d5345b37e9a33bbd623c,
+        type: 3}
+      propertyPath: m_Layer
+      value: 9
+      objectReference: {fileID: 0}
     m_RemovedComponents: []
   m_SourcePrefab: {fileID: 100100000, guid: 0dddc2161e95d5345b37e9a33bbd623c, type: 3}
 --- !u!1001 &5013691586707489947
@@ -293,6 +313,16 @@ PrefabInstance:
         type: 3}
       propertyPath: m_Name
       value: HoomanArmL
+      objectReference: {fileID: 0}
+    - target: {fileID: -927199367670048503, guid: c57525967d205f341a94e5025f1ebd97,
+        type: 3}
+      propertyPath: m_Layer
+      value: 9
+      objectReference: {fileID: 0}
+    - target: {fileID: 2534866581884222612, guid: c57525967d205f341a94e5025f1ebd97,
+        type: 3}
+      propertyPath: m_Layer
+      value: 9
       objectReference: {fileID: 0}
     m_RemovedComponents: []
   m_SourcePrefab: {fileID: 100100000, guid: c57525967d205f341a94e5025f1ebd97, type: 3}
@@ -383,6 +413,16 @@ PrefabInstance:
       propertyPath: m_Name
       value: HoomanHead
       objectReference: {fileID: 0}
+    - target: {fileID: -927199367670048503, guid: 562c81e097a43674aaa730bcb9f3bcc7,
+        type: 3}
+      propertyPath: m_Layer
+      value: 9
+      objectReference: {fileID: 0}
+    - target: {fileID: 2534866581884222612, guid: 562c81e097a43674aaa730bcb9f3bcc7,
+        type: 3}
+      propertyPath: m_Layer
+      value: 9
+      objectReference: {fileID: 0}
     m_RemovedComponents: []
   m_SourcePrefab: {fileID: 100100000, guid: 562c81e097a43674aaa730bcb9f3bcc7, type: 3}
 --- !u!1001 &5013691587442940112
@@ -472,6 +512,16 @@ PrefabInstance:
       propertyPath: m_Name
       value: HoomanLegL
       objectReference: {fileID: 0}
+    - target: {fileID: -927199367670048503, guid: 173212a99e7dc144196055543f37901f,
+        type: 3}
+      propertyPath: m_Layer
+      value: 9
+      objectReference: {fileID: 0}
+    - target: {fileID: 2534866581884222612, guid: 173212a99e7dc144196055543f37901f,
+        type: 3}
+      propertyPath: m_Layer
+      value: 9
+      objectReference: {fileID: 0}
     m_RemovedComponents: []
   m_SourcePrefab: {fileID: 100100000, guid: 173212a99e7dc144196055543f37901f, type: 3}
 --- !u!4 &67133027007804362 stripped
@@ -551,6 +601,16 @@ PrefabInstance:
         type: 3}
       propertyPath: m_Name
       value: HoomanBody
+      objectReference: {fileID: 0}
+    - target: {fileID: -927199367670048503, guid: be24f8c5218073c48bb6852a724979f9,
+        type: 3}
+      propertyPath: m_Layer
+      value: 9
+      objectReference: {fileID: 0}
+    - target: {fileID: 2534866581884222612, guid: be24f8c5218073c48bb6852a724979f9,
+        type: 3}
+      propertyPath: m_Layer
+      value: 9
       objectReference: {fileID: 0}
     m_RemovedComponents: []
   m_SourcePrefab: {fileID: 100100000, guid: be24f8c5218073c48bb6852a724979f9, type: 3}
