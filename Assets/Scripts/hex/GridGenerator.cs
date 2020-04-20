@@ -26,8 +26,10 @@ public class GridGenerator
         List<GridGeneration.Building> lakes,
         List<GridGeneration.Ground> grounds,
         List<GridGeneration.Props> props,
-        int width, int height, hex.HexCell basePrefab, Transform parent)
+        int width, int height, hex.HexCell basePrefab, Transform parent, int seed)
     {
+        Random.InitState(seed);
+
         _grid = grid;
 
         _buildings = buildings;
