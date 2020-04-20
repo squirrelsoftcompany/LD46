@@ -9,7 +9,8 @@ GameObject:
   serializedVersion: 6
   m_Component:
   - component: {fileID: 2742564594817952250}
-  m_Layer: 0
+  - component: {fileID: 4949247920259334284}
+  m_Layer: 4
   m_Name: WaterTileDebug
   m_TagString: Untagged
   m_Icon: {fileID: 0}
@@ -31,6 +32,22 @@ Transform:
   m_Father: {fileID: 0}
   m_RootOrder: 0
   m_LocalEulerAnglesHint: {x: 0, y: 0, z: 0}
+--- !u!114 &4949247920259334284
+MonoBehaviour:
+  m_ObjectHideFlags: 0
+  m_CorrespondingSourceObject: {fileID: 0}
+  m_PrefabInstance: {fileID: 0}
+  m_PrefabAsset: {fileID: 0}
+  m_GameObject: {fileID: 1176796502764887017}
+  m_Enabled: 1
+  m_EditorHideFlags: 0
+  m_Script: {fileID: 11500000, guid: 1e3fdca004f2d45fe8abbed571a8abd5, type: 3}
+  m_Name: 
+  m_EditorClassIdentifier: 
+  m_OverrideArea: 1
+  m_Area: 1
+  m_IgnoreFromBuild: 0
+  m_AffectedAgents: ffffffff
 --- !u!1 &4636623494182993524
 GameObject:
   m_ObjectHideFlags: 0
@@ -42,7 +59,7 @@ GameObject:
   - component: {fileID: 5647888012784024258}
   - component: {fileID: 4909368563898871313}
   - component: {fileID: 4396417567362908897}
-  m_Layer: 0
+  m_Layer: 4
   m_Name: default
   m_TagString: Untagged
   m_Icon: {fileID: 0}
@@ -89,7 +106,7 @@ MeshRenderer:
   m_RenderingLayerMask: 1
   m_RendererPriority: 0
   m_Materials:
-  - {fileID: 2100000, guid: eda3845558ab5bd4e98486b850e8bc58, type: 2}
+  - {fileID: 2100000, guid: 21442a591a95cb940b00dc11db5591d8, type: 2}
   m_StaticBatchInfo:
     firstSubMesh: 0
     subMeshCount: 0
