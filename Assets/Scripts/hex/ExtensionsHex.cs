@@ -1,4 +1,5 @@
 using System.Collections.Generic;
+using System.Linq;
 using UnityEngine;
 using SixWay = hex.HexCoordinates.SixWay;
 
@@ -74,6 +75,11 @@ namespace hex {
             }
 
             Debug.Assert(begin.CompareTo(current) == 0);
+
+            if (radius + offsetByAxis[0] == 0 && radius + offsetByAxis[1] == 0
+                || radius + offsetByAxis[0] == 0 && radius + offsetByAxis[2] == 0
+                || radius + offsetByAxis[1] == 0 && radius + offsetByAxis[2] == 0)
+                coords = coords.Distinct().ToList();
 
             return coords;
         }
