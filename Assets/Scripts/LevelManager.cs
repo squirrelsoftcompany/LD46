@@ -13,12 +13,12 @@ public class LevelManager : MonoBehaviour
             return mInstance;
         }
     }
-
-    [SerializeField] private int mLevelTotalNumber;
+    
+    [SerializeField] private List<Level> mLevelList;
 
     private int mLevelIndex = 0;
     public static LevelManager mInstance = null;
-    private List<Level> mLevelList;
+
     
     void Awake()
     {
@@ -26,12 +26,6 @@ public class LevelManager : MonoBehaviour
             Destroy(gameObject);
         else
             mInstance = this;
-
-        for (int i = 0;i< mLevelTotalNumber;++i)
-        {
-            mLevelList[i] = ScriptableObject.CreateInstance<Level>();
-            AssetDatabase.CreateAsset(mLevelList[i], "Assets/ScriptableObjects/Levels/Level"+i+".asset");
-        }
     }
 
     public void LoadLevel(int pLevelIndex)
