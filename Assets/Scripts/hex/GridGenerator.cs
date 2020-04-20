@@ -139,10 +139,10 @@ public class GridGenerator
     private void GenerateBuilding(GridGeneration.Building building, hex.HexCoordinates center, uint radius)
     {
         var orientation = (SixWay)Random.Range(0, 6);
-        createOffset(radius, radius-1, out var realRadius, out var offset);
-        offset[0] = (offset[0] + realRadius > 1) ? offset[0] : offset[0] = 2-realRadius;
-        GenerateConvexForm(building.walls, building.doors, building.cornersConvex, center, radius, orientation, offset, GenerateTopping);
-        GenerateFilledConvexForm(building.inside, center, radius-1, orientation, offset, GenerateTopping);
+        //createOffset(radius, radius-1, out var realRadius, out var offset);
+        uint[] offset = new uint[] { radius-1, 0, 0 };
+        GenerateConvexForm(building.walls, building.doors, building.cornersConvex, center, 1, orientation, offset, GenerateTopping);
+        GenerateFilledConvexForm(building.inside, center, 0, orientation, offset, GenerateTopping);
     }
 
     // Generic
@@ -160,7 +160,11 @@ public class GridGenerator
             for (uint i = 0; i < max-1; i++)
             {
                 if (j == 0 && i == Mathf.CeilToInt((max / 2.0f) - 1))
+                {
                     func(choose(doors), coords[current], rotation);
+                    var inventory = _grid[coords[current]]?.GetComponentInChildren<district.BuildingInventory>();
+                    inventory?.initFoodWaterPosition(30, 30);
+                }
                 else
                     func(choose(borders), coords[current], rotation);
 

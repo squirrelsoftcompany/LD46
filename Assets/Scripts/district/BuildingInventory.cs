@@ -26,10 +26,9 @@ namespace district {
             setInventoryText();
         }
 
-        public void initFoodWaterPosition(int iFood, int iWater, HexCoordinates iCoordinates) {
+        public void initFoodWaterPosition(int iFood, int iWater) {
             food = iFood;
             water = iWater;
-            Coordinates = iCoordinates;
             setInventoryText();
         }
 
