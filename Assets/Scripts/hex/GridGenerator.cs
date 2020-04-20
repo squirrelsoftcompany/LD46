@@ -104,12 +104,12 @@ public class GridGenerator
         Debug.Log(buildingCount);
         for (int i = 0; i < buildingCount; i++)
         {
-            var r = (uint)Random.Range(2, 4);
             var c = GetRandomCellFromOffset();
+            var r = (uint)Random.Range(2, 6);
             while (!checkList(_lakesPosition, c, r + 1) || !checkList(_buildingsPosition, c, r + 1))
             {
-                r = (uint)Random.Range(2, 4);
                 c = GetRandomCellFromOffset();
+                r = (uint)Random.Range(2, 6);
             }
             GenerateBuilding(choose(_buildings), c, r);
             _buildingsPosition[c] = r;
@@ -147,7 +147,6 @@ public class GridGenerator
     private void GenerateBuilding(GridGeneration.Building building, hex.HexCoordinates center, uint radius)
     {
         var orientation = (SixWay)Random.Range(0, 6);
-        //createOffset(radius, radius-1, out var realRadius, out var offset);
         uint[] offset = new uint[] { radius-1, 0, 0 };
         GenerateConvexForm(building.walls, building.doors, building.cornersConvex, center, 1, orientation, offset, GenerateTopping);
         GenerateFilledConvexForm(building.inside, center, 0, orientation, offset, GenerateTopping);
@@ -206,7 +205,7 @@ public class GridGenerator
         hex.HexCell cell = _grid[coordinates];
         if (cell == null)
             return;
-        Debug.Assert(cell.available());
+        Debug.Assert(cell.available(), coordinates);
         _grid[coordinates].topping = GenerateSomething(topping, cell.transform, rotation);
     }
 
