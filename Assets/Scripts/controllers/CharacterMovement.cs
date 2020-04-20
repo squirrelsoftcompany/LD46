@@ -59,19 +59,37 @@ namespace controllers {
             // Start to move
             navMeshAgent.isStopped = false;
             // check for destination arrived
-            StartCoroutine(sendFinishedWhenNavMeshArrives(onFinished));
+            StartCoroutine(centerPositionInCell(onFinished));
         }
 
-        private IEnumerator sendFinishedWhenNavMeshArrives(Action onFinished) {
-            while (navMeshAgent.pathPending
-                   || navMeshAgent.remainingDistance > navMeshAgent.stoppingDistance
-                   || navMeshAgent.hasPath && navMeshAgent.velocity.sqrMagnitude > EPSILON) {
-                // The destination is not yet reached
+        private IEnumerator centerPositionInCell(Action onFinished) {
+            while (stillRunning()) {
                 yield return null;
             }
 
-            navMeshAgent.isStopped = true;
             position = HexCoordinates.FromPosition(transform.position);
+            var centerCell = position.ToPosition();
+            if ((transform.position - centerCell).sqrMagnitude > EPSILON) {
+                navMeshAgent.SetDestination(position.ToPosition()); // center in cell
+                StartCoroutine(sendFinishedWhenNavMeshArrives(onFinished));
+            } else {
+                navMeshAgent.isStopped = true;
+                onFinished?.Invoke();
+            }
+        }
+
+        private bool stillRunning() {
+            return navMeshAgent.pathPending
+                   || navMeshAgent.remainingDistance > navMeshAgent.stoppingDistance
+                   || navMeshAgent.hasPath && navMeshAgent.velocity.sqrMagnitude > EPSILON;
+        }
+
+        private IEnumerator sendFinishedWhenNavMeshArrives(Action onFinished) {
+            while (stillRunning()) {
+                // The destination is not yet reached
+                yield return null;
+            }
+            navMeshAgent.isStopped = true;
             // Reached destination
             onFinished?.Invoke();
         }
