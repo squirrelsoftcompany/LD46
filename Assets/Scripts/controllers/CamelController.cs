@@ -1,4 +1,5 @@
 using GameEventSystem;
+using gauge;
 using hex;
 using JetBrains.Annotations;
 using TMPro;
@@ -30,6 +31,7 @@ namespace controllers {
         [SerializeField] private GameEvent camelClicked = default;
 
         public HexCoordinates Position => characterMovement.Position;
+        private LifeGauge lifeGauge;
 
         private void Awake() {
             if (target == null) {
@@ -48,6 +50,7 @@ namespace controllers {
             realMaxDistance = maxDistance.realDistanceFromHexDistance();
 
             text = tooltip.GetComponentInChildren<TMP_Text>(true);
+            lifeGauge = GetComponent<LifeGauge>();
             navMeshAgent = GetComponent<NavMeshAgent>();
             navMeshAgent.speed = animationSpeed;
             navMeshAgent.stoppingDistance = 1.realDistanceFromHexDistance();
@@ -55,7 +58,7 @@ namespace controllers {
         }
 
         private void setInventoryText() {
-            text.text = "Food:\t\t" + InventoryManager.Instance.Food + "\nWater:\t" + InventoryManager.Instance.Water;
+            text.text = "Food:\t\t" + InventoryManager.Instance.Food + "\nWater:\t" + InventoryManager.Instance.Water+"\nLife:\t\t"+lifeGauge.Life;
         }
 
 

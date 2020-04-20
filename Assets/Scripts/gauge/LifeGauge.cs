@@ -12,6 +12,8 @@ namespace gauge {
         private Animator animator;
         private static readonly int HURT = Animator.StringToHash("hurt");
 
+        public int Life => life;
+
         private void Awake() {
             if (Debug.isDebugBuild && onDie == null) {
                 Debug.LogWarning("onDie game event is null");
@@ -25,15 +27,15 @@ namespace gauge {
         public void loseLife(int amount) {
             if (amount < 0) return;
             animator.SetTrigger(HURT);
-            life -= amount;
-            if (life < 0) {
+            life = Life - amount;
+            if (Life < 0) {
                 onDie.Raise();
             }
         }
 
         public void winLife(int amount) {
             if (amount < 0) return;
-            life += amount;
+            life = Life + amount;
         }
     }
 }
