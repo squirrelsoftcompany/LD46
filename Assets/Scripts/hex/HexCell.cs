@@ -1,4 +1,5 @@
-﻿using UnityEngine;
+﻿using System;
+using UnityEngine;
 
 namespace hex {
     // ReSharper disable RedundantDefaultMemberInitializer
@@ -11,30 +12,52 @@ namespace hex {
         public GameObject ground;
         public GameObject topping;
 
-        [SerializeField] private Color hover = default, normal = default;
+        [SerializeField] private Color hover = default, normal = default, current = default, invalid = default;
 
         [SerializeField] private MeshRenderer meshRenderer = default;
+
         // private Material meshHover;
         // private Material meshNormal;
 
         public bool IsHovered { get; set; }
+        private Highlight highlight;
+
+        public Highlight Highlight {
+            get => highlight;
+            set {
+                highlight = value;
+                setHighlight(highlight);
+            }
+        }
 
         public void initMesh() {
             meshRenderer = GetComponentInChildren<MeshRenderer>();
         }
 
-        // private void OnEnable() {
-        // meshRenderer = GetComponentInChildren<MeshRenderer>();
-        // }
+        private void setHighlight(Highlight highlightLevel) {
+            Color color;
+            switch (highlightLevel) {
+                case Highlight.NORMAL:
+                    color = normal;
+                    IsHovered = false;
+                    break;
+                case Highlight.CURRENT_ACTION:
+                    color = current;
+                    IsHovered = false;
+                    break;
+                case Highlight.HIGHLIGHTED:
+                    color = hover;
+                    IsHovered = true;
+                    break;
+                case Highlight.INVALID:
+                    color = invalid;
+                    IsHovered = false;
+                    break;
+                default:
+                    throw new ArgumentOutOfRangeException(nameof(highlightLevel), highlightLevel, null);
+            }
 
-        public void setHighlighted() {
-            meshRenderer.material.color = hover;
-            IsHovered = true;
-        }
-
-        public void setNotHighlighted() {
-            meshRenderer.material.color = normal;
-            IsHovered = false;
+            meshRenderer.material.color = color;
         }
 
         public bool available() {
@@ -48,4 +71,11 @@ namespace hex {
             topping = null;
         }
     }
+}
+
+public enum Highlight {
+    NORMAL,
+    CURRENT_ACTION,
+    HIGHLIGHTED,
+    INVALID
 }

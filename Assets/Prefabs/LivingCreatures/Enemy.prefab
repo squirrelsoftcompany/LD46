@@ -112,7 +112,8 @@ MonoBehaviour:
   target: {fileID: 0}
   finishedTurn: {fileID: 11400000, guid: 88e6b4da0ea33cf4db2ba32d3d3617e5, type: 2}
   attackRange: 1
-  maxDistanceTravel: 1
+  maxDistanceTravel: 2
+  maxDistanceFlee: 2
   speedAnimation: 4
   attackPower: 1
 --- !u!114 &8145169953895976378

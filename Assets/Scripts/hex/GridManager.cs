@@ -23,6 +23,7 @@ namespace hex {
         [SerializeField] private NavMeshSurface navMeshSurface = default;
  
         [SerializeField] private GameEvent clickedCell = default;
+        // [SerializeField]private GameObject planeCollisions = default;
         private Camera mainCamera;
 
         private void Awake() {
@@ -34,6 +35,8 @@ namespace hex {
             var generator = new GridGenerator(_grid, _buildings, _lakes, _grounds, _props, width, height, cellPrefab, cellsGameObject.transform);
             generator.Generate();
             navMeshSurface.BuildNavMesh();
+            // planeCollisions.transform.localScale = new Vector3(width * HexMetrics.innerRadius, 1, 
+            //     height*HexMetrics.outerRadius);
         }
 
         // private void OnDrawGizmos() {
@@ -74,8 +77,8 @@ namespace hex {
             var coordinates = HexCoordinates.FromPosition(position);
             // Debug.Log("hover : " + coordinates);
             var cell = _grid[coordinates];
-            if (cell && !(cell.IsHovered)) {
-                cell.setHighlighted();
+            if (cell && cell.Highlight != Highlight.CURRENT_ACTION) {
+                cell.Highlight = Highlight.HIGHLIGHTED;
             }
 
             return cell;

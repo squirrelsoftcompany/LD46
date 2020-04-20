@@ -71,6 +71,7 @@ namespace controllers {
             }
 
             navMeshAgent.isStopped = true;
+            position = HexCoordinates.FromPosition(transform.position);
             // Reached destination
             onFinished?.Invoke();
         }

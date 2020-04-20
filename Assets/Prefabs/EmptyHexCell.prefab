@@ -11,7 +11,7 @@ GameObject:
   - component: {fileID: 7931791962556053517}
   - component: {fileID: 6954032501404125362}
   m_Layer: 8
-  m_Name: HexCell 1
+  m_Name: EmptyHexCell
   m_TagString: Untagged
   m_Icon: {fileID: 0}
   m_NavMeshLayer: 0
@@ -50,5 +50,7 @@ MonoBehaviour:
   ground: {fileID: 0}
   topping: {fileID: 0}
   hover: {r: 0.04601282, g: 0.8027145, b: 0.8867924, a: 1}
-  normal: {r: 1, g: 0.028000057, b: 0.028000057, a: 1}
+  normal: {r: 1, g: 1, b: 1, a: 1}
+  current: {r: 0.617, g: 0, b: 0.5575287, a: 1}
   meshRenderer: {fileID: 0}
+  invalid: {r: 1, g: 0, b: 0, a: 1}

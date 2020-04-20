@@ -44,14 +44,16 @@ namespace controllers {
 
             navMeshAgent = GetComponent<NavMeshAgent>();
             navMeshAgent.speed = animationSpeed;
+            navMeshAgent.stoppingDistance = 1.realDistanceFromHexDistance();
         }
 
         [UsedImplicitly]
         // Used by the turn manager
         public void DoYourTurn() {
-            Debug.Log("Woohoo camel turn!");
+            Debug.Log("[Camel] my turn!");
             if (currentNbTurns >= everyNTurns) {
                 currentNbTurns = 0;
+                Debug.Log("[Camel] finished (no move)");
                 finishedTurn.Raise();
                 return;
             }
@@ -62,6 +64,7 @@ namespace controllers {
             animator.SetTrigger(WALK);
             characterMovement.navigateTo(goTo, realMaxDistance, () => {
                 animator.SetTrigger(STOP);
+                Debug.Log("[Camel] Finished");
                 finishedTurn.Raise();
             });
         }

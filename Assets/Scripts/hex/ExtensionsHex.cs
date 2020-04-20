@@ -17,5 +17,11 @@ namespace hex {
         public static float realDistanceFromHexDistance(this int hexDistance) {
             return (new HexCoordinates(0, 0).ToPosition() - new HexCoordinates(hexDistance, 0).ToPosition()).magnitude;
         }
+
+        public static HexCoordinates oppositeTo(this HexCoordinates myPosition, HexCoordinates pivotPosition) {
+            var diffX = myPosition.X - pivotPosition.X;
+            var diffZ = myPosition.Z - pivotPosition.Z;
+            return new HexCoordinates(pivotPosition.X - diffX, pivotPosition.Z - diffZ);
+        }
     }
 }
