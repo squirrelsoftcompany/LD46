@@ -92,12 +92,13 @@ namespace hex {
             // Debug.Log("hover : " + coordinates);
             var cell = myGrid[coordinates];
             if (cell && cell.Highlight != Highlight.CURRENT_ACTION) {
-                cell.Highlight = Highlight.HIGHLIGHTED;
+                cell.Highlight = cell.available() ? Highlight.HIGHLIGHTED : Highlight.INVALID;
             }
 
             foreach (var hexCoordinates in _grid.Keys.Where(hexCoordinates =>
                 !coordinates.Equals(hexCoordinates)
-                && _grid[hexCoordinates].Highlight == Highlight.HIGHLIGHTED)) {
+                && (_grid[hexCoordinates].Highlight == Highlight.HIGHLIGHTED ||
+                    _grid[hexCoordinates].Highlight == Highlight.INVALID))) {
                 _grid[hexCoordinates].Highlight = Highlight.NORMAL;
             }
 
