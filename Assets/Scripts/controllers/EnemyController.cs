@@ -47,7 +47,6 @@ namespace controllers {
         [UsedImplicitly]
         public void DoYourTurn() {
             Debug.Log("[Enemy] my turn");
-            finishedTurn.sentString = "endTurn";
 
             // if fleeing, then flee, and stop fleeing
             if (fleeing) {

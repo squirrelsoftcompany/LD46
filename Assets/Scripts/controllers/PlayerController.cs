@@ -44,9 +44,7 @@ namespace controllers {
 
         [UsedImplicitly]
         public void onClickedCell(MonoBehaviour monoBehaviour) {
-            turnFinished.sentString = "turnDone";
             // It is not my turn, so do nothing
-            // TODO uncomment this when the turn manager will be up and running! (now for debug, commented)
             if (!myTurn) return;
             Debug.Log("Now, we're talking movement!");
 
