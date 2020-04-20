@@ -4,6 +4,17 @@ using UnityEngine;
 namespace hex {
     [Serializable]
     public struct HexCoordinates : IComparable<HexCoordinates> {
+
+        public enum SixWay
+        {
+            XPlus = 0,
+            ZPlus,
+            YPlus,
+            XMinus,
+            ZMinus,
+            YMinus
+        }
+
         [SerializeField] private int x;
         [SerializeField] private int z;
 
@@ -125,5 +136,34 @@ namespace hex {
          * Move along current Y axis by -1 cell, doesn't modify y coords but modify the two others
          */
         public HexCoordinates Yminus() => moveAlongY(-1);
+
+        public HexCoordinates moveAlongAxis(SixWay way, int offset)
+        {
+            HexCoordinates result = new HexCoordinates(0, 0);
+            switch
+                (way)
+            {
+                case SixWay.XPlus:
+                    result = moveAlongX(offset);
+                    break;
+                case SixWay.ZPlus:
+                    result = moveAlongZ(offset);
+                    break;
+                case SixWay.YPlus:
+                    result = moveAlongY(offset);
+                    break;
+                case SixWay.XMinus:
+                    result = moveAlongX(-offset);
+                    break;
+                case SixWay.ZMinus:
+                    result = moveAlongZ(-offset);
+                    break;
+                case SixWay.YMinus:
+                    result = moveAlongY(-offset);
+                    break;
+            }
+
+            return result;
+        }
     }
 }
