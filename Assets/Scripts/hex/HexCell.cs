@@ -1,5 +1,4 @@
-﻿using System;
-using UnityEngine;
+﻿using UnityEngine;
 
 namespace hex {
     // ReSharper disable RedundantDefaultMemberInitializer
@@ -20,27 +19,29 @@ namespace hex {
 
         public bool IsHovered { get; set; }
 
-        private void Awake() {
-            // meshNormal = normal.GetComponent<Material>();
-            // meshHover = hover.GetComponent<Material>();
-            // meshCollider.material = meshNormal;
+        public void initMesh() {
+            meshRenderer = GetComponentInChildren<MeshRenderer>();
         }
+
+        // private void OnEnable() {
+        // meshRenderer = GetComponentInChildren<MeshRenderer>();
+        // }
 
         public void setHighlighted() {
             meshRenderer.material.color = hover;
+            IsHovered = true;
         }
 
         public void setNotHighlighted() {
             meshRenderer.material.color = normal;
+            IsHovered = false;
         }
 
-        public bool available()
-        {
+        public bool available() {
             return topping == null;
         }
 
-        public void moveToppingTo(HexCell other)
-        {
+        public void moveToppingTo(HexCell other) {
             if (other == null || !other.available()) return;
 
             other.topping = topping;

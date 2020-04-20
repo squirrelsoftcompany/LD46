@@ -1,4 +1,4 @@
-﻿using System.Collections;
+using System.Collections;
 using System.Collections.Generic;
 using UnityEngine;
 using SixWay = hex.HexCoordinates.SixWay;
@@ -208,6 +208,7 @@ public class GridGenerator
         hex.HexCell cell = InitCell(coordinates);
         cell.ground = GenerateSomething(ground, cell.transform, 0);
         cell.type = hex.GroundType.GROUND;
+        cell.initMesh();
     }
 
     private void GenerateWater(GameObject water, hex.HexCoordinates coordinates, int rotation = 0)
@@ -218,6 +219,7 @@ public class GridGenerator
         cell.topping = new GameObject(); // fill with an empty go
         cell.topping.transform.parent = cell.transform;
         cell.type = hex.GroundType.WATER;
+        cell.initMesh();
     }
 
     private hex.HexCell InitCell(hex.HexCoordinates c)

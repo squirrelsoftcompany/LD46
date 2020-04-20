@@ -75,8 +75,19 @@ MonoBehaviour:
   m_Name: 
   m_EditorClassIdentifier: 
   cellsGameObject: {fileID: 6102790660701531316}
-  width: 6
-  height: 6
-  cellPrefab: {fileID: 6954032501404125362, guid: e6d12c031c0360f43943fb260f82896d,
+  cellPrefab: {fileID: 6954032501404125362, guid: 68da22ea8f6a73049a1bf52a4c50cb3d,
     type: 3}
+  width: 20
+  height: 20
+  _buildings:
+  - {fileID: 11400000, guid: 4059d1d0e460ca8438a8c69531d291b5, type: 2}
+  _lakes:
+  - {fileID: 11400000, guid: 8b899ca53fe3a674bbc203bee71855d6, type: 2}
+  _grounds:
+  - {fileID: 11400000, guid: 1eadaa2b8d7a46846836ebd43033a2db, type: 2}
+  - {fileID: 11400000, guid: 0b54f7a1bb269564e9c51fee8d32026c, type: 2}
+  _props:
+  - {fileID: 11400000, guid: 99088771a8816d240896f7b65d5fc58e, type: 2}
+  - {fileID: 11400000, guid: d42ef174ff130e446936942d909aea71, type: 2}
+  navMeshSurface: {fileID: 0}
   clickedCell: {fileID: 11400000, guid: a3e6c066d34334045a85afcfd37130e3, type: 2}
