@@ -37,7 +37,7 @@ namespace hex {
 
             //_grid = new Grid(width, height, cellPrefab.gameObject, cellsGameObject.transform);
             _grid = new Grid();
-
+            LevelManager.Instance.GetLevelData(out _buildings, out _lakes, out _grounds, out _props, out width, out height, out cellPrefab);
             var generator = new GridGenerator(myGrid, _buildings, _lakes, _grounds, _props, width, height, cellPrefab,
                 cellsGameObject.transform);
             generator.Generate();

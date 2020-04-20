@@ -45,7 +45,8 @@ public class Journey : MonoBehaviour
 
     public void GoInPOI()
     {
-        return;
+        LevelManager.Instance.LoadLevel(mCurrentPOIIndex);
+        ShowMap(false);
         //Load and show map
     }
 
