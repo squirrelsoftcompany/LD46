@@ -26,14 +26,6 @@ namespace hex {
             return new HexCoordinates(pivotPosition.X - diffX, pivotPosition.Z - diffZ);
         }
 
-        public static List<HexCoordinates> getCellsAround(this HexCoordinates hexCoordinates, int radius) {
-            // TODO get cells around in a radius of radius 
-            Debug.LogError("getCellsAround not implemented!!!");
-            var around = new List<HexCoordinates> {hexCoordinates, hexCoordinates.Xplus(), hexCoordinates.Xminus()};
-            return around;
-            // throw new NotImplementedException("TODO");
-        }
-
         public static List<HexCoordinates> GetDiskAround(this HexCoordinates c, uint radius)
         {
             List<HexCoordinates> result = new List<HexCoordinates>();
