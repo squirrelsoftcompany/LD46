@@ -54,7 +54,7 @@ public class GridGenerator
 
     private void GenerateGroundAreas()
     {
-        int max = 10;
+        int max = 50;
         bool stillNotFull = false;
         while (!stillNotFull && max > 0)
         {
@@ -66,9 +66,9 @@ public class GridGenerator
             }
 
             bool emptyFound = false;
-            for (int i = 0; i < _width && !emptyFound; i++)
+            for (int i = 0; i < _width && emptyFound; i++)
             {
-                for (int j = 0; j < _height && !emptyFound; j++)
+                for (int j = 0; j < _height && emptyFound; j++)
                 {
                     emptyFound = (_grid[hex.HexCoordinates.FromOffsetCoordinates(i, j)] == null);
                 }
