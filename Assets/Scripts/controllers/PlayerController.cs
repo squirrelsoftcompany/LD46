@@ -42,32 +42,35 @@ namespace controllers {
             // TODO uncomment this when the turn manager will be up and running! (now for debug, commented)
             if (!myTurn) return;
             Debug.Log("Now, we're talking movement!");
-            myTurn = false;
+
             // We retrieve the cell to go to
             var hexCell = monoBehaviour.GetComponent<HexCell>();
             hexCell.Highlight = Highlight.CURRENT_ACTION;
-            if (characterMovement.Position.Equals(hexCell.coordinates)) {
+            var distanceToMe = characterMovement.Position.DistanceTo(hexCell.coordinates);
+            if (distanceToMe > maxDistance) {
+                hexCell.Highlight = Highlight.NORMAL;
+                return; // clicked on invalid cell, it is still my turn
+            }
+
+            myTurn = false;
+            if (distanceToMe == 0) {
                 // Just stay here
                 hexCell.Highlight = Highlight.NORMAL;
                 turnFinished.Raise();
                 return;
             }
 
-            // If within range, then go there
-            if (characterMovement.Position.DistanceTo(hexCell.coordinates) <= maxDistance) {
-                // and at the end, set myTurn to false
-                animator.SetTrigger(WALK);
-                characterMovement.navigateTo(hexCell.coordinates.ToPosition(),
-                    ((int) maxDistance).realDistanceFromHexDistance(),
-                    () => {
-                        animator.SetTrigger(STOP);
-                        hexCell.Highlight = Highlight.NORMAL;
-                        Debug.Log("[Player] finished");
-                        turnFinished.Raise();
-                    });
-            } else {
-                Debug.LogWarning("!!!!!!");
-            }
+            // We are within range, so go there
+            // and at the end, set myTurn to false
+            animator.SetTrigger(WALK);
+            characterMovement.navigateTo(hexCell.coordinates.ToPosition(),
+                ((int) maxDistance).realDistanceFromHexDistance(),
+                () => {
+                    animator.SetTrigger(STOP);
+                    hexCell.Highlight = Highlight.NORMAL;
+                    Debug.Log("[Player] finished");
+                    turnFinished.Raise();
+                });
         }
 
         [UsedImplicitly]
