@@ -3,6 +3,7 @@ using district;
 using GameEventSystem;
 using hex;
 using JetBrains.Annotations;
+using TMPro;
 using UnityEngine;
 using UnityEngine.AI;
 
@@ -17,6 +18,7 @@ namespace controllers {
         [SerializeField] private float speedAnimation = 4;
         [SerializeField] private GameObject tooltip = default;
         [SerializeField] private int noisePower = 3;
+        private TMP_Text inventoryText;
         private GridManager gridManager;
         private bool myTurn = true;
         private Animator animator;
@@ -41,12 +43,17 @@ namespace controllers {
             enemies = FindObjectOfType<Flee>();
             navMeshAgent.speed = speedAnimation;
             census = FindObjectOfType<Census>();
+            inventoryText = tooltip.GetComponentInChildren<TMP_Text>();
         }
 
         private void Start() {
             gridManager = FindObjectOfType<GridManager>();
+            setInventoryText();
         }
 
+        private void setInventoryText() {
+            inventoryText.text = "Food:\t\t" + food + "\nWater:\t" + water;
+        }
 
         [UsedImplicitly]
         public void onClickedCell(MonoBehaviour monoBehaviour) {
@@ -136,6 +143,7 @@ namespace controllers {
             myTurn = false;
             water += buildingInventory.takeWaterUntil(maxWeight - food - water);
             food += buildingInventory.takeFoodUntil(maxWeight - food - water);
+            setInventoryText();
             // TODO trigger take food animation, and call raise at the end of anim
 
             turnFinished.Raise();
