@@ -40,6 +40,15 @@ namespace hex {
         //     }
         // }
 
+        private void OnDrawGizmos()
+        {
+            Gizmos.color = Color.yellow;
+            Gizmos.DrawLine(HexCoordinates.FromOffsetCoordinates(0,0).ToPosition(), HexCoordinates.FromOffsetCoordinates(0, height-1).ToPosition());
+            Gizmos.DrawLine(HexCoordinates.FromOffsetCoordinates(0,0).ToPosition(), HexCoordinates.FromOffsetCoordinates(width-1, 0).ToPosition());
+            Gizmos.DrawLine(HexCoordinates.FromOffsetCoordinates(width-1,height-1).ToPosition(), HexCoordinates.FromOffsetCoordinates(0, height-1).ToPosition());
+            Gizmos.DrawLine(HexCoordinates.FromOffsetCoordinates(width-1,height-1).ToPosition(), HexCoordinates.FromOffsetCoordinates(width-1, 0).ToPosition());
+        }
+
         private void Update() {
             var inputRay = mainCamera.ScreenPointToRay(Input.mousePosition);
             if (Physics.Raycast(inputRay, out var hit)) {
