@@ -29,6 +29,8 @@ namespace controllers {
         private static readonly int NOISE = Animator.StringToHash("noise");
 
         private Flee enemies;
+        private MeshRenderer[] meshRenderers;
+
         [SerializeField] private int distanceTransfer = 1;
         private Census census;
         [SerializeField] private int food, water;
@@ -47,6 +49,7 @@ namespace controllers {
             census = FindObjectOfType<Census>();
             inventoryText = tooltip.GetComponentInChildren<TMP_Text>(true);
             journey = FindObjectOfType<Journey>();
+            meshRenderers = GetComponentsInChildren<MeshRenderer>();
         }
 
         private void Start() {
@@ -187,7 +190,19 @@ namespace controllers {
         [UsedImplicitly]
         public void DoYourTurn() {
             myTurn = true;
+            // Clignoter pour signaler au joueur
+            foreach (var meshRenderer in meshRenderers) {
+                meshRenderer.material.color = Color.cyan;
+            }
+
+            Invoke(nameof(backToNormalColor), 1);
             Debug.Log("[Player] It's my turn!");
+        }
+
+        private void backToNormalColor() {
+            foreach (var meshRenderer in meshRenderers) {
+                meshRenderer.material.color = Color.white;
+            }
         }
 
         private void OnMouseDown() {
