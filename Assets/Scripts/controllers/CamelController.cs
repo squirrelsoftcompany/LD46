@@ -47,7 +47,7 @@ namespace controllers {
             animator = GetComponentInChildren<Animator>();
             realMaxDistance = maxDistance.realDistanceFromHexDistance();
 
-            text = tooltip.GetComponentInChildren<TMP_Text>();
+            text = tooltip.GetComponentInChildren<TMP_Text>(true);
             navMeshAgent = GetComponent<NavMeshAgent>();
             navMeshAgent.speed = animationSpeed;
             navMeshAgent.stoppingDistance = 1.realDistanceFromHexDistance();

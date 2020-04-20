@@ -34,6 +34,8 @@ namespace controllers {
         [SerializeField] private int food, water;
         [SerializeField] private int maxWeight = 10;
         [SerializeField] private int distanceFouille = 1;
+        [SerializeField] private GameObject whereIsCamel = default;
+        private Journey journey;
         private bool isFull => water + food >= maxWeight;
 
         private void Awake() {
@@ -43,7 +45,8 @@ namespace controllers {
             enemies = FindObjectOfType<Flee>();
             navMeshAgent.speed = speedAnimation;
             census = FindObjectOfType<Census>();
-            inventoryText = tooltip.GetComponentInChildren<TMP_Text>();
+            inventoryText = tooltip.GetComponentInChildren<TMP_Text>(true);
+            journey = FindObjectOfType<Journey>();
         }
 
         private void Start() {
@@ -74,9 +77,31 @@ namespace controllers {
             }
 
             myTurn = false;
+            var whereActive = false;
+            // If we click on the border
+            if (hexCell.coordinates.GetDiskAround(1).Where(coordinates => gridManager.myGrid[coordinates] != null)
+                .ToList()
+                .Count < 6) {
+                // We clicked on the border!
+                if (FindObjectOfType<CamelController>().Position.DistanceTo(characterMovement.Position) <= 1) {
+                    // if camel is near me, then go away to world
+                    journey.ShowMap(true);
+                    // TODO 
+                    return;
+                }
+
+                // TODO display where's my camel, and either go or wait
+                whereIsCamel.SetActive(true);
+                whereActive = true;
+            }
+
             if (distanceToMe == 0) {
                 // Just stay here
                 hexCell.Highlight = Highlight.NORMAL;
+                if (whereActive) {
+                    Invoke(nameof(hideCamel), 3);
+                }
+
                 turnFinished.Raise();
                 return;
             }
@@ -90,9 +115,17 @@ namespace controllers {
                 () => {
                     animator.SetTrigger(STOP);
                     hexCell.Highlight = Highlight.NORMAL;
+                    if (whereActive) {
+                        Invoke(nameof(hideCamel), 3);
+                    }
+
                     Debug.Log("[Player] finished");
                     turnFinished.Raise();
                 });
+        }
+
+        private void hideCamel() {
+            whereIsCamel.SetActive(false);
         }
 
         private bool isOccupiedCell(HexCoordinates cellCoordinates) {

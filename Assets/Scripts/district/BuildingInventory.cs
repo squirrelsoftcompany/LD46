@@ -22,7 +22,7 @@ namespace district {
             childObject = model.gameObject;
             mainCamera = Camera.main;
             Coordinates = HexCoordinates.FromPosition(transform.position);
-            text = tooltip.GetComponentInChildren<TMP_Text>();
+            text = tooltip.GetComponentInChildren<TMP_Text>(true);
             setInventoryText();
         }
 

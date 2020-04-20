@@ -49,8 +49,8 @@ public class Journey : MonoBehaviour
         //Load and show map
     }
 
-    public void ShowMap(bool pShow)
-    {
+    public void ShowMap(bool pShow) {
+        mShow = pShow;
         transform.GetComponent<Image>().enabled = pShow;
         foreach (Image child in GetComponentsInChildren<Image>())
         {

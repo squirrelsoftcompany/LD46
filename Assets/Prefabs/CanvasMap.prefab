@@ -1834,7 +1834,7 @@ MonoBehaviour:
   mCurrentPOIIndex: 0
   mTextFood: {fileID: 1036890806}
   mTextWater: {fileID: 1263489468}
-  mShow: 1
+  mShow: 0
 --- !u!1 &3099466238689885702
 GameObject:
   m_ObjectHideFlags: 0

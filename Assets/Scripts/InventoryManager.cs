@@ -1,6 +1,4 @@
-﻿using System.Collections;
-using System.Collections.Generic;
-using UnityEngine;
+﻿using UnityEngine;
 
 public class InventoryManager : MonoBehaviour
 {
@@ -24,38 +22,21 @@ public class InventoryManager : MonoBehaviour
     }
     public int Water
     {
-        get
-        {
-            return mWater;
-        }
-        set
-        {
-            mWater = value;
-        }
+        get => mWater;
+        set => mWater = value;
     }
 
-    public static InventoryManager m_instance = null;
+    private static InventoryManager m_instance = null;
     [SerializeField] private int mFood = 0;
     [SerializeField] private int mWater = 0;
     
     void Awake()
     {
         DontDestroyOnLoad(this.gameObject);
-    }
-
-    // Start is called before the first frame update
-    void Start()
-    {
         if (m_instance != null)
             Destroy(gameObject);
         else
             m_instance = this;
-    }
-
-    // Update is called once per frame
-    void Update()
-    {
-        
     }
 
     public void addFood(int pFood)
