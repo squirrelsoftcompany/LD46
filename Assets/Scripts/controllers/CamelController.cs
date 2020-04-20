@@ -26,6 +26,7 @@ namespace controllers {
         private static readonly int STOP = Animator.StringToHash("stop");
         [SerializeField] private GameEvent camelClicked = default;
 
+        public HexCoordinates Position => characterMovement.Position;
         private void Awake() {
             if (target == null) {
                 target = GameObject.FindWithTag("Player");
@@ -70,6 +71,7 @@ namespace controllers {
         }
 
         private void OnMouseDown() {
+            camelClicked.sentMonoBehaviour = this;
             camelClicked.Raise();
         }
 

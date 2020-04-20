@@ -24,6 +24,7 @@ namespace controllers {
         private static readonly int NOISE = Animator.StringToHash("noise");
 
         private Flee enemies;
+        [SerializeField] private int distanceTransfer = 1;
 
         private void Awake() {
             gridManager = FindObjectOfType<GridManager>();
@@ -73,12 +74,24 @@ namespace controllers {
                 });
         }
 
-        [UsedImplicitly]
-        public void onClickedCamelTransfer() {
-            if (!myTurn) return;
-            Debug.Log("[Player] click on camel! we want a transfer TODO");
-            myTurn = false;
+        private void doTransfer(CamelController camel) {
             // TODO transfer to camel
+            Debug.LogError("Transfer to camel not implemented: TODO");
+        }
+
+        [UsedImplicitly]
+        public void onClickedCamelTransfer(MonoBehaviour camel) {
+            if (!myTurn) return;
+            Debug.Log("[Player] click on camel! we want a transfer");
+            var camelController = camel.GetComponent<CamelController>();
+            var camelPos = camelController.Position;
+            if (characterMovement.Position.DistanceTo(camelPos) > distanceTransfer) {
+                // Camel is too far 
+                return;
+            }
+
+            myTurn = false;
+            doTransfer(camelController);
             Debug.Log("[Player] finished");
             turnFinished.Raise();
         }
@@ -92,8 +105,8 @@ namespace controllers {
 
         private void OnMouseDown() {
             if (!myTurn) return;
-            // TODO Make noise
             myTurn = false;
+            // Make noise
             animator.SetTrigger(NOISE);
             enemies.flee(characterMovement.Position, noisePower);
             Debug.Log("[Player] Noise");
