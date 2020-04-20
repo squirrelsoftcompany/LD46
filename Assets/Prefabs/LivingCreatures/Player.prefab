@@ -179,7 +179,7 @@ MonoBehaviour:
     responseForSentMonoBehaviour:
       m_PersistentCalls:
         m_Calls:
-        - m_Target: {fileID: 0}
+        - m_Target: {fileID: 5124533090027936447}
           m_MethodName: onClickedCamelTransfer
           m_Mode: 0
           m_Arguments:

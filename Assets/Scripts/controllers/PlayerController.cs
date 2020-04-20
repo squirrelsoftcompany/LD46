@@ -1,4 +1,5 @@
-﻿using GameEventSystem;
+﻿using System;
+using GameEventSystem;
 using hex;
 using JetBrains.Annotations;
 using UnityEngine;
@@ -27,12 +28,15 @@ namespace controllers {
         [SerializeField] private int distanceTransfer = 1;
 
         private void Awake() {
-            gridManager = FindObjectOfType<GridManager>();
             characterMovement = GetComponent<CharacterMovement>();
             animator = GetComponentInChildren<Animator>();
             navMeshAgent = GetComponent<NavMeshAgent>();
             enemies = FindObjectOfType<Flee>();
             navMeshAgent.speed = speedAnimation;
+        }
+
+        private void Start() {
+            gridManager = FindObjectOfType<GridManager>();
         }
 
 

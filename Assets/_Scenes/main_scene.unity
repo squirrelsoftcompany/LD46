@@ -439,6 +439,11 @@ PrefabInstance:
       propertyPath: m_Name
       value: Camel
       objectReference: {fileID: 0}
+    - target: {fileID: 7736910542878628566, guid: e9d33d7a3ed97e04b9864d05be4e46c9,
+        type: 3}
+      propertyPath: target
+      value: 
+      objectReference: {fileID: 424627102}
     - target: {fileID: 9145725815968225513, guid: e9d33d7a3ed97e04b9864d05be4e46c9,
         type: 3}
       propertyPath: m_LocalPosition.x
@@ -834,6 +839,36 @@ PrefabInstance:
         type: 3}
       propertyPath: m_ChildCameras.Array.size
       value: 0
+      objectReference: {fileID: 0}
+    - target: {fileID: 5770248257406776325, guid: ce68f38d5483c5d48a04b00f9fd7a3e1,
+        type: 3}
+      propertyPath: m_LocalRotation.x
+      value: 0.040897325
+      objectReference: {fileID: 0}
+    - target: {fileID: 5770248257406776325, guid: ce68f38d5483c5d48a04b00f9fd7a3e1,
+        type: 3}
+      propertyPath: m_LocalRotation.w
+      value: 0.35835958
+      objectReference: {fileID: 0}
+    - target: {fileID: 5770248258021043138, guid: ce68f38d5483c5d48a04b00f9fd7a3e1,
+        type: 3}
+      propertyPath: m_LocalRotation.x
+      value: 0.7009477
+      objectReference: {fileID: 0}
+    - target: {fileID: 5770248258021043138, guid: ce68f38d5483c5d48a04b00f9fd7a3e1,
+        type: 3}
+      propertyPath: m_LocalRotation.y
+      value: -0.45054665
+      objectReference: {fileID: 0}
+    - target: {fileID: 5770248258021043138, guid: ce68f38d5483c5d48a04b00f9fd7a3e1,
+        type: 3}
+      propertyPath: m_LocalRotation.z
+      value: -0.0037702231
+      objectReference: {fileID: 0}
+    - target: {fileID: 5770248258021043138, guid: ce68f38d5483c5d48a04b00f9fd7a3e1,
+        type: 3}
+      propertyPath: m_LocalRotation.w
+      value: 0.55287063
       objectReference: {fileID: 0}
     - target: {fileID: 5770248258102112036, guid: ce68f38d5483c5d48a04b00f9fd7a3e1,
         type: 3}
