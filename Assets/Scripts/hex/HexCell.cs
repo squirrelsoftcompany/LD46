@@ -29,6 +29,7 @@ namespace hex {
         public Highlight Highlight {
             get => highlight;
             set {
+                if (highlight == value) return;
                 highlight = value;
                 setHighlight(highlight);
             }
