@@ -39,8 +39,21 @@ public class GridGenerator
 
     public void Generate()
     {
-        GenerateWaterAreas();
-        GenerateGroundAreas();
+        //for (int j = _width / 4; j >= 0; j--)
+        //{
+        //    foreach (var c in hex.ExtensionsHex.GetConvexFormAround(hex.HexCoordinates.FromOffsetCoordinates(_width / 2, _height / 2), (uint)j, new uint[] { 0, 0, 0 }))
+        //    {
+        //        GenerateGround(_grounds[j%_grounds.Count].inside[0], c);
+        //    }
+        //}
+
+        foreach (var c in hex.ExtensionsHex.GetDiskAround(hex.HexCoordinates.FromOffsetCoordinates(_width / 2, _height / 2), (uint)_width/2))
+        {
+            GenerateGround(_grounds[0].inside[0], c);
+        }
+
+        //GenerateWaterAreas();
+        //GenerateGroundAreas();
         //GenerateBuildings();
         //GenerateProps();
     }
