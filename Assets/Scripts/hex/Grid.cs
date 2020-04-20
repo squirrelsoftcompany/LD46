@@ -42,5 +42,16 @@ namespace hex {
                 toCell.moveToppingTo(fromCell);
             }
         }
+
+        public HexCoordinates GetRandomAvailableCell()
+        {
+            Debug.Assert(_grid.Count > 0);
+            var c = _grid.ElementAt(Random.Range(0, _grid.Count)).Key;
+            while (!CellAvailable(c))
+            {
+                c = _grid.ElementAt(Random.Range(0, _grid.Count)).Key;
+            }
+            return c;
+        }
     }
 }

@@ -61,11 +61,11 @@ public class GridGenerator
         var lakeCount = Random.Range(1, 4);
         for (int i = 0; i < lakeCount; i++)
         {
-            var c = hex.HexCoordinates.FromOffsetCoordinates(Random.Range(0, _width), Random.Range(0, _height));
+            var c = GetRandomCellFromOffset();
             var r = (uint)Random.Range(_width / 6, _width / 4);
             while (! checkList(_lakesPosition, c, r+1))
             {
-                c = hex.HexCoordinates.FromOffsetCoordinates(Random.Range(0, _width), Random.Range(0, _height));
+                c = GetRandomCellFromOffset();
                 r = (uint)Random.Range(_width / 6, _width / 4);
             }
             GenerateWaterArea(choose(_lakes), c, r);
@@ -104,12 +104,12 @@ public class GridGenerator
         Debug.Log(buildingCount);
         for (int i = 0; i < buildingCount; i++)
         {
-            var c = _grid.InternalGrid.ElementAt(Random.Range(0, _grid.InternalGrid.Count)).Key;
             var r = (uint)Random.Range(2, 4);
+            var c = GetRandomCellFromOffset();
             while (!checkList(_lakesPosition, c, r + 1) || !checkList(_buildingsPosition, c, r + 1))
             {
-                c = _grid.InternalGrid.ElementAt(Random.Range(0, _grid.InternalGrid.Count)).Key;
                 r = (uint)Random.Range(2, 4);
+                c = GetRandomCellFromOffset();
             }
             GenerateBuilding(choose(_buildings), c, r);
             _buildingsPosition[c] = r;
@@ -122,11 +122,7 @@ public class GridGenerator
         propsCount = propsCount / 1;
         for (int i = 0; i < propsCount; i++)
         {
-            var c = _grid.InternalGrid.ElementAt(Random.Range(0, _grid.InternalGrid.Count)).Key;
-            while (!_grid.CellAvailable(c))
-            {
-                c = _grid.InternalGrid.ElementAt(Random.Range(0, _grid.InternalGrid.Count)).Key;
-            }
+            var c = _grid.GetRandomAvailableCell();
             GenerateTopping(choose(choose(_props).props), c, Random.Range(0, 360));
         }
     }
@@ -286,5 +282,10 @@ public class GridGenerator
         }
 
         return true;
+    }
+
+    private hex.HexCoordinates GetRandomCellFromOffset()
+    {
+        return hex.HexCoordinates.FromOffsetCoordinates(Random.Range(0, _width), Random.Range(0, _height));
     }
 }
