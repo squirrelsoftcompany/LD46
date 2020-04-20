@@ -7,6 +7,8 @@ namespace hex {
     public class Grid {
         private Dictionary<HexCoordinates, HexCell> _grid;
 
+        public Dictionary<HexCoordinates, HexCell> InternalGrid { get{ return _grid; } }
+
         public Grid()
         {
             _grid = new Dictionary<HexCoordinates, HexCell>();

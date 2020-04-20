@@ -1,5 +1,6 @@
 using System.Collections;
 using System.Collections.Generic;
+using System.Linq;
 using UnityEngine;
 using SixWay = hex.HexCoordinates.SixWay;
 
@@ -16,6 +17,9 @@ public class GridGenerator
     private int _height;
     private hex.HexCell _basePrefab;
     private Transform _parent;
+
+    private Dictionary<hex.HexCoordinates, uint> _lakesPosition;
+    private Dictionary<hex.HexCoordinates, uint> _buildingsPosition;
 
     public GridGenerator(hex.Grid grid,
         List<GridGeneration.Building> buildings,
@@ -35,26 +39,16 @@ public class GridGenerator
         _height = height;
         _basePrefab = basePrefab;
         _parent = parent;
+
+        _lakesPosition = new Dictionary<hex.HexCoordinates, uint>();
+        _buildingsPosition = new Dictionary<hex.HexCoordinates, uint>();
     }
 
     public void Generate()
     {
-        //for (int j = _width / 4; j >= 0; j--)
-        //{
-        //    foreach (var c in hex.ExtensionsHex.GetConvexFormAround(hex.HexCoordinates.FromOffsetCoordinates(_width / 2, _height / 2), (uint)j, new uint[] { 0, 0, 0 }))
-        //    {
-        //        GenerateGround(_grounds[j%_grounds.Count].inside[0], c);
-        //    }
-        //}
-
-        foreach (var c in hex.ExtensionsHex.GetDiskAround(hex.HexCoordinates.FromOffsetCoordinates(_width / 2, _height / 2), (uint)_width/2))
-        {
-            GenerateGround(_grounds[0].inside[0], c);
-        }
-
-        //GenerateWaterAreas();
-        //GenerateGroundAreas();
-        //GenerateBuildings();
+        GenerateGroundAreas();
+        GenerateWaterAreas();
+        GenerateBuildings();
         //GenerateProps();
     }
 
@@ -62,31 +56,40 @@ public class GridGenerator
 
     private void GenerateWaterAreas()
     {
-        GenerateWaterArea(choose(_lakes), hex.HexCoordinates.FromOffsetCoordinates(_width/2, _height/2), _width/4);
+        var lakeCount = Random.Range(1, 4);
+        for (int i = 0; i < lakeCount; i++)
+        {
+            var c = hex.HexCoordinates.FromOffsetCoordinates(Random.Range(0, _width), Random.Range(0, _height));
+            var r = (uint)Random.Range(_width / 6, _width / 4);
+            while (! checkList(_lakesPosition, c, r+1))
+            {
+                c = hex.HexCoordinates.FromOffsetCoordinates(Random.Range(0, _width), Random.Range(0, _height));
+                r = (uint)Random.Range(_width / 6, _width / 4);
+            }
+            GenerateWaterArea(choose(_lakes), c, r);
+            _lakesPosition[c] = r;
+        }
     }
 
     private void GenerateGroundAreas()
     {
-        int max = 50;
-        bool stillNotFull = false;
-        while (!stillNotFull && max > 0)
+        var coordsToFill = new List<hex.HexCoordinates>();
+        for (int i = 0; i < _width; i++)
         {
-            for (int i = 0; i < 2; i++)
+            for (int j = 0; j < _width; j++)
             {
-                var c = hex.HexCoordinates.FromOffsetCoordinates(Random.Range(0, _width), Random.Range(0, _height));
-                var r = Random.Range(_width / 6, _width / 4);
-                GenerateGroundArea(choose(_grounds), c, r);
+                coordsToFill.Add(hex.HexCoordinates.FromOffsetCoordinates(i, j));
             }
+        }
 
-            bool emptyFound = false;
-            for (int i = 0; i < _width && emptyFound; i++)
-            {
-                for (int j = 0; j < _height && emptyFound; j++)
-                {
-                    emptyFound = (_grid[hex.HexCoordinates.FromOffsetCoordinates(i, j)] == null);
-                }
-            }
-            stillNotFull = emptyFound;
+        int max = 50;
+        while (coordsToFill.Count > 0 && max > 0)
+        {
+            var c = choose(coordsToFill);
+            var r = (uint)Random.Range(_width / 6, _width / 4);
+            GenerateGroundArea(choose(_grounds), c, r);
+            
+            coordsToFill.RemoveAll(x => _grid[x] != null);
             max--;
         }
         Debug.Assert(max>0);
@@ -94,9 +97,21 @@ public class GridGenerator
 
     private void GenerateBuildings()
     {
-        GenerateBuilding(choose(_buildings), new hex.HexCoordinates(3, 3), 3, SixWay.ZMinus, new[] { 0, -1, 0 });
-        GenerateBuilding(choose(_buildings), new hex.HexCoordinates(7, 7), 2, SixWay.XMinus, new[] { 0, 0, 0 });
-        GenerateBuilding(choose(_buildings), new hex.HexCoordinates(0, 11), 1, SixWay.XMinus, new[] { 2, 0, 0 });
+        var buildingCount = (_width + _height) / 2;
+        buildingCount = buildingCount / 5;
+        Debug.Log(buildingCount);
+        for (int i = 0; i < buildingCount; i++)
+        {
+            var c = _grid.InternalGrid.ElementAt(Random.Range(0, _grid.InternalGrid.Count)).Key;
+            var r = (uint)Random.Range(2, 4);
+            while (!checkList(_lakesPosition, c, r + 1) || !checkList(_buildingsPosition, c, r + 1))
+            {
+                c = _grid.InternalGrid.ElementAt(Random.Range(0, _grid.InternalGrid.Count)).Key;
+                r = (uint)Random.Range(2, 4);
+            }
+            GenerateBuilding(choose(_buildings), c, r);
+            _buildingsPosition[c] = r;
+        }
     }
 
     public void GenerateProps()
@@ -106,97 +121,67 @@ public class GridGenerator
 
     // Single Area
 
-    private void GenerateWaterArea(GridGeneration.Building lake, hex.HexCoordinates center, int radius)
+    private void GenerateWaterArea(GridGeneration.Building lake, hex.HexCoordinates center, uint radius)
     {
-        createOffset(radius, 3, out var realRadius, out var offset);
-        GenerateConvexForm(lake.walls, lake.doors, lake.cornersConvex, center, realRadius, SixWay.XMinus, offset, GenerateWater);
-
-        FillWater(lake.inside, center);
+        var orientation = (SixWay)Random.Range(0, 6);
+        createOffset(radius, radius-2, out var realRadius, out var offset);
+        GenerateConvexForm(lake.walls, lake.doors, lake.cornersConvex, center, realRadius, orientation, offset, GenerateWater);
+        GenerateFilledConvexForm(lake.inside, center, realRadius-1, orientation, offset, GenerateWater);
     }
 
-    private void GenerateGroundArea(GridGeneration.Ground ground, hex.HexCoordinates center, int radius)
+    private void GenerateGroundArea(GridGeneration.Ground ground, hex.HexCoordinates center, uint radius)
     {
-        createOffset(radius, 3, out var realRadius, out var offset);
-        GenerateConvexForm(ground.inside, ground.inside, ground.inside, center, realRadius, SixWay.XMinus, offset, GenerateGround);
-
-        FillGround(ground.inside, center);
+        var orientation = (SixWay)Random.Range(0, 6);
+        createOffset(radius, radius-2, out var realRadius, out var offset);
+        GenerateFilledConvexForm(ground.inside, center, realRadius, orientation, offset, GenerateGround);
     }
 
-    private void GenerateBuilding(GridGeneration.Building building, hex.HexCoordinates startCoords, int radius, SixWay doorWallOrientation, int[] offsetByAxis)
+    private void GenerateBuilding(GridGeneration.Building building, hex.HexCoordinates center, uint radius)
     {
-        GenerateConvexForm(building.walls, building.doors, building.cornersConvex, startCoords, radius, doorWallOrientation, offsetByAxis, GenerateTopping);
-
-        FillTopping(building.inside, startCoords);
+        var orientation = (SixWay)Random.Range(0, 6);
+        createOffset(radius, radius-1, out var realRadius, out var offset);
+        offset[0] = (offset[0] + realRadius > 1) ? offset[0] : offset[0] = 2-realRadius;
+        GenerateConvexForm(building.walls, building.doors, building.cornersConvex, center, radius, orientation, offset, GenerateTopping);
+        GenerateFilledConvexForm(building.inside, center, radius-1, orientation, offset, GenerateTopping);
     }
 
     // Generic
 
-    private void GenerateConvexForm(List<GameObject> borders, List<GameObject> doors, List<GameObject> corners, hex.HexCoordinates startCoords, int radius, SixWay doorWallOrientation, int[] offsetByAxis, GeneratingFunction func)
+    private void GenerateConvexForm(List<GameObject> borders, List<GameObject> doors, List<GameObject> corners, hex.HexCoordinates startCoords, uint radius, SixWay doorWallOrientation, uint[] offsetByAxis, GeneratingFunction func)
     {
-        Debug.Assert(offsetByAxis.Length == 3);
-        hex.HexCoordinates current = startCoords.moveAlongAxis((SixWay)(((int)doorWallOrientation + 4) % 6), radius);
+        var coords = hex.ExtensionsHex.GetConvexFormAround(startCoords, radius, offsetByAxis, doorWallOrientation);
 
-        SixWay way = doorWallOrientation;
-        current = current.moveAlongAxis(way, 1);
+        int rotation = 60 * ((int)doorWallOrientation - 1);
 
+        int current = 0;
         for (int j = 0; j < 6; j++)
         {
-            int rotation = 60 * ((int)way - 1);
-
-            int max = radius + offsetByAxis[j % 3];
-            for (int i = 0; i < max - 1; i++)
+            uint max = radius + offsetByAxis[j % 3];
+            for (uint i = 0; i < max-1; i++)
             {
                 if (j == 0 && i == Mathf.CeilToInt((max / 2.0f) - 1))
-                    func(choose(doors), current, rotation);
+                    func(choose(doors), coords[current], rotation);
                 else
-                    func(choose(borders), current, rotation);
-                current = current.moveAlongAxis(way, 1);
+                    func(choose(borders), coords[current], rotation);
+
+                current++;
             }
-            func(choose(corners), current, rotation);
+            func(choose(corners), coords[current], rotation);
+            current++;
 
-            way = (SixWay)(((int)way + 1) % 6);
-            current = current.moveAlongAxis(way, 1);
+            rotation += 60;
         }
+
+        Debug.Assert(current == coords.Count);
     }
 
-    // Area filler
-
-    private void FillTopping(List<GameObject> toppings, hex.HexCoordinates start)
+    private void GenerateFilledConvexForm(List<GameObject> insides, hex.HexCoordinates startCoords, uint radius, SixWay doorWallOrientation, uint[] offsetByAxis, GeneratingFunction func)
     {
-        GenerateTopping(choose(toppings), start);
+        var coords = hex.ExtensionsHex.GetFilledConvexFormAround(startCoords, radius, offsetByAxis, doorWallOrientation);
 
-        var enumCount = System.Enum.GetNames(typeof(SixWay)).Length;
-        for (int w = 0; w < enumCount; w++)
+        foreach (var coord in coords)
         {
-            var neighbor = start.moveAlongAxis((SixWay)w, 1);
-            if (_grid.CellAvailable(neighbor))
-                FillTopping(toppings, neighbor);
-        }
-    }
-
-    private void FillGround(List<GameObject> ground, hex.HexCoordinates start)
-    {
-        GenerateGround(choose(ground), start);
-
-        var enumCount = System.Enum.GetNames(typeof(SixWay)).Length;
-        for (int w = 0; w < enumCount; w++)
-        {
-            var neighbor = start.moveAlongAxis((SixWay)w, 1);
-            if (_grid[neighbor] == null)
-                FillGround(ground, neighbor);
-        }
-    }
-
-    private void FillWater(List<GameObject> water, hex.HexCoordinates start)
-    {
-        GenerateWater(choose(water), start);
-
-        var enumCount = System.Enum.GetNames(typeof(SixWay)).Length;
-        for (int w = 0; w < enumCount; w++)
-        {
-            var neighbor = start.moveAlongAxis((SixWay)w, 1);
-            if (_grid[neighbor] == null)
-                FillWater(water, neighbor);
+            func(choose(insides), coord, 0);
         }
     }
 
@@ -226,7 +211,10 @@ public class GridGenerator
 
     private void GenerateWater(GameObject water, hex.HexCoordinates coordinates, int rotation = 0)
     {
-        Debug.Assert(_grid[coordinates] == null);
+        var existingCell = _grid[coordinates];
+        if (existingCell != null)
+            GameObject.Destroy(existingCell.gameObject);
+        
         hex.HexCell cell = InitCell(coordinates);
         cell.ground = GenerateSomething(water, cell.transform, rotation);
         cell.topping = new GameObject(); // fill with an empty go
@@ -262,13 +250,25 @@ public class GridGenerator
         return ts[Random.Range(0, ts.Count)];
     }
 
-    private void createOffset(int basicRadius, int maxOffset, out int realRadius, out int[] offset)
+    private void createOffset(uint basicRadius, uint maxOffset, out uint realRadius, out uint[] offset)
     {
-        realRadius = basicRadius - Random.Range(1, maxOffset);
-        offset = new[] { 0, 0, 0 };
-        offset[0] = Random.Range(0, basicRadius - realRadius);
-        offset[1] = Random.Range(0, basicRadius - realRadius);
+        var diff = (uint)Mathf.Clamp(Random.Range(0, (int)maxOffset+1), 0, basicRadius);
+        realRadius = basicRadius - (uint)diff;
+        offset = new uint[] { 0, 0, 0 };
+        offset[0] = (uint)Random.Range(0, diff);
+        offset[1] = (uint)Random.Range(0, diff);
         if ((offset[0] == 0 || offset[1] == 0))
-            offset[2] = Random.Range(0, basicRadius - realRadius);
+            offset[2] = (uint)Random.Range(0, diff);
+    }
+
+    private bool checkList(Dictionary<hex.HexCoordinates, uint> l, hex.HexCoordinates candidate, uint radius)
+    {
+        foreach (var elem in l)
+        {
+            if (candidate.DistanceTo(elem.Key) < radius + elem.Value)
+                return false;
+        }
+
+        return true;
     }
 }
