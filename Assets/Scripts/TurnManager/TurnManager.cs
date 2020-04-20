@@ -1,9 +1,9 @@
-﻿using System.Collections;
+﻿using System;
 using System.Collections.Generic;
 using UnityEngine;
 
 namespace Turn {
-    [System.Serializable]
+    [Serializable]
     public struct Part {
         public List<GameObject> objects;
     }
@@ -44,9 +44,9 @@ namespace Turn {
 
         public void Next() {
             readyToMoveOn = false;
-            _objectTurnNotFinished = 0;
+            _objectTurnNotFinished = parts[_partIndex].objects.Count;
+
             foreach (GameObject go in parts[_partIndex].objects) {
-                _objectTurnNotFinished++;
                 go.SendMessage("DoYourTurn");
             }
 
