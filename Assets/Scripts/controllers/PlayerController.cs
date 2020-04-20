@@ -1,4 +1,4 @@
-using GameEventSystem;
+﻿using GameEventSystem;
 using hex;
 using JetBrains.Annotations;
 using UnityEngine;
@@ -27,7 +27,7 @@ namespace controllers {
         private Flee enemies;
         [SerializeField] private int distanceTransfer = 1;
         private Census census;
-        
+
         private void Awake() {
             characterMovement = GetComponent<CharacterMovement>();
             animator = GetComponentInChildren<Animator>();
@@ -56,7 +56,7 @@ namespace controllers {
             var distanceToMe = characterMovement.Position.DistanceTo(hexCell.coordinates);
             if (distanceToMe > maxDistance ||
                 !gridManager.myGrid.CellAvailable(hexCell.coordinates) ||
-                isOccupiedCell(hexCell.coordinates)
+                isOccupiedCell(hexCell.coordinates) && distanceToMe != 0
             ) {
                 hexCell.Highlight = Highlight.NORMAL;
                 return; // clicked on invalid cell, it is still my turn
