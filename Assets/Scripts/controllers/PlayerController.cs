@@ -1,4 +1,4 @@
-﻿using GameEventSystem;
+using GameEventSystem;
 using hex;
 using JetBrains.Annotations;
 using UnityEngine;
@@ -135,7 +135,7 @@ namespace controllers {
         private void OnMouseEnter() {
             tooltip.SetActive(true);
             enemies.displayNoise(noisePower, characterMovement.Position, true);
-            var affectedCells = characterMovement.Position.getCellsAround(noisePower);
+            var affectedCells = characterMovement.Position.GetDiskAround((uint) noisePower);
             foreach (var affectedCell in affectedCells) {
                 gridManager.myGrid[affectedCell].Highlight = Highlight.AFFECTED;
             }
@@ -144,7 +144,7 @@ namespace controllers {
         private void OnMouseExit() {
             tooltip.SetActive(false);
             enemies.displayNoise(noisePower, characterMovement.Position, false);
-            var affectedCells = characterMovement.Position.getCellsAround(noisePower);
+            var affectedCells = characterMovement.Position.GetDiskAround((uint) noisePower);
             foreach (var affectedCell in affectedCells) {
                 gridManager.myGrid[affectedCell].Highlight = Highlight.NORMAL;
             }
