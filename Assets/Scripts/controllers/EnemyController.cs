@@ -104,7 +104,7 @@ namespace controllers {
         }
 
         public void displayIsAffected(int noisePower, HexCoordinates originSound, bool enable) {
-            if (characterMovement.Position.DistanceTo(originSound) < noisePower && enable) {
+            if (characterMovement.Position.DistanceTo(originSound) <= noisePower && enable) {
                 // affected
                 foreach (var meshRenderer in meshRenderers) {
                     meshRenderer.material.color = Color.red;
