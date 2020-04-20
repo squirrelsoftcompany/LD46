@@ -17,7 +17,7 @@ MonoBehaviour:
   width: 30
   height: 30
   _buildings:
-  - {fileID: 11400000, guid: 0d947e8ca1a65824da92f694fe5fbcbf, type: 2}
+  - {fileID: 11400000, guid: 4059d1d0e460ca8438a8c69531d291b5, type: 2}
   _lakes:
   - {fileID: 11400000, guid: 8b899ca53fe3a674bbc203bee71855d6, type: 2}
   _grounds:
