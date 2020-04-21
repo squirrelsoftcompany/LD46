@@ -8,15 +8,13 @@ using UnityEngine.AI;
 
 namespace controllers {
     public class CharacterMovement : MonoBehaviour {
-        [SerializeField] private HexCoordinates position = default;
         private NavMeshAgent navMeshAgent;
         private const float EPSILON = 0.01f;
         private static readonly float STOPPING_DISTANCE_PRECISE = 1.realDistanceFromHexDistance() / 5;
 
-        public HexCoordinates Position => position;
+        public HexCoordinates Position => transform.position.toHex();
 
         private void Awake() {
-            position = HexCoordinates.FromPosition(transform.position);
             navMeshAgent = GetComponent<NavMeshAgent>();
         }
 
@@ -27,7 +25,6 @@ namespace controllers {
                 yield return null;
             }
 
-            position = toCoordinates;
             onFinishedAction?.Invoke();
         }
 
@@ -69,7 +66,7 @@ namespace controllers {
                 yield return null;
             }
 
-            position = HexCoordinates.FromPosition(transform.position);
+            var position = HexCoordinates.FromPosition(transform.position);
             var centerCell = position.ToPosition();
             if ((transform.position - centerCell).sqrMagnitude > EPSILON) {
                 navMeshAgent.stoppingDistance = STOPPING_DISTANCE_PRECISE;
