@@ -12,3 +12,15 @@ MonoBehaviour:
   m_Script: {fileID: 11500000, guid: 7b54c663f04c0eb4ba961b9044bbb5a0, type: 3}
   m_Name: Level2
   m_EditorClassIdentifier: 
+  cellPrefab: {fileID: 6954032501404125362, guid: 68da22ea8f6a73049a1bf52a4c50cb3d,
+    type: 3}
+  width: 20
+  height: 20
+  _buildings:
+  - {fileID: 11400000, guid: 4059d1d0e460ca8438a8c69531d291b5, type: 2}
+  _lakes:
+  - {fileID: 11400000, guid: 8b899ca53fe3a674bbc203bee71855d6, type: 2}
+  _grounds:
+  - {fileID: 11400000, guid: 0b54f7a1bb269564e9c51fee8d32026c, type: 2}
+  _props:
+  - {fileID: 11400000, guid: 99088771a8816d240896f7b65d5fc58e, type: 2}

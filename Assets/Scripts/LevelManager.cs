@@ -17,6 +17,7 @@ public class LevelManager : MonoBehaviour
     [SerializeField] private List<Level> mLevelList;
 
     private int mLevelIndex = 0;
+    private bool mStartScreen = true;
     public static LevelManager mInstance = null;
 
     
@@ -42,8 +43,11 @@ public class LevelManager : MonoBehaviour
         {
             SoundManager.Instance.Music = GameObject.Find("Main Camera").GetComponent<AudioSource>();
         }
+        if (Input.GetMouseButtonDown(0) && SceneManager.GetActiveScene().name == "Start")
+        {
+            SceneManager.LoadScene("main_scene");
+        }
     }
-
 
     public void GetLevelData (out List<GridGeneration.Building> pBuildings,
         out List<GridGeneration.Building> pLakes,
@@ -59,7 +63,7 @@ public class LevelManager : MonoBehaviour
         pHeight = mLevelList[mLevelIndex].height;
         pBasePrefab = mLevelList[mLevelIndex].cellPrefab;
     }
-
+    
     public void goToEndGame()
     {
         SceneManager.LoadScene("EndGameScene");
