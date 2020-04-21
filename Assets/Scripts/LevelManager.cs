@@ -36,6 +36,15 @@ public class LevelManager : MonoBehaviour
         SceneManager.LoadScene(lScene.name);
     }
 
+    void Update()
+    {
+        if(!SoundManager.Instance.Music)
+        {
+            SoundManager.Instance.Music = GameObject.Find("Main Camera").GetComponent<AudioSource>();
+        }
+    }
+
+
     public void GetLevelData (out List<GridGeneration.Building> pBuildings,
         out List<GridGeneration.Building> pLakes,
         out List<GridGeneration.Ground> pGrounds,

@@ -10,6 +10,8 @@ public class Journey : MonoBehaviour
     [SerializeField]
     private GameObject mWorldCamel;
     [SerializeField]
+    private CanvasGroup mFade;
+    [SerializeField]
     private int mCurrentPOIIndex = 0;
     private bool mMapVisible = true;
 
@@ -45,9 +47,11 @@ public class Journey : MonoBehaviour
 
     public void GoInPOI()
     {
+        //StartCoroutine(FadeOutAndLoad(2)); Don't work and no idea why...
+        StartCoroutine(SoundManager.Instance.FadeOut(2));
         LevelManager.Instance.LoadLevel(mCurrentPOIIndex);
         ShowMap(false);
-        //Load and show map
+        //StartCoroutine(FadeIn(2));
     }
 
     public void ShowMap(bool pShow) {
@@ -90,5 +94,26 @@ public class Journey : MonoBehaviour
             return true;
         }
         return false;
+    }
+
+    public IEnumerator FadeOutAndLoad(float pFadeTime)
+    {
+        while (mFade.alpha < 1)
+        {
+            mFade.alpha += Time.deltaTime / pFadeTime;
+            yield return null;
+        }
+        mFade.alpha = 1;
+        LevelManager.Instance.LoadLevel(mCurrentPOIIndex);
+    }
+
+    public IEnumerator FadeIn(float pFadeTime)
+    {
+        while (mFade.alpha > 0)
+        {
+            mFade.alpha -= Time.deltaTime / pFadeTime;
+            yield return null;
+        }
+        mFade.alpha = 0;
     }
 }
