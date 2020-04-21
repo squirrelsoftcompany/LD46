@@ -58,17 +58,8 @@ namespace hex {
 
         public bool IsBorderCell(HexCoordinates c)
         {
-            int i = 0;
-            while (i < 6)
-            {
-                if (this[c.moveAlongAxis((HexCoordinates.SixWay)i, 1)] == null)
-                {
-                    return true;
-                }
-                i++;
-            }
-
-            return false;
+            var disk = c.GetConvexFormAround(1, new uint[] {0,0,0});
+            return disk.Where(x => this[x] != null).ToList().Count < 6;
         }
 
         public HexCoordinates GetRandomBorderCell(int max = 200)
@@ -86,10 +77,10 @@ namespace hex {
             for (int i = 0; i < offset; i++)
             {
                 var neighbor = c.moveAlongAxis(way, 1);
-                while(neighbor.CompareTo(prev) == 0 || IsBorderCell(neighbor))
+                while(neighbor.CompareTo(prev) == 0 || !IsBorderCell(neighbor))
                 {
-                    neighbor = c.moveAlongAxis(way, 1);
                     way = (SixWay)(((int)way + 1) % 6);
+                    neighbor = c.moveAlongAxis(way, 1);
                 }
 
                 prev = c;
