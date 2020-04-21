@@ -101,7 +101,6 @@ public class GridGenerator
     {
         var buildingCount = (_width + _height) / 2;
         buildingCount = buildingCount / 5;
-        Debug.Log(buildingCount);
         for (int i = 0; i < buildingCount; i++)
         {
             var c = GetRandomCellFromOffset();
