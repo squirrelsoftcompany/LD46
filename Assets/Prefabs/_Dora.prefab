@@ -13,6 +13,7 @@ GameObject:
   - component: {fileID: 444933806}
   - component: {fileID: 444933807}
   - component: {fileID: 444933810}
+  - component: {fileID: 6916167442138338044}
   m_Layer: 0
   m_Name: _Dora
   m_TagString: Untagged
@@ -98,3 +99,47 @@ MonoBehaviour:
   - {fileID: 11400000, guid: 11362325b1eeffa4993d361579d7fd60, type: 2}
   - {fileID: 11400000, guid: d887b0fbce45ef0449643a2a30241149, type: 2}
   - {fileID: 11400000, guid: 246342371f6bcd9448a5534766b2df78, type: 2}
+--- !u!114 &6916167442138338044
+MonoBehaviour:
+  m_ObjectHideFlags: 0
+  m_CorrespondingSourceObject: {fileID: 0}
+  m_PrefabInstance: {fileID: 0}
+  m_PrefabAsset: {fileID: 0}
+  m_GameObject: {fileID: 528092374605478967}
+  m_Enabled: 1
+  m_EditorHideFlags: 0
+  m_Script: {fileID: 11500000, guid: aa39e69ee488484439cd909f5f2a3254, type: 3}
+  m_Name: 
+  m_EditorClassIdentifier: 
+  eventAndResponses:
+  - name: 
+    gameEvent: {fileID: 11400000, guid: 26b9d5508171a7b419d7a975cd678646, type: 2}
+    response:
+      m_PersistentCalls:
+        m_Calls:
+        - m_Target: {fileID: 444933810}
+          m_MethodName: goToEndGame
+          m_Mode: 1
+          m_Arguments:
+            m_ObjectArgument: {fileID: 0}
+            m_ObjectArgumentAssemblyTypeName: UnityEngine.Object, UnityEngine
+            m_IntArgument: 0
+            m_FloatArgument: 0
+            m_StringArgument: 
+            m_BoolArgument: 0
+          m_CallState: 2
+    responseForSentString:
+      m_PersistentCalls:
+        m_Calls: []
+    responseForSentInt:
+      m_PersistentCalls:
+        m_Calls: []
+    responseForSentFloat:
+      m_PersistentCalls:
+        m_Calls: []
+    responseForSentBool:
+      m_PersistentCalls:
+        m_Calls: []
+    responseForSentMonoBehaviour:
+      m_PersistentCalls:
+        m_Calls: []

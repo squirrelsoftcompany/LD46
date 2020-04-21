@@ -2,6 +2,7 @@
 using System.Collections.Generic;
 using UnityEditor;
 using UnityEngine;
+using UnityEngine.Events;
 using UnityEngine.SceneManagement;
 
 public class LevelManager : MonoBehaviour
@@ -66,7 +67,12 @@ public class LevelManager : MonoBehaviour
     
     public void goToEndGame()
     {
-        SceneManager.LoadScene("EndGameScene");
+        SceneManager.LoadScene("End");
+    }
+
+    public void goToBadEndGame()
+    {
+        SceneManager.LoadScene("EndBad");
     }
 
     public void replay()
