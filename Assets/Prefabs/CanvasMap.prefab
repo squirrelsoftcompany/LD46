@@ -559,7 +559,7 @@ MonoBehaviour:
     m_HorizontalOverflow: 0
     m_VerticalOverflow: 0
     m_LineSpacing: 1
-  m_Text: 999
+  m_Text: 90
 --- !u!1 &1094418541712779566
 GameObject:
   m_ObjectHideFlags: 0
@@ -710,7 +710,7 @@ MonoBehaviour:
     m_HorizontalOverflow: 0
     m_VerticalOverflow: 0
     m_LineSpacing: 1
-  m_Text: 999
+  m_Text: 120
 --- !u!1 &1504494418388474105
 GameObject:
   m_ObjectHideFlags: 0
@@ -842,8 +842,8 @@ MonoBehaviour:
   m_Script: {fileID: 11500000, guid: d4d8ce65508e2814085fd3a2ac768e38, type: 3}
   m_Name: 
   m_EditorClassIdentifier: 
-  mFoodCost: 8
-  mWaterCost: 4
+  mFoodCost: 100
+  mWaterCost: 110
 --- !u!1 &1859517457156452685
 GameObject:
   m_ObjectHideFlags: 0
@@ -1458,8 +1458,8 @@ MonoBehaviour:
   m_Script: {fileID: 11500000, guid: d4d8ce65508e2814085fd3a2ac768e38, type: 3}
   m_Name: 
   m_EditorClassIdentifier: 
-  mFoodCost: 8
-  mWaterCost: 4
+  mFoodCost: 90
+  mWaterCost: 100
 --- !u!1 &3099466238163623241
 GameObject:
   m_ObjectHideFlags: 0
@@ -2254,8 +2254,8 @@ MonoBehaviour:
   m_Script: {fileID: 11500000, guid: d4d8ce65508e2814085fd3a2ac768e38, type: 3}
   m_Name: 
   m_EditorClassIdentifier: 
-  mFoodCost: 5
-  mWaterCost: 2
+  mFoodCost: 80
+  mWaterCost: 100
 --- !u!1 &3337880247717953418
 GameObject:
   m_ObjectHideFlags: 0
@@ -2510,7 +2510,7 @@ MonoBehaviour:
     m_HorizontalOverflow: 0
     m_VerticalOverflow: 0
     m_LineSpacing: 1
-  m_Text: 999
+  m_Text: 120
 --- !u!1 &4131516308777039148
 GameObject:
   m_ObjectHideFlags: 0
@@ -2587,7 +2587,7 @@ MonoBehaviour:
     m_HorizontalOverflow: 0
     m_VerticalOverflow: 0
     m_LineSpacing: 1
-  m_Text: 999
+  m_Text: 100
 --- !u!1 &4423352006833478262
 GameObject:
   m_ObjectHideFlags: 0
@@ -2805,8 +2805,8 @@ MonoBehaviour:
   m_Script: {fileID: 11500000, guid: d4d8ce65508e2814085fd3a2ac768e38, type: 3}
   m_Name: 
   m_EditorClassIdentifier: 
-  mFoodCost: 8
-  mWaterCost: 4
+  mFoodCost: 120
+  mWaterCost: 120
 --- !u!1 &4670096422627560720
 GameObject:
   m_ObjectHideFlags: 0
@@ -3212,7 +3212,7 @@ MonoBehaviour:
     m_HorizontalOverflow: 0
     m_VerticalOverflow: 0
     m_LineSpacing: 1
-  m_Text: 999
+  m_Text: 80
 --- !u!1 &5693773876971825639
 GameObject:
   m_ObjectHideFlags: 0
@@ -3289,7 +3289,7 @@ MonoBehaviour:
     m_HorizontalOverflow: 0
     m_VerticalOverflow: 0
     m_LineSpacing: 1
-  m_Text: 999
+  m_Text: 100
 --- !u!1 &5777256349183412614
 GameObject:
   m_ObjectHideFlags: 0
@@ -3366,7 +3366,7 @@ MonoBehaviour:
     m_HorizontalOverflow: 0
     m_VerticalOverflow: 0
     m_LineSpacing: 1
-  m_Text: 999
+  m_Text: 100
 --- !u!1 &7050479740295673238
 GameObject:
   m_ObjectHideFlags: 0
@@ -3424,8 +3424,8 @@ MonoBehaviour:
   m_Script: {fileID: 11500000, guid: d4d8ce65508e2814085fd3a2ac768e38, type: 3}
   m_Name: 
   m_EditorClassIdentifier: 
-  mFoodCost: 8
-  mWaterCost: 4
+  mFoodCost: 150
+  mWaterCost: 120
 --- !u!1 &7797703301096335978
 GameObject:
   m_ObjectHideFlags: 0
@@ -3502,7 +3502,7 @@ MonoBehaviour:
     m_HorizontalOverflow: 0
     m_VerticalOverflow: 0
     m_LineSpacing: 1
-  m_Text: 999
+  m_Text: 120
 --- !u!1 &7959666429460724269
 GameObject:
   m_ObjectHideFlags: 0
@@ -3683,7 +3683,7 @@ MonoBehaviour:
     m_HorizontalOverflow: 0
     m_VerticalOverflow: 0
     m_LineSpacing: 1
-  m_Text: 999
+  m_Text: 110
 --- !u!1 &8225428600731862880
 GameObject:
   m_ObjectHideFlags: 0
@@ -3760,7 +3760,7 @@ MonoBehaviour:
     m_HorizontalOverflow: 0
     m_VerticalOverflow: 0
     m_LineSpacing: 1
-  m_Text: 999
+  m_Text: 150
 --- !u!1 &8297752347517139388
 GameObject:
   m_ObjectHideFlags: 0

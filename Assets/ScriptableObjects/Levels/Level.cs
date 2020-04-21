@@ -8,6 +8,8 @@ public class Level : ScriptableObject
     public hex.HexCell cellPrefab;
     public int width;
     public int height;
+    public int food;
+    public int water;
 
     public List<GridGeneration.Building> _buildings;
     public List<GridGeneration.Building> _lakes;

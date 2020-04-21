@@ -14,8 +14,10 @@ MonoBehaviour:
   m_EditorClassIdentifier: 
   cellPrefab: {fileID: 6954032501404125362, guid: 68da22ea8f6a73049a1bf52a4c50cb3d,
     type: 3}
-  width: 20
-  height: 20
+  width: 30
+  height: 30
+  food: 150
+  water: 150
   _buildings:
   - {fileID: 11400000, guid: 4059d1d0e460ca8438a8c69531d291b5, type: 2}
   _lakes:
