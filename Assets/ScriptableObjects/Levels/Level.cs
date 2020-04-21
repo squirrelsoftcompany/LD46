@@ -10,6 +10,7 @@ public class Level : ScriptableObject
     public int height;
     public int food;
     public int water;
+    public int wolfNumber;
 
     public List<GridGeneration.Building> _buildings;
     public List<GridGeneration.Building> _lakes;
