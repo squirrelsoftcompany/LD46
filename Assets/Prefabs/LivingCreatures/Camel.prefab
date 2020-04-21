@@ -52,7 +52,7 @@ MonoBehaviour:
   target: {fileID: 0}
   finishedTurn: {fileID: 11400000, guid: 88e6b4da0ea33cf4db2ba32d3d3617e5, type: 2}
   maxDistance: 2
-  animationSpeed: 4
+  animationSpeed: 7
   everyNTurns: 2
   tooltip: {fileID: 1721620113885079281}
   camelClicked: {fileID: 11400000, guid: 062a8b166d9bd8a4a8a00c525d2e8289, type: 2}
@@ -105,9 +105,6 @@ MonoBehaviour:
   m_Script: {fileID: 11500000, guid: 23fcd006f98138b43904958d20e233b5, type: 3}
   m_Name: 
   m_EditorClassIdentifier: 
-  position:
-    x: 0
-    z: 0
 --- !u!65 &1619928153737275630
 BoxCollider:
   m_ObjectHideFlags: 0

@@ -51,7 +51,7 @@ MonoBehaviour:
   attackRange: 1
   maxDistanceTravel: 2
   maxDistanceFlee: 2
-  speedAnimation: 4
+  speedAnimation: 7
   colorAffected: {r: 1, g: 0.49803922, b: 0, a: 1}
   attackPower: 1
 --- !u!114 &8145169953895976378
@@ -66,9 +66,6 @@ MonoBehaviour:
   m_Script: {fileID: 11500000, guid: 23fcd006f98138b43904958d20e233b5, type: 3}
   m_Name: 
   m_EditorClassIdentifier: 
-  position:
-    x: 0
-    z: 0
 --- !u!195 &8145169953895976379
 NavMeshAgent:
   m_ObjectHideFlags: 0
