@@ -14,31 +14,23 @@ namespace hex {
 
 
         [SerializeField] private GameObject cellsGameObject = default;
-        [SerializeField] private HexCell cellPrefab = default;
-        [SerializeField] private int width = 6;
-        [SerializeField] private int height = 6;
-
-        [SerializeField] private List<Building> _buildings = default;
-        [SerializeField] private List<Building> _lakes = default;
-        [SerializeField] private List<Ground> _grounds = default;
-        [SerializeField] private List<Props> _props = default;
+        private int _width = 6;
+        private int _height = 6;
 
         [SerializeField] private NavMeshSurface navMeshSurface = default;
 
         [SerializeField] private GameEvent clickedCell = default;
-
-        // [SerializeField]private GameObject planeCollisions = default;
         private Camera mainCamera;
 
         public Grid myGrid => _grid;
 
         private void Awake() {
             mainCamera = Camera.main;
-
-            //_grid = new Grid(width, height, cellPrefab.gameObject, cellsGameObject.transform);
+            
             _grid = new Grid();
-            LevelManager.Instance.GetLevelData(out _buildings, out _lakes, out _grounds, out _props, out width, out height, out cellPrefab);
-            var generator = new GridGenerator(myGrid, _buildings, _lakes, _grounds, _props, width, height, cellPrefab,
+
+            LevelManager.Instance.GetLevelData(out var buildings, out var lakes, out var grounds, out var props, out _width, out _height, out var cellPrefab);
+            var generator = new GridGenerator(myGrid, buildings, lakes, grounds, props, _width, _height, cellPrefab,
                 cellsGameObject.transform, DateTime.Now.Millisecond);
             generator.Generate();
             // navMeshSurface.BuildNavMesh();
@@ -61,13 +53,13 @@ namespace hex {
         private void OnDrawGizmos() {
             Gizmos.color = Color.yellow;
             Gizmos.DrawLine(HexCoordinates.FromOffsetCoordinates(0, 0).ToPosition(),
-                HexCoordinates.FromOffsetCoordinates(0, height - 1).ToPosition());
+                HexCoordinates.FromOffsetCoordinates(0, _height - 1).ToPosition());
             Gizmos.DrawLine(HexCoordinates.FromOffsetCoordinates(0, 0).ToPosition(),
-                HexCoordinates.FromOffsetCoordinates(width - 1, 0).ToPosition());
-            Gizmos.DrawLine(HexCoordinates.FromOffsetCoordinates(width - 1, height - 1).ToPosition(),
-                HexCoordinates.FromOffsetCoordinates(0, height - 1).ToPosition());
-            Gizmos.DrawLine(HexCoordinates.FromOffsetCoordinates(width - 1, height - 1).ToPosition(),
-                HexCoordinates.FromOffsetCoordinates(width - 1, 0).ToPosition());
+                HexCoordinates.FromOffsetCoordinates(_width - 1, 0).ToPosition());
+            Gizmos.DrawLine(HexCoordinates.FromOffsetCoordinates(_width - 1, _height - 1).ToPosition(),
+                HexCoordinates.FromOffsetCoordinates(0, _height - 1).ToPosition());
+            Gizmos.DrawLine(HexCoordinates.FromOffsetCoordinates(_width - 1, _height - 1).ToPosition(),
+                HexCoordinates.FromOffsetCoordinates(_width - 1, 0).ToPosition());
         }
 
         private void Update() {
