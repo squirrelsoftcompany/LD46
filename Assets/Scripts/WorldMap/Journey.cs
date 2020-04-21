@@ -99,7 +99,7 @@ public class Journey : MonoBehaviour
             return false;
         
         if ( InventoryManager.Instance.Food >= mPOIList[mCurrentPOIIndex+1].FoodCost
-            && InventoryManager.Instance.Food >= mPOIList[mCurrentPOIIndex+1].WaterCost)
+            && InventoryManager.Instance.Water >= mPOIList[mCurrentPOIIndex+1].WaterCost)
         {
             return true;
         }
