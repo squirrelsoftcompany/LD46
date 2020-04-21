@@ -14,6 +14,7 @@ public class Journey : MonoBehaviour
     [SerializeField]
     private int mCurrentPOIIndex = 0;
     private bool mMapVisible = true;
+    private bool mOnNextCity = false;
 
     //UI
     [SerializeField]
@@ -41,17 +42,26 @@ public class Journey : MonoBehaviour
             InventoryManager.Instance.subFood(mPOIList[mCurrentPOIIndex].FoodCost);
             InventoryManager.Instance.subWater(mPOIList[mCurrentPOIIndex].WaterCost);
             mWorldCamel.GetComponent<Animator>().SetInteger("position", mCurrentPOIIndex);
+            mOnNextCity = true;
             //Change current POI look here if you want
         }
     }
 
     public void GoInPOI()
     {
-        //StartCoroutine(FadeOutAndLoad(2)); Don't work and no idea why...
-        StartCoroutine(SoundManager.Instance.FadeOut(2));
-        LevelManager.Instance.LoadLevel(mCurrentPOIIndex);
-        ShowMap(false);
-        //StartCoroutine(FadeIn(2));
+        if(mOnNextCity)
+        {
+            //StartCoroutine(FadeOutAndLoad(2)); Don't work and no idea why...
+            StartCoroutine(SoundManager.Instance.FadeOut(2));
+            mOnNextCity = false;
+            LevelManager.Instance.LoadLevel(mCurrentPOIIndex);
+            ShowMap(false);
+            //StartCoroutine(FadeIn(2));
+        }
+        else
+        {
+            ShowMap(false);
+        }
     }
 
     public void ShowMap(bool pShow) {
