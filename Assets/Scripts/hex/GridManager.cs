@@ -40,8 +40,9 @@ namespace hex {
                 cellsGameObject.transform, DateTime.Now.Millisecond);
             generator.Generate();
 
+            navMeshSurface.BuildNavMesh();
+
             /// place living creatures
-            /// 
 
             var turnMgr = FindObjectOfType<Turn.TurnManager>();
 
@@ -89,7 +90,6 @@ namespace hex {
         }
 
         private void Start() {
-            navMeshSurface.BuildNavMesh();
         }
 
         // private void OnDrawGizmos() {
