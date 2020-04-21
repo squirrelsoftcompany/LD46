@@ -7,7 +7,7 @@ namespace controllers {
     public class Flee : MonoBehaviour {
         private List<EnemyController> enemies;
 
-        private void Awake() {
+        private void Start() {
             enemies = GetComponentsInChildren<EnemyController>().ToList();
         }
 

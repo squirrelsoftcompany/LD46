@@ -13,6 +13,7 @@ namespace controllers {
     [RequireComponent(typeof(CharacterMovement))]
     public class PlayerController : MonoBehaviour {
         private CharacterMovement characterMovement;
+        [SerializeField] private HexCoordinates myCoordinates;
         [SerializeField] private float maxDistance = 1;
         [SerializeField] private GameEvent turnFinished = default;
         [SerializeField] private float speedAnimation = 4;
@@ -50,6 +51,7 @@ namespace controllers {
             inventoryText = tooltip.GetComponentInChildren<TMP_Text>(true);
             journey = FindObjectOfType<Journey>();
             meshRenderers = GetComponentsInChildren<MeshRenderer>();
+            myCoordinates = characterMovement.Position;
         }
 
         private void Start() {
