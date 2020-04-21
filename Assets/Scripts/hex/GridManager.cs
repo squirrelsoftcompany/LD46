@@ -30,8 +30,6 @@ namespace hex {
         public Grid myGrid => _grid;
 
         private void Awake() {
-            mainCamera = Camera.main;
-            
             _grid = new Grid();
 
             LevelManager.Instance.GetLevelData(out var buildings, out var lakes, out var grounds, out var props, out _width, out _height, out var cellPrefab);
@@ -78,6 +76,9 @@ namespace hex {
                 _grid[w].topping = wolf;
                 turnMgr.AddObject(wolf, 2);
             }
+
+            // Set camera now (it should exists now ^^")
+            mainCamera = Camera.main;
 
             // navMeshSurface.BuildNavMesh();
             // planeCollisions.transform.localScale = new Vector3(width * HexMetrics.innerRadius, 1, 

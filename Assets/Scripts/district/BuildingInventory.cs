@@ -20,10 +20,14 @@ namespace district {
         private void Awake() {
             model = GetComponentInChildren<MeshRenderer>();
             childObject = model.gameObject;
-            mainCamera = Camera.main;
             Coordinates = HexCoordinates.FromPosition(transform.position);
             text = tooltip.GetComponentInChildren<TMP_Text>(true);
             setInventoryText();
+        }
+
+        private void Start()
+        {
+            mainCamera = Camera.main;
         }
 
         public void initFoodWaterPosition(int iFood, int iWater) {
