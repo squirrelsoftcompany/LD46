@@ -27,6 +27,9 @@ namespace hex {
         [SerializeField] private GameObject _camelPrefab = default;
         [SerializeField] private GameObject _wolfPrefab = default;
 
+        [SerializeField] private Transform _alliesParent = default;
+        [SerializeField] private Transform _enemiesParent = default;
+
         public Grid myGrid => _grid;
 
         private void Awake() {
@@ -48,9 +51,9 @@ namespace hex {
             {
                 p = _grid.GetRandomBorderCell();
             }
-            var player = Instantiate(_playerPrefab, cellsGameObject.transform);
+            var player = Instantiate(_playerPrefab, _alliesParent);
             player.transform.localPosition = p.ToPosition();
-            _grid[p].topping = player;
+            //_grid[p].topping = player;
             turnMgr.AddObject(player, 0);
 
             // CAMEL
@@ -61,9 +64,9 @@ namespace hex {
                 if (_grid.CellAvailable(n))
                     continue;
             }
-            var camel = Instantiate(_camelPrefab, cellsGameObject.transform);
+            var camel = Instantiate(_camelPrefab, _alliesParent);
             camel.transform.localPosition = c.ToPosition();
-            _grid[p].topping = camel;
+            //_grid[c].topping = camel;
             turnMgr.AddObject(camel, 1);
 
             // WOLVES
@@ -71,9 +74,9 @@ namespace hex {
             for (int i = 0; i < wolvesCount; i++)
             {
                 var w = _grid.GetRandomAvailableCell();
-                var wolf = Instantiate(_wolfPrefab, cellsGameObject.transform);
+                var wolf = Instantiate(_wolfPrefab, _enemiesParent);
                 wolf.transform.localPosition = w.ToPosition();
-                _grid[w].topping = wolf;
+                //_grid[w].topping = wolf;
                 turnMgr.AddObject(wolf, 2);
             }
 
