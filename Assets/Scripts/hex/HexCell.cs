@@ -37,6 +37,7 @@ namespace hex {
 
         public void initMesh() {
             meshRenderer = GetComponentInChildren<MeshRenderer>();
+            normal = meshRenderer.material.color;
         }
 
         private void setHighlight(Highlight highlightLevel) {
