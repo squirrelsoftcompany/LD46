@@ -39,7 +39,7 @@ namespace controllers {
             lifeOfMyEnemy = target.GetComponent<LifeGauge>();
             navMeshAgent = GetComponent<NavMeshAgent>();
             navMeshAgent.speed = speedAnimation;
-            navMeshAgent.stoppingDistance = 1.realDistanceFromHexDistance();
+            // navMeshAgent.stoppingDistance = 1.realDistanceFromHexDistance();
             characterMovement = GetComponent<CharacterMovement>();
         }
 
@@ -68,26 +68,33 @@ namespace controllers {
             targetPos.y = transform.position.y;
 
             Debug.Log("[Enemy] travel to " + targetPos);
-            characterMovement.navigateTo(
-                targetPosition: targetPos,
-                realMaxDistance: maxDistanceTravel.realDistanceFromHexDistance(),
-                stoppingDistanceTarget: STOPPING_DISTANCE_TARGET,
-                onFinished: () => {
-                    Debug.Log("[Enemy] finished");
-                    finishedTurn.Raise();
-                });
+            characterMovement.navigate(transform.position, targetPos, maxDistanceTravel, () => {
+                Debug.Log("[Enemy] finished");
+                finishedTurn.Raise();
+            }, speedAnimation);
+            // characterMovement.navigateTo(
+            // targetPosition: targetPos,
+            // realMaxDistance: maxDistanceTravel.realDistanceFromHexDistance(),
+            // stoppingDistanceTarget: STOPPING_DISTANCE_TARGET,
+            // onFinished: () => {
+
+            // });
         }
 
         private void doFlee() {
             Debug.Log("[Enemy] flee");
-            characterMovement.navigateTo(
-                fleeTarget.ToPosition(), maxDistanceFlee.realDistanceFromHexDistance(),
-                STOPPING_DISTANCE_TARGET, () => {
-                    Debug.Log("[Enemy] finished");
-                    // Only flee for one turn
-                    fleeing = false;
-                    finishedTurn.Raise();
-                });
+            characterMovement.navigate(transform.position, fleeTarget.ToPosition(), maxDistanceFlee, () => {
+                Debug.Log("[Enemy] finished");
+                // Only flee for one turn
+                fleeing = false;
+                finishedTurn.Raise();
+
+            }, speedAnimation);
+            
+            // characterMovement.navigateTo(
+                // fleeTarget.ToPosition(), maxDistanceFlee.realDistanceFromHexDistance(),
+                // STOPPING_DISTANCE_TARGET, () => {
+                // });
         }
 
         private void attack() {

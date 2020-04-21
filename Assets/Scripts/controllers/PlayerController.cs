@@ -13,7 +13,7 @@ namespace controllers {
     [RequireComponent(typeof(CharacterMovement))]
     public class PlayerController : MonoBehaviour {
         private CharacterMovement characterMovement;
-        [SerializeField] private float maxDistance = 1;
+        [SerializeField] private int maxDistance = 1;
         [SerializeField] private GameEvent turnFinished = default;
         [SerializeField] private float speedAnimation = 4;
         [SerializeField] private GameObject tooltip = default;
@@ -39,6 +39,7 @@ namespace controllers {
         [SerializeField] private GameObject whereIsCamel = default;
         private Journey journey;
         private bool isFull => water + food >= maxWeight;
+        private HexCoordinates myPos => transform.position.toHex();
 
         private void Awake() {
             characterMovement = GetComponent<CharacterMovement>();
@@ -70,7 +71,7 @@ namespace controllers {
             // We retrieve the cell to go to
             var hexCell = monoBehaviour.GetComponent<HexCell>();
             hexCell.Highlight = Highlight.CURRENT_ACTION;
-            var distanceToMe = characterMovement.Position.DistanceTo(hexCell.coordinates);
+            var distanceToMe = myPos.DistanceTo(hexCell.coordinates);
             if (distanceToMe > maxDistance ||
                 !gridManager.myGrid.CellAvailable(hexCell.coordinates) ||
                 isOccupiedCell(hexCell.coordinates) && distanceToMe != 0
@@ -86,7 +87,7 @@ namespace controllers {
                 .ToList()
                 .Count < 6) {
                 // We clicked on the border!
-                if (FindObjectOfType<CamelController>().Position.DistanceTo(characterMovement.Position) <= 1) {
+                if (FindObjectOfType<CamelController>().Position.DistanceTo(myPos) <= 1) {
                     // if camel is near me, then go away to world
                     journey.ShowMap(true);
                     // TODO 
@@ -112,19 +113,29 @@ namespace controllers {
             // We are within range, so go there
             // and at the end, set myTurn to false
             animator.SetTrigger(WALK);
-            characterMovement.navigateTo(hexCell.coordinates.ToPosition(),
-                ((int) maxDistance).realDistanceFromHexDistance(),
-                STOPPING_DISTANCE_TARGET,
-                () => {
-                    animator.SetTrigger(STOP);
-                    hexCell.Highlight = Highlight.NORMAL;
-                    if (whereActive) {
-                        Invoke(nameof(hideCamel), 3);
-                    }
+            characterMovement.navigate(transform.position, hexCell.coordinates.ToPosition(), maxDistance, () => {
+                animator.SetTrigger(STOP);
+                hexCell.Highlight = Highlight.NORMAL;
+                if (whereActive) {
+                    Invoke(nameof(hideCamel), 3);
+                }
 
-                    Debug.Log("[Player] finished");
-                    turnFinished.Raise();
-                });
+                Debug.Log("[Player] finished");
+                turnFinished.Raise();
+            }, speedAnimation, true);
+            // characterMovement.navigateTo(hexCell.coordinates.ToPosition(),
+            // ((int) maxDistance).realDistanceFromHexDistance(),
+            // STOPPING_DISTANCE_TARGET,
+            // () => {
+            // animator.SetTrigger(STOP);
+            // hexCell.Highlight = Highlight.NORMAL;
+            // if (whereActive) {
+            // Invoke(nameof(hideCamel), 3);
+            // }
+
+            // Debug.Log("[Player] finished");
+            // turnFinished.Raise();
+            // });
         }
 
         private void hideCamel() {
@@ -150,7 +161,7 @@ namespace controllers {
             if (!myTurn) return;
             Debug.Log("[Player] click on camel! we want a transfer");
             var camelPos = camel.GetComponent<CamelController>().Position;
-            if (characterMovement.Position.DistanceTo(camelPos) > distanceTransfer) {
+            if (myPos.DistanceTo(camelPos) > distanceTransfer) {
                 // Camel is too far 
                 return;
             }
@@ -165,7 +176,7 @@ namespace controllers {
             if (!myTurn) return;
             var buildingInventory = building.GetComponent<BuildingInventory>();
 
-            if (characterMovement.Position.DistanceTo(buildingInventory.Coordinates) > distanceFouille) {
+            if (myPos.DistanceTo(buildingInventory.Coordinates) > distanceFouille) {
                 // Building is too far
                 // TODO play error sound
                 return;
@@ -210,7 +221,7 @@ namespace controllers {
             myTurn = false;
             // Make noise
             animator.SetTrigger(NOISE);
-            enemies.flee(characterMovement.Position, noisePower);
+            enemies.flee(myPos, noisePower);
             Debug.Log("[Player] Noise");
         }
 
@@ -222,8 +233,8 @@ namespace controllers {
 
         private void OnMouseEnter() {
             tooltip.SetActive(true);
-            enemies.displayNoise(noisePower, characterMovement.Position, true);
-            var affectedCells = characterMovement.Position.GetDiskAround((uint) noisePower)
+            enemies.displayNoise(noisePower, myPos, true);
+            var affectedCells = myPos.GetDiskAround((uint) noisePower)
                 .Where(coordinates => gridManager.myGrid[coordinates] != null);
             foreach (var affectedCell in affectedCells) {
                 gridManager.myGrid[affectedCell].Highlight = Highlight.AFFECTED;
@@ -232,8 +243,8 @@ namespace controllers {
 
         private void OnMouseExit() {
             tooltip.SetActive(false);
-            enemies.displayNoise(noisePower, characterMovement.Position, false);
-            var affectedCells = characterMovement.Position.GetDiskAround((uint) noisePower)
+            enemies.displayNoise(noisePower, myPos, false);
+            var affectedCells = myPos.GetDiskAround((uint) noisePower)
                 .Where(coordinates => gridManager.myGrid[coordinates] != null);
             foreach (var affectedCell in affectedCells) {
                 gridManager.myGrid[affectedCell].Highlight = Highlight.NORMAL;

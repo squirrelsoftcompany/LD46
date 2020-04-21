@@ -53,7 +53,7 @@ namespace controllers {
             lifeGauge = GetComponent<LifeGauge>();
             navMeshAgent = GetComponent<NavMeshAgent>();
             navMeshAgent.speed = animationSpeed;
-            navMeshAgent.stoppingDistance = 1.realDistanceFromHexDistance();
+            // navMeshAgent.stoppingDistance = 1.realDistanceFromHexDistance();
             setInventoryText();
         }
 
@@ -77,11 +77,16 @@ namespace controllers {
             var goTo = target.transform.position;
             goTo.y = transform.position.y;
             animator.SetTrigger(WALK);
-            characterMovement.navigateTo(goTo, realMaxDistance, STOPPING_DISTANCE_TARGET, () => {
+            characterMovement.navigate(transform.position, goTo, maxDistance, () => {
                 animator.SetTrigger(STOP);
                 Debug.Log("[Camel] Finished");
                 finishedTurn.Raise();
-            });
+            }, animationSpeed);
+            // characterMovement.navigateTo(goTo, realMaxDistance, STOPPING_DISTANCE_TARGET, () => {
+                // animator.SetTrigger(STOP);
+                // Debug.Log("[Camel] Finished");
+                // finishedTurn.Raise();
+            // });
         }
 
         private void OnMouseDown() {
