@@ -58,6 +58,8 @@ namespace hex {
 
         public bool IsBorderCell(HexCoordinates c)
         {
+            if (this[c] == null)
+                return false;
             var disk = c.GetConvexFormAround(1, new uint[] {0,0,0});
             return disk.Where(x => this[x] != null).ToList().Count < 6;
         }
