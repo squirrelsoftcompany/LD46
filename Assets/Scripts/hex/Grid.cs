@@ -3,6 +3,7 @@ using System.Linq;
 using GameEventSystem;
 using UnityEditor;
 using UnityEngine;
+using static hex.HexCoordinates;
 
 namespace hex {
     public class Grid {
@@ -52,6 +53,49 @@ namespace hex {
             {
                 c = _grid.ElementAt(Random.Range(0, _grid.Count)).Key;
             }
+            return c;
+        }
+
+        public bool IsBorderCell(HexCoordinates c)
+        {
+            int i = 0;
+            while (i < 6)
+            {
+                if (this[c.moveAlongAxis((HexCoordinates.SixWay)i, 1)] == null)
+                {
+                    return true;
+                }
+                i++;
+            }
+
+            return false;
+        }
+
+        public HexCoordinates GetRandomBorderCell(int max = 200)
+        {
+            Debug.Assert(_grid.Count > 0);
+            var c = _grid.ElementAt(0).Key;
+            var way = (HexCoordinates.SixWay)Random.Range(0, 6);
+            while(!IsBorderCell(c))
+            {
+                c = c.moveAlongAxis(way, 1);
+            }
+
+            var prev = c;
+            var offset = Random.Range(0, max);
+            for (int i = 0; i < offset; i++)
+            {
+                var neighbor = c.moveAlongAxis(way, 1);
+                while(neighbor.CompareTo(prev) == 0 || IsBorderCell(neighbor))
+                {
+                    neighbor = c.moveAlongAxis(way, 1);
+                    way = (SixWay)(((int)way + 1) % 6);
+                }
+
+                prev = c;
+                c = neighbor;
+            }
+
             return c;
         }
     }

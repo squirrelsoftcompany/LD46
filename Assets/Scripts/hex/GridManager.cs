@@ -22,6 +22,11 @@ namespace hex {
         [SerializeField] private GameEvent clickedCell = default;
         private Camera mainCamera;
 
+
+        [SerializeField] private GameObject _playerPrefab = default;
+        [SerializeField] private GameObject _camelPrefab = default;
+        [SerializeField] private GameObject _wolfPrefab = default;
+
         public Grid myGrid => _grid;
 
         private void Awake() {
@@ -33,6 +38,47 @@ namespace hex {
             var generator = new GridGenerator(myGrid, buildings, lakes, grounds, props, _width, _height, cellPrefab,
                 cellsGameObject.transform, DateTime.Now.Millisecond);
             generator.Generate();
+
+            /// place living creatures
+            /// 
+
+            var turnMgr = FindObjectOfType<Turn.TurnManager>();
+
+            // PLAYER
+            var p = _grid.GetRandomBorderCell();
+            while (!_grid.CellAvailable(p))
+            {
+                p = _grid.GetRandomBorderCell();
+            }
+            var player = Instantiate(_playerPrefab, cellsGameObject.transform);
+            player.transform.localPosition = p.ToPosition();
+            _grid[p].topping = player;
+            turnMgr.AddObject(player, 0);
+
+            // CAMEL
+            var c = p;
+            foreach (var n in ExtensionsHex.GetConvexFormAround(p, 1, new uint[] {0,0,0}))
+            {
+                c = n;
+                if (_grid.CellAvailable(n))
+                    continue;
+            }
+            var camel = Instantiate(_camelPrefab, cellsGameObject.transform);
+            camel.transform.localPosition = c.ToPosition();
+            _grid[p].topping = camel;
+            turnMgr.AddObject(camel, 1);
+
+            // WOLVES
+            int wolvesCount = 5;
+            for (int i = 0; i < wolvesCount; i++)
+            {
+                var w = _grid.GetRandomAvailableCell();
+                var wolf = Instantiate(_wolfPrefab, cellsGameObject.transform);
+                wolf.transform.localPosition = w.ToPosition();
+                _grid[w].topping = wolf;
+                turnMgr.AddObject(wolf, 2);
+            }
+
             // navMeshSurface.BuildNavMesh();
             // planeCollisions.transform.localScale = new Vector3(width * HexMetrics.innerRadius, 1, 
             //     height*HexMetrics.outerRadius);
