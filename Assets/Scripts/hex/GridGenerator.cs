@@ -61,15 +61,16 @@ public class GridGenerator
         var lakeCount = Random.Range(1, 4);
         for (int i = 0; i < lakeCount; i++)
         {
-            var c = GetRandomCellFromOffset();
-            var r = (uint)Random.Range(_width / 6, _width / 4);
-            while (! checkList(_lakesPosition, c, r+1))
+            hex.HexCoordinates c;
+            uint r;
+            do
             {
-                c = GetRandomCellFromOffset();
                 r = (uint)Random.Range(_width / 6, _width / 4);
-            }
+                c = GetRandomCellFromOffset((int)r);
+            } while (!checkList(_lakesPosition, c, r + 1));
+
             GenerateWaterArea(choose(_lakes), c, r);
-            _lakesPosition[c] = r;
+            _lakesPosition[c] = (uint)r;
         }
     }
 
@@ -103,13 +104,14 @@ public class GridGenerator
         buildingCount = buildingCount / 5;
         for (int i = 0; i < buildingCount; i++)
         {
-            var c = GetRandomCellFromOffset();
-            var r = (uint)Random.Range(2, 6);
-            while (!checkList(_lakesPosition, c, r + 1) || !checkList(_buildingsPosition, c, r + 1))
+            uint r;
+            hex.HexCoordinates c;
+            do
             {
-                c = GetRandomCellFromOffset();
                 r = (uint)Random.Range(2, 6);
-            }
+                c = GetRandomCellFromOffset((int)r);
+            } while (!checkList(_lakesPosition, c, r + 1) || !checkList(_buildingsPosition, c, r + 1));
+
             GenerateBuilding(choose(_buildings), c, r);
             _buildingsPosition[c] = r;
         }
@@ -286,8 +288,10 @@ public class GridGenerator
         return true;
     }
 
-    private hex.HexCoordinates GetRandomCellFromOffset()
+    private hex.HexCoordinates GetRandomCellFromOffset(int offsetFromSides = 0)
     {
-        return hex.HexCoordinates.FromOffsetCoordinates(Random.Range(0, _width), Random.Range(0, _height));
+        return hex.HexCoordinates.FromOffsetCoordinates(
+            Random.Range(0 + offsetFromSides, _width - offsetFromSides),
+            Random.Range(0 + offsetFromSides, _height - offsetFromSides));
     }
 }
