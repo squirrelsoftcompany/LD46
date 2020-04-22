@@ -1,4 +1,4 @@
-using System;
+//using System;
 using System.Collections.Generic;
 using System.Linq;
 using GameEventSystem;
@@ -37,21 +37,15 @@ namespace hex {
 
             LevelManager.Instance.GetLevelData(out var buildings, out var lakes, out var grounds, out var props, out _width, out _height, out var cellPrefab);
             var generator = new GridGenerator(myGrid, buildings, lakes, grounds, props, _width, _height, cellPrefab,
-                cellsGameObject.transform, DateTime.Now.Millisecond);
+                cellsGameObject.transform, System.DateTime.Now.Millisecond);
             generator.Generate();
 
             navMeshSurface.BuildNavMesh();
 
             /// place living creatures
 
-            var turnMgr = FindObjectOfType<Turn.TurnManager>();
-
             // PLAYER
-            var p = _grid.GetRandomBorderCell();
-            while (!_grid.CellAvailable(p))
-            {
-                p = _grid.GetRandomBorderCell();
-            }
+            var p = GenerateBeginningCellForPlayer();
             var player = Instantiate(_playerPrefab, _alliesParent);
             player.transform.localPosition = p.ToPosition();
             //_grid[p].topping = player;
@@ -142,6 +136,35 @@ namespace hex {
             }
 
             return cell;
+        }
+
+        /// utils
+
+        public HexCoordinates GenerateBeginningCellForPlayer(int max = 20)
+        {
+            Debug.Assert(_grid.InternalGrid.Count > 0);
+            var c = _grid.InternalGrid.ElementAt(Random.Range(0, _grid.InternalGrid.Count)).Key;
+            var way = (HexCoordinates.SixWay)Random.Range(0, 6);
+            while (!_grid.IsBorderCell(c))
+            {
+                c = c.moveAlongAxis(way, 1);
+            }
+
+            var prev = c;
+            var offset = Random.Range(0, max);
+            while (offset > 0 && _grid.CellAvailable(c))
+            {
+                var neighbors = c.GetConvexFormAround(1, new uint[] { 0, 0, 0 }, way);
+                var candidates = neighbors
+                    .Where(x => x.CompareTo(prev) != 0)
+                    .Where(x => _grid.IsBorderCell(x)).ToList();
+
+                prev = c;
+
+                offset--;
+            }
+
+            return c;
         }
     }
 }
