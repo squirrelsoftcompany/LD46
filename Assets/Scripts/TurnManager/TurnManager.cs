@@ -12,34 +12,27 @@ namespace Turn {
         public List<Part> parts;
         int _partIndex = 0;
         int _turn = 0;
+
         int _objectTurnNotFinished = 0;
-        private bool readyToMoveOn = false;
-        private bool shouldRelaunchImmediately = false;
 
         // Start is called before the first frame update
         void Start() {
-            Next();
         }
 
         // Update is called once per frame
-        void Update() { }
-
-
-        public void OneObjectFinishedItsTurnSlot() {
-            _objectTurnNotFinished--;
-            if (!readyToMoveOn && _objectTurnNotFinished <= 0) {
-                shouldRelaunchImmediately = true;
-                return;
-            }
-
-            if (_objectTurnNotFinished <= 0) {
-                shouldRelaunchImmediately = false;
+        void Update()
+        {
+            if (_objectTurnNotFinished <= 0)
+            {
                 Next();
             }
         }
 
+        public void OneObjectFinishedItsTurnSlot() {
+            _objectTurnNotFinished--;
+        }
+
         public void Next() {
-            readyToMoveOn = false;
             _objectTurnNotFinished = parts[_partIndex].objects.Count;
 
             foreach (GameObject go in parts[_partIndex].objects) {
@@ -49,11 +42,6 @@ namespace Turn {
             _partIndex = (_partIndex + 1) % parts.Count;
             if (_partIndex == 0)
                 _turn++;
-            readyToMoveOn = true;
-            if (shouldRelaunchImmediately) {
-                shouldRelaunchImmediately = false;
-                Next();
-            }
         }
 
         public void pause(bool pause) {
