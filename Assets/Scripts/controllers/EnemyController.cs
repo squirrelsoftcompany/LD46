@@ -43,6 +43,12 @@ namespace controllers {
             characterMovement = GetComponent<CharacterMovement>();
         }
 
+        private void Start()
+        {
+            var turnMgr = FindObjectOfType<Turn.TurnManager>();
+            turnMgr.AddWolf(this.gameObject);
+        }
+
         // Method called by TurnManager, do not rename
         [UsedImplicitly]
         public void DoYourTurn() {

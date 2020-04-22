@@ -57,10 +57,15 @@ namespace controllers {
             setInventoryText();
         }
 
+        private void Start()
+        {
+            var turnMgr = FindObjectOfType<Turn.TurnManager>();
+            turnMgr.AddCamel(this.gameObject);
+        }
+
         private void setInventoryText() {
             text.text = "Food:\t\t" + InventoryManager.Instance.Food + "\nWater:\t" + InventoryManager.Instance.Water+"\nLife:\t\t"+lifeGauge.Life;
         }
-
 
         [UsedImplicitly]
         // Used by the turn manager

@@ -52,6 +52,9 @@ namespace controllers {
             journey = FindObjectOfType<Journey>();
             meshRenderers = GetComponentsInChildren<MeshRenderer>();
             myCoordinates = characterMovement.Position;
+
+            var turnMgr = FindObjectOfType<Turn.TurnManager>();
+            turnMgr.AddPlayer(this.gameObject);
         }
 
         private void Start() {

@@ -55,7 +55,6 @@ namespace hex {
             var player = Instantiate(_playerPrefab, _alliesParent);
             player.transform.localPosition = p.ToPosition();
             //_grid[p].topping = player;
-            turnMgr.AddObject(player, 0);
 
             // CAMEL
             var c = p;
@@ -68,7 +67,6 @@ namespace hex {
             var camel = Instantiate(_camelPrefab, _alliesParent);
             camel.transform.localPosition = c.ToPosition();
             //_grid[c].topping = camel;
-            turnMgr.AddObject(camel, 1);
 
             // WOLVES
             int wolvesCount = 5;
@@ -78,7 +76,6 @@ namespace hex {
                 var wolf = Instantiate(_wolfPrefab, _enemiesParent);
                 wolf.transform.localPosition = w.ToPosition();
                 //_grid[w].topping = wolf;
-                turnMgr.AddObject(wolf, 2);
             }
 
             // Set camera now (it should exists now ^^")

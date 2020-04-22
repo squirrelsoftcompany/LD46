@@ -24,10 +24,6 @@ namespace Turn {
         // Update is called once per frame
         void Update() { }
 
-        public void AddObject(GameObject go, int part) {
-            Debug.Assert(part >= 0 && part < parts.Count);
-            parts[part].objects.Add(go);
-        }
 
         public void OneObjectFinishedItsTurnSlot() {
             _objectTurnNotFinished--;
@@ -62,6 +58,44 @@ namespace Turn {
 
         public void pause(bool pause) {
             Time.timeScale = pause ? 0f : 1f;
+        }
+
+        // public functions to fill the parts
+
+        public void AddPlayer(GameObject go)
+        {
+            AddObject(go, 0);
+        }
+
+        public void AddCamel(GameObject go)
+        {
+            AddObject(go, 1);
+        }
+
+        private int nbWolf = 0;
+        public void AddWolf(GameObject go)
+        {
+            AddObject(go, 2+nbWolf);
+            nbWolf++;
+        }
+
+        private void AddObject(GameObject go, int part)
+        {
+            Debug.Assert(part >= 0);
+            if (part > parts.Count - 1)
+            {
+                AddPart();
+                parts[parts.Count - 1].objects.Add(go);
+            }
+            else
+                parts[part].objects.Add(go);
+        }
+
+        private void AddPart()
+        {
+            var part = new Part();
+            part.objects = new List<GameObject>();
+            parts.Add(part);
         }
     }
 }
