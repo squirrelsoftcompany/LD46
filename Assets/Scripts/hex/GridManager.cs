@@ -51,13 +51,12 @@ namespace hex {
             //_grid[p].topping = player;
 
             // CAMEL
-            var c = p;
-            foreach (var n in ExtensionsHex.GetConvexFormAround(p, 1, new uint[] {0,0,0}))
-            {
-                c = n;
-                if (_grid.CellAvailable(n))
-                    continue;
-            }
+            var candidates = ExtensionsHex.GetConvexFormAround(p, 1, new uint[] { 0, 0, 0 })
+                .Where(x => _grid.CellAvailable(x))
+                .Where(x => p.CompareTo(x) != 0)
+                .ToList();
+            Debug.Assert(candidates.Count > 0);
+            var c = candidates[0];
             var camel = Instantiate(_camelPrefab, _alliesParent);
             camel.transform.localPosition = c.ToPosition();
             //_grid[c].topping = camel;
