@@ -87,9 +87,7 @@ namespace controllers {
             myTurn = false;
             var whereActive = false;
             // If we click on the border
-            if (hexCell.coordinates.GetDiskAround(1).Where(coordinates => gridManager.myGrid[coordinates] != null)
-                .ToList()
-                .Count < 6) {
+            if (gridManager.myGrid.IsBorderCell(hexCell.coordinates)) {
                 // We clicked on the border!
                 if (FindObjectOfType<CamelController>().Position.DistanceTo(characterMovement.Position) <= 1) {
                     // if camel is near me, then go away to world
