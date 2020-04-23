@@ -27,6 +27,11 @@ namespace controllers {
         private bool fleeing;
         private HexCoordinates fleeTarget;
         private MeshRenderer[] meshRenderers;
+        private Animator animator;
+        private static readonly int AGGRESSIVE = Animator.StringToHash("Aggressive");
+        private static readonly int ATTACK = Animator.StringToHash("attack");
+        private static readonly int MOVE = Animator.StringToHash("move");
+        private static readonly int STOP = Animator.StringToHash("Stop");
 
         private void Awake() {
             if (target == null) {
@@ -44,10 +49,10 @@ namespace controllers {
             characterMovement = GetComponent<CharacterMovement>();
             characterMovement.Target = target.transform;
             gridManager = FindObjectOfType<GridManager>();
+            animator = GetComponentInChildren<Animator>();
         }
 
-        private void Start()
-        {
+        private void Start() {
             var turnMgr = FindObjectOfType<Turn.TurnManager>();
             turnMgr.AddWolf(this.gameObject);
         }
@@ -68,9 +73,11 @@ namespace controllers {
             // if within range of attack, then attack
             var hexTarget = HexCoordinates.FromPosition(targetPos);
             if (hexTarget.DistanceTo(characterMovement.Position) <= attackRange) {
+                animator.SetBool(AGGRESSIVE, true);
+                animator.SetTrigger(ATTACK);
                 attack();
-                Debug.Log("[Enemy] finished");
-                finishedTurn.Raise();
+                Invoke(nameof(notAggressive), 1);
+
                 return;
             }
 
@@ -78,17 +85,26 @@ namespace controllers {
 
             gridManager.myGrid[characterMovement.Position].topping = null;
             Debug.Log("[Enemy] travel to " + targetPos);
+            animator.SetTrigger(MOVE);
             characterMovement.AskForOneMove(() => {
-                    gridManager.myGrid[characterMovement.Position].topping = gameObject;
-                    Debug.Log("[Enemy] finished");
-                    finishedTurn.Raise();
-                });
+                gridManager.myGrid[characterMovement.Position].topping = gameObject;
+                Debug.Log("[Enemy] finished");
+                animator.SetTrigger(STOP);
+                finishedTurn.Raise();
+            });
+        }
+
+        private void notAggressive() {
+            animator.SetBool(AGGRESSIVE, false);
+            Debug.Log("[Enemy] finished");
+            finishedTurn.Raise();
         }
 
         private void doFlee() {
             Debug.Log("[Enemy] flee");
             gridManager.myGrid[characterMovement.Position].topping = null;
             characterMovement.Target = gridManager.myGrid[fleeTarget].transform;
+            animator.SetTrigger(MOVE);
             characterMovement.AskForOneMove(
                 () => {
                     Debug.Log("[Enemy] finished");
@@ -96,6 +112,7 @@ namespace controllers {
                     fleeing = false;
                     characterMovement.Target = target.transform;
                     gridManager.myGrid[characterMovement.Position].topping = gameObject;
+                    animator.SetTrigger(STOP);
                     finishedTurn.Raise();
                 });
         }
