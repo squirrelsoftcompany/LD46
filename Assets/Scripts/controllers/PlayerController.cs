@@ -92,6 +92,7 @@ namespace controllers {
                 if (FindObjectOfType<CamelController>().Position.DistanceTo(characterMovement.Position) <= 1) {
                     // if camel is near me, then go away to world
                     journey.ShowMap(true);
+                    turnFinished.Raise();
                     // TODO 
                     return;
                 }
