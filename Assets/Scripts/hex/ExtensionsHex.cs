@@ -83,5 +83,15 @@ namespace hex {
 
             return coords;
         }
+
+        public static List<HexCoordinates> GetNeighbors(this HexCoordinates coord)
+        {
+            return coord.GetConvexFormAround(1, new uint[] { 0, 0, 0 });
+        }
+
+        public static bool IsANeighbor(this HexCoordinates that, HexCoordinates candidate)
+        {
+            return that.GetNeighbors().Any(x => x.CompareTo(candidate) == 0);
+        }
     }
 }
