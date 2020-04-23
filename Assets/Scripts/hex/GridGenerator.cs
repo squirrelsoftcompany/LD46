@@ -77,15 +77,15 @@ public class GridGenerator
     private void GenerateGroundAreas()
     {
         var coordsToFill = new List<hex.HexCoordinates>();
-        for (int i = 0; i < _width; i++)
+        for (int i = -5; i < _width+5; i++)
         {
-            for (int j = 0; j < _width; j++)
+            for (int j = -5; j < _width+5; j++)
             {
                 coordsToFill.Add(hex.HexCoordinates.FromOffsetCoordinates(i, j));
             }
         }
 
-        int max = 50;
+        int max = 100;
         while (coordsToFill.Count > 0 && max > 0)
         {
             var c = choose(coordsToFill);
