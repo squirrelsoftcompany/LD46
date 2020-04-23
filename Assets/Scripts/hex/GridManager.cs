@@ -48,7 +48,7 @@ namespace hex {
             var p = GenerateBeginningCellForPlayer();
             var player = Instantiate(_playerPrefab, _alliesParent);
             player.transform.localPosition = p.ToPosition();
-            //_grid[p].topping = player;
+            _grid[p].topping = player;
 
             // CAMEL
             var candidates = ExtensionsHex.GetConvexFormAround(p, 1, new uint[] { 0, 0, 0 })
@@ -59,7 +59,7 @@ namespace hex {
             var c = candidates[0];
             var camel = Instantiate(_camelPrefab, _alliesParent);
             camel.transform.localPosition = c.ToPosition();
-            //_grid[c].topping = camel;
+            _grid[c].topping = camel;
 
             // WOLVES
             int wolvesCount = 5;
@@ -68,7 +68,7 @@ namespace hex {
                 var w = _grid.GetRandomAvailableCell();
                 var wolf = Instantiate(_wolfPrefab, _enemiesParent);
                 wolf.transform.localPosition = w.ToPosition();
-                //_grid[w].topping = wolf;
+                _grid[w].topping = wolf;
             }
 
             // Set camera now (it should exists now ^^")

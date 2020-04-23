@@ -19,6 +19,7 @@ namespace controllers {
         [SerializeField] private Color colorAffected = new Color32(255, 127, 0, 255);
 
         private static readonly float STOPPING_DISTANCE_TARGET = 1.realDistanceFromHexDistance();
+        private GridManager gridManager;
         private CharacterMovement characterMovement;
         private NavMeshAgent navMeshAgent;
         private LifeGauge lifeOfMyEnemy;
@@ -41,6 +42,8 @@ namespace controllers {
             navMeshAgent.speed = speedAnimation;
             navMeshAgent.stoppingDistance = 1.realDistanceFromHexDistance();
             characterMovement = GetComponent<CharacterMovement>();
+            characterMovement.Target = target.transform;
+            gridManager = FindObjectOfType<GridManager>();
         }
 
         private void Start()
@@ -73,12 +76,10 @@ namespace controllers {
 
             targetPos.y = transform.position.y;
 
+            gridManager.myGrid[characterMovement.Position].topping = null;
             Debug.Log("[Enemy] travel to " + targetPos);
-            characterMovement.navigateTo(
-                targetPosition: targetPos,
-                realMaxDistance: maxDistanceTravel.realDistanceFromHexDistance(),
-                stoppingDistanceTarget: STOPPING_DISTANCE_TARGET,
-                onFinished: () => {
+            characterMovement.AskForOneMove(() => {
+                    gridManager.myGrid[characterMovement.Position].topping = gameObject;
                     Debug.Log("[Enemy] finished");
                     finishedTurn.Raise();
                 });
@@ -86,12 +87,15 @@ namespace controllers {
 
         private void doFlee() {
             Debug.Log("[Enemy] flee");
-            characterMovement.navigateTo(
-                fleeTarget.ToPosition(), maxDistanceFlee.realDistanceFromHexDistance(),
-                STOPPING_DISTANCE_TARGET, () => {
+            gridManager.myGrid[characterMovement.Position].topping = null;
+            characterMovement.Target = gridManager.myGrid[fleeTarget].transform;
+            characterMovement.AskForOneMove(
+                () => {
                     Debug.Log("[Enemy] finished");
                     // Only flee for one turn
                     fleeing = false;
+                    characterMovement.Target = target.transform;
+                    gridManager.myGrid[characterMovement.Position].topping = gameObject;
                     finishedTurn.Raise();
                 });
         }

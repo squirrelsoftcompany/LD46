@@ -1,4 +1,5 @@
-﻿using System.Linq;
+﻿using System.Collections;
+using System.Linq;
 using district;
 using GameEventSystem;
 using hex;
@@ -52,13 +53,13 @@ namespace controllers {
             journey = FindObjectOfType<Journey>();
             meshRenderers = GetComponentsInChildren<MeshRenderer>();
             myCoordinates = characterMovement.Position;
+            gridManager = FindObjectOfType<GridManager>();
 
             var turnMgr = FindObjectOfType<Turn.TurnManager>();
             turnMgr.AddPlayer(this.gameObject);
         }
 
         private void Start() {
-            gridManager = FindObjectOfType<GridManager>();
             setInventoryText();
         }
 
@@ -77,9 +78,8 @@ namespace controllers {
             hexCell.Highlight = Highlight.CURRENT_ACTION;
             var distanceToMe = characterMovement.Position.DistanceTo(hexCell.coordinates);
             if (distanceToMe > maxDistance ||
-                !gridManager.myGrid.CellAvailable(hexCell.coordinates) ||
-                isOccupiedCell(hexCell.coordinates) && distanceToMe != 0
-            ) {
+                !gridManager.myGrid.CellAvailable(hexCell.coordinates) && distanceToMe != 0)
+            {
                 hexCell.Highlight = Highlight.NORMAL;
                 return; // clicked on invalid cell, it is still my turn
             }
@@ -115,9 +115,10 @@ namespace controllers {
             // We are within range, so go there
             // and at the end, set myTurn to false
             animator.SetTrigger(WALK);
-            characterMovement.navigateTo(hexCell.coordinates.ToPosition(),
-                ((int) maxDistance).realDistanceFromHexDistance(),
-                STOPPING_DISTANCE_TARGET,
+            characterMovement.Target = hexCell.transform;
+            gridManager.myGrid[characterMovement.Position].topping = null;
+
+            StartCoroutine(MoveTo(hexCell.coordinates,
                 () => {
                     animator.SetTrigger(STOP);
                     hexCell.Highlight = Highlight.NORMAL;
@@ -125,17 +126,36 @@ namespace controllers {
                         Invoke(nameof(hideCamel), 3);
                     }
 
+                    hexCell.topping = gameObject;
+
                     Debug.Log("[Player] finished");
                     turnFinished.Raise();
-                });
+                }));
+        }
+
+        private IEnumerator MoveTo(HexCoordinates coordinates, System.Action onFinished)
+        {
+            float delta = Time.fixedDeltaTime;
+            var from = transform.localPosition;
+            var fromOrientation = transform.localRotation;
+            var to = coordinates.ToPosition();
+            to.y = from.y;
+            var toOrientation = Quaternion.Euler(0, Vector3.Angle(Vector3.forward, to), 0);
+            while (delta < 1.0f)
+            {
+                transform.localRotation = Quaternion.Lerp(fromOrientation, toOrientation, delta * 2);
+                transform.localPosition = Vector3.Lerp(from, to, delta);
+                yield return new WaitForFixedUpdate();
+                delta += Time.fixedDeltaTime;
+            }
+            transform.localRotation = toOrientation;
+            transform.localPosition = to;
+
+            onFinished?.Invoke();
         }
 
         private void hideCamel() {
             whereIsCamel.SetActive(false);
-        }
-
-        private bool isOccupiedCell(HexCoordinates cellCoordinates) {
-            return census.isOccupiedCell(cellCoordinates);
         }
 
         private void doTransfer() {

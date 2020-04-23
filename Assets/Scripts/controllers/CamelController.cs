@@ -32,6 +32,7 @@ namespace controllers {
 
         public HexCoordinates Position => characterMovement.Position;
         private LifeGauge lifeGauge;
+        private GridManager gridManager;
 
         private void Awake() {
             if (target == null) {
@@ -46,6 +47,7 @@ namespace controllers {
             }
 
             characterMovement = GetComponent<CharacterMovement>();
+            characterMovement.Target = target.transform;
             animator = GetComponentInChildren<Animator>();
             realMaxDistance = maxDistance.realDistanceFromHexDistance();
 
@@ -55,6 +57,8 @@ namespace controllers {
             navMeshAgent.speed = animationSpeed;
             navMeshAgent.stoppingDistance = 1.realDistanceFromHexDistance();
             setInventoryText();
+
+            gridManager = FindObjectOfType<GridManager>();
         }
 
         private void Start()
@@ -79,12 +83,18 @@ namespace controllers {
             }
 
             currentNbTurns++;
-            var goTo = target.transform.position;
-            goTo.y = transform.position.y;
+            if (target.transform.localPosition.toHex().DistanceTo(characterMovement.Position) <= 1)
+            {
+                finishedTurn.Raise();
+                return;
+            }
+
+            gridManager.myGrid[characterMovement.Position].topping = null;
             animator.SetTrigger(WALK);
-            characterMovement.navigateTo(goTo, realMaxDistance, STOPPING_DISTANCE_TARGET, () => {
+            characterMovement.AskForOneMove(() => {
                 animator.SetTrigger(STOP);
                 Debug.Log("[Camel] Finished");
+                gridManager.myGrid[characterMovement.Position].topping = gameObject;
                 finishedTurn.Raise();
             });
         }

@@ -1,5 +1,7 @@
 ﻿using System;
 using System.Collections;
+using System.Collections.Generic;
+using System.Linq;
 using hex;
 using UnityEngine;
 using UnityEngine.AI;
@@ -7,99 +9,114 @@ using UnityEngine.AI;
 // ReSharper disable RedundantDefaultMemberInitializer
 
 namespace controllers {
+    [RequireComponent(typeof(NavMeshObstacle))]
+    [RequireComponent(typeof(NavMeshAgent))]
     public class CharacterMovement : MonoBehaviour {
+        private Transform _target;
+        public Transform Target { get => _target; set => _target = value; }
+        /**/
         private NavMeshAgent navMeshAgent;
-        private const float EPSILON = 0.01f;
-        private static readonly float STOPPING_DISTANCE_PRECISE = 1.realDistanceFromHexDistance() / 5;
+        private NavMeshObstacle navMeshObstacle;
+
+        private GridManager gridManager;
 
         public HexCoordinates Position => transform.position.toHex();
 
-        private void Awake() {
+        private bool makeOneMove = false;
+
+        private void Awake()
+        {
             navMeshAgent = GetComponent<NavMeshAgent>();
+            navMeshObstacle = GetComponent<NavMeshObstacle>();
+            gridManager = FindObjectOfType<GridManager>();
         }
 
-        IEnumerator fromPosToOther(Vector3 to, HexCoordinates toCoordinates, Action onFinishedAction,
-            float speedAnimation) {
-            while ((to - transform.position).magnitude > EPSILON) {
-                transform.position = Vector3.MoveTowards(transform.position, to, speedAnimation * Time.deltaTime);
-                yield return null;
-            }
-
-            onFinishedAction?.Invoke();
+        public void Start()
+        {
+            Invoke("InitNavigation", 0.5f);
+        }
+        
+        private void InitNavigation()
+        {
+            navMeshAgent.enabled = false;
+            navMeshObstacle.enabled = true;
         }
 
-        public void navigateTo(Vector3 targetPosition, float realMaxDistance, float stoppingDistanceTarget,
-            Action onFinished) {
-            var distanceSoFar = 0f;
-            // Go follow your dream!
-            var path = new NavMeshPath();
-            navMeshAgent.stoppingDistance = stoppingDistanceTarget;
-            navMeshAgent.CalculatePath(targetPosition, path);
-            for (var i = 0; i < path.corners.Length - 1; i++) {
-                var lastSegmentVector = (path.corners[i + 1] - path.corners[i]);
-                var vectorDistance = lastSegmentVector.magnitude;
+        private IEnumerator MoveToTarget(Action onFinished)
+        {
+            navMeshObstacle.enabled = false;
+            yield return new WaitWhile(() => navMeshObstacle.isActiveAndEnabled);
 
-                if (distanceSoFar + vectorDistance <= realMaxDistance) {
-                    distanceSoFar += vectorDistance;
-                    if (i != path.corners.Length - 2) continue;
-                    // This is the end, so go to target directly
-                    navMeshAgent.SetPath(path);
-                    break;
-                } else {
-                    // Path length exceeds maxDist
-                    var finalPoint = path.corners[i] + lastSegmentVector.normalized * (realMaxDistance - distanceSoFar);
-                    var centeredCellFinalPoint = HexCoordinates.FromPosition(finalPoint).ToPosition();
-                    NavMesh.CalculatePath(transform.position, centeredCellFinalPoint, NavMesh.AllAreas, path);
-                    navMeshAgent.SetPath(path);
-                    break;
-                }
+            var go = new GameObject();
+            go.transform.localPosition = transform.localPosition;
+            var agent = go.AddComponent<NavMeshAgent>();
+
+            // Wait for navMeshAgent activation
+            yield return new WaitWhile(() => !agent.isActiveAndEnabled);
+
+            // calculate the path
+            CalculateHexPath(agent, Target.localPosition, out var path);
+
+            Destroy(go);
+
+            navMeshObstacle.enabled = true;
+
+            float delta = Time.fixedDeltaTime;
+            var from = transform.localPosition;
+            var fromOrientation = transform.localRotation;
+            var to = path[1].ToPosition();
+            to.y = from.y;
+            var toOrientation = Quaternion.Euler(0, Vector3.Angle(Vector3.forward, to), 0);
+            while (delta < 1.0f)
+            {
+                transform.localRotation = Quaternion.Lerp(fromOrientation, toOrientation, delta * 2);
+                transform.localPosition = Vector3.Lerp(from, to, delta);
+                yield return new WaitForFixedUpdate();
+                delta += Time.fixedDeltaTime;
             }
+            transform.localRotation = toOrientation;
+            transform.localPosition = to;
 
-            // Start to move
-            navMeshAgent.isStopped = false;
-            // check for destination arrived
-            StartCoroutine(centerPositionInCell(onFinished));
-        }
-
-        private IEnumerator centerPositionInCell(Action onFinished) {
-            while (stillRunning()) {
-                yield return null;
-            }
-
-            var position = HexCoordinates.FromPosition(transform.position);
-            var centerCell = position.ToPosition();
-            if ((transform.position - centerCell).sqrMagnitude > EPSILON) {
-                navMeshAgent.stoppingDistance = STOPPING_DISTANCE_PRECISE;
-                navMeshAgent.SetDestination(position.ToPosition()); // center in cell
-                StartCoroutine(sendFinishedWhenNavMeshArrives(onFinished));
-            } else {
-                navMeshAgent.isStopped = true;
-                onFinished?.Invoke();
-            }
-        }
-
-        private bool stillRunning() {
-            return navMeshAgent.pathPending
-                   || navMeshAgent.remainingDistance > navMeshAgent.stoppingDistance
-                   || navMeshAgent.hasPath && navMeshAgent.velocity.sqrMagnitude > EPSILON;
-        }
-
-        private IEnumerator sendFinishedWhenNavMeshArrives(Action onFinished) {
-            while (stillRunning()) {
-                // The destination is not yet reached
-                yield return null;
-            }
-
-            navMeshAgent.isStopped = true;
-            // Reached destination
             onFinished?.Invoke();
         }
 
-        public void moveTo(HexCoordinates toPosition, float speedAnimation, Action onFinishedAction = null) {
-            var toVector3 = toPosition.ToPosition();
-            toVector3.y = transform.position.y; // keep elevation
-            // transform.LookAt(toVector3);
-            StartCoroutine(fromPosToOther(toVector3, toPosition, onFinishedAction, speedAnimation));
+        public void AskForOneMove(Action onFinished = null)
+        {
+            StartCoroutine(MoveToTarget(onFinished));
+        }
+
+        public bool CalculateHexPath(NavMeshAgent agent, Vector3 position, out List<HexCoordinates> hexPath)
+        {
+            NavMeshPath path = new NavMeshPath();
+            NavMesh.SamplePosition(position, out var hit, 3.5f, NavMesh.AllAreas);
+            bool result = agent.CalculatePath(hit.position, path);
+
+            hexPath = new List<HexCoordinates>();
+            if (path.corners.Length == 0)
+                return result;
+
+            hexPath.Add(path.corners[0].toHex());
+            for (int i = 1; i < path.corners.Length; i++)
+            {
+                var to = path.corners[i];
+
+                float distance = 0;
+                do
+                {
+                    var from = hexPath[hexPath.Count - 1].ToPosition();
+
+                    var direction = to - from;
+                    distance = direction.magnitude;
+                    direction.Normalize();
+                    from = from + direction * 3.5f;
+
+                    var hexFrom = from.toHex();
+                    if (hexFrom.CompareTo(hexPath[hexPath.Count - 1]) != 0)
+                        hexPath.Add(hexFrom);
+
+                } while (distance > 3.5f);
+            }
+            return result;
         }
     }
 }
