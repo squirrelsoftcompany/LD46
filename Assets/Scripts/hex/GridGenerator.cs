@@ -17,6 +17,10 @@ public class GridGenerator
     private int _height;
     private hex.HexCell _basePrefab;
     private Transform _parent;
+    private int _waterCount;
+    private int _foodCount;
+    private int _waterByBuilding;
+    private int _foodByBuilding;
 
     private Dictionary<hex.HexCoordinates, uint> _lakesPosition;
     private Dictionary<hex.HexCoordinates, uint> _buildingsPosition;
@@ -26,7 +30,7 @@ public class GridGenerator
         List<GridGeneration.Building> lakes,
         List<GridGeneration.Ground> grounds,
         List<GridGeneration.Props> props,
-        int width, int height, hex.HexCell basePrefab, Transform parent, int seed)
+        int width, int height, hex.HexCell basePrefab, Transform parent, int food, int water, int seed)
     {
         Random.InitState(seed);
 
@@ -41,6 +45,9 @@ public class GridGenerator
         _height = height;
         _basePrefab = basePrefab;
         _parent = parent;
+
+        _foodCount = food;
+        _waterCount = water;
 
         _lakesPosition = new Dictionary<hex.HexCoordinates, uint>();
         _buildingsPosition = new Dictionary<hex.HexCoordinates, uint>();
@@ -102,6 +109,10 @@ public class GridGenerator
     {
         var buildingCount = (_width + _height) / 2;
         buildingCount = buildingCount / 5;
+
+        _foodByBuilding = _foodCount / buildingCount;
+        _waterByBuilding = _waterCount / buildingCount;
+
         for (int i = 0; i < buildingCount; i++)
         {
             uint r;
@@ -171,7 +182,10 @@ public class GridGenerator
                 {
                     func(choose(doors), coords[current], rotation);
                     var inventory = _grid[coords[current]]?.GetComponentInChildren<district.BuildingInventory>();
-                    inventory?.initFoodWaterPosition(30, 30);
+                    inventory?.initFoodWaterPosition(
+                        _foodByBuilding + Random.Range(0, Mathf.RoundToInt(_foodByBuilding * 0.1f)),
+                        _waterByBuilding + Random.Range(0, Mathf.RoundToInt(_waterByBuilding * 0.1f))
+                        );
                 }
                 else
                     func(choose(borders), coords[current], rotation);

@@ -35,9 +35,9 @@ namespace hex {
         private void Awake() {
             _grid = new Grid();
 
-            LevelManager.Instance.GetLevelData(out var buildings, out var lakes, out var grounds, out var props, out _width, out _height, out var cellPrefab);
+            LevelManager.Instance.GetLevelData(out var buildings, out var lakes, out var grounds, out var props, out _width, out _height, out var cellPrefab, out var wolfCount, out var water, out var food);
             var generator = new GridGenerator(myGrid, buildings, lakes, grounds, props, _width, _height, cellPrefab,
-                cellsGameObject.transform, System.DateTime.Now.Millisecond);
+                cellsGameObject.transform, food, water, System.DateTime.Now.Millisecond);
             generator.Generate();
 
             navMeshSurface.BuildNavMesh();
@@ -62,8 +62,7 @@ namespace hex {
             _grid[c].topping = camel;
 
             // WOLVES
-            int wolvesCount = 5;
-            for (int i = 0; i < wolvesCount; i++)
+            for (int i = 0; i < wolfCount; i++)
             {
                 var w = _grid.GetRandomAvailableCell();
                 var wolf = Instantiate(_wolfPrefab, _enemiesParent);

@@ -54,7 +54,7 @@ public class LevelManager : MonoBehaviour
         out List<GridGeneration.Building> pLakes,
         out List<GridGeneration.Ground> pGrounds,
         out List<GridGeneration.Props> pProps,
-        out int pWidth, out int pHeight, out hex.HexCell pBasePrefab)
+        out int pWidth, out int pHeight, out hex.HexCell pBasePrefab, out int pWolfCount, out int pWater, out int pFood)
     {
         pBuildings = mLevelList[mLevelIndex]._buildings;
         pLakes = mLevelList[mLevelIndex]._lakes;
@@ -63,6 +63,9 @@ public class LevelManager : MonoBehaviour
         pWidth = mLevelList[mLevelIndex].width;
         pHeight = mLevelList[mLevelIndex].height;
         pBasePrefab = mLevelList[mLevelIndex].cellPrefab;
+        pWolfCount = mLevelList[mLevelIndex].wolfNumber;
+        pWater = mLevelList[mLevelIndex].water;
+        pFood = mLevelList[mLevelIndex].food;
     }
     
     public void goToEndGame()
