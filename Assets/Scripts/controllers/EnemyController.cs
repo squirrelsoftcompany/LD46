@@ -24,7 +24,7 @@ namespace controllers {
         private NavMeshAgent navMeshAgent;
         private LifeGauge lifeOfMyEnemy;
         [SerializeField] private int attackPower = 1;
-        private bool fleeing;
+        private int fleeingTurn ;
         private HexCoordinates fleeTarget;
         private MeshRenderer[] meshRenderers;
         private Animator animator;
@@ -63,8 +63,8 @@ namespace controllers {
             Debug.Log("[Enemy] my turn");
 
             // if fleeing, then flee, and stop fleeing
-            if (fleeing) {
-                doFlee();
+            if (fleeingTurn>0) {
+                doFlee(fleeingTurn);
                 return;
             }
 
@@ -100,7 +100,7 @@ namespace controllers {
             finishedTurn.Raise();
         }
 
-        private void doFlee() {
+        private void doFlee(int turn) {
             Debug.Log("[Enemy] flee");
             gridManager.myGrid[characterMovement.Position].topping = null;
             characterMovement.Target = gridManager.myGrid[fleeTarget].transform;
@@ -108,8 +108,7 @@ namespace controllers {
             characterMovement.AskForOneMove(
                 () => {
                     Debug.Log("[Enemy] finished");
-                    // Only flee for one turn
-                    fleeing = false;
+                    fleeingTurn -= 1;
                     characterMovement.Target = target.transform;
                     gridManager.myGrid[characterMovement.Position].topping = gameObject;
                     animator.SetTrigger(STOP);
@@ -130,7 +129,7 @@ namespace controllers {
 
             // Flee from this position
             fleeTarget = originSound.oppositeTo(characterMovement.Position);
-            fleeing = true;
+            fleeingTurn = maxDistanceFlee;
         }
 
         public void displayIsAffected(int noisePower, HexCoordinates originSound, bool enable) {
