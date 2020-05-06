@@ -232,11 +232,11 @@ MonoBehaviour:
   turnFinished: {fileID: 11400000, guid: 88e6b4da0ea33cf4db2ba32d3d3617e5, type: 2}
   speedAnimation: 6
   tooltip: {fileID: 6347958804616669790}
-  noisePower: 3
+  noisePower: 4
   distanceTransfer: 1
   food: 0
   water: 0
-  maxWeight: 10
+  maxWeight: 30
   distanceFouille: 1
   whereIsCamel: {fileID: 5628082688607766125}
 --- !u!114 &5124533090027936446
