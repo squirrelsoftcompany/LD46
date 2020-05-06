@@ -138,17 +138,25 @@ namespace controllers {
         {
             float delta = Time.fixedDeltaTime;
             var from = transform.localPosition;
-            var fromOrientation = transform.localRotation;
+            //var fromOrientation = transform.localRotation;
             var to = coordinates.ToPosition();
             to.y = from.y;
-            var toOrientation = Quaternion.Euler(0, Vector3.Angle(Vector3.forward, to), 0);
-            while (delta < 1.0f)
+            //var toOrientation = Quaternion.Euler(0, Vector3.Angle(Vector3.forward, to), 0);
+			float speed = 2f * delta ;
+			var movement = to - transform.localPosition ;
+			var toOrientation = Quaternion.LookRotation(movement.normalized);
+			//while (delta < 1.0f)
+            while (movement.sqrMagnitude>0.1f)
             {
-                transform.localRotation = Quaternion.Lerp(fromOrientation, toOrientation, delta * 2);
-                transform.localPosition = Vector3.Lerp(from, to, delta);
+                //transform.localRotation = Quaternion.Lerp(fromOrientation, toOrientation, delta * 2);
+                //transform.localPosition = Vector3.Lerp(from, to, delta);
+				transform.rotation = Quaternion.RotateTowards(transform.rotation,toOrientation,speed*20) ;
+				transform.localPosition = Vector3.MoveTowards(transform.localPosition,to,speed) ;
                 yield return new WaitForFixedUpdate();
-                delta += Time.fixedDeltaTime;
+                //delta += Time.fixedDeltaTime;
+				movement = to - transform.localPosition ;
             }
+			
             transform.localRotation = toOrientation;
             transform.localPosition = to;
 
