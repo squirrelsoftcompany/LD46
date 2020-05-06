@@ -16,8 +16,8 @@ MonoBehaviour:
     type: 3}
   width: 30
   height: 30
-  food: 150
-  water: 150
+  food: 90
+  water: 110
   wolfNumber: 2
   _buildings:
   - {fileID: 11400000, guid: 4059d1d0e460ca8438a8c69531d291b5, type: 2}

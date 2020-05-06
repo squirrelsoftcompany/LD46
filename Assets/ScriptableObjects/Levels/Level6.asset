@@ -16,8 +16,9 @@ MonoBehaviour:
     type: 3}
   width: 34
   height: 34
-  food: 200
-  water: 200
+  food: 120
+  water: 120
+  wolfNumber: 0
   _buildings:
   - {fileID: 11400000, guid: 4059d1d0e460ca8438a8c69531d291b5, type: 2}
   _lakes:
